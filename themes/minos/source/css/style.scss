@@ -1,9 +1,21 @@
-$family-serif: "Ovo", "Georgia", "STZhongsong", "Microsoft YaHei", serif;
+@font-face{
+  font-family: 'JetBrainsMono';
+  src: url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2') format('woff2'),
+    url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff/JetBrainsMono-Regular.woff') format('woff'),
+    url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/ttf/JetBrainsMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+$family-serif: "Georgia", "STZhongsong", "Microsoft YaHei", serif;
 $family-mono: "Source Code Pro", monospace, "Microsoft YaHei";
-$border-color: #dbdbdb;
+$border-color: #red;
 
 body, button, input, select, textarea {
-    font-family: $family-serif;
+    font-family: JetBrainsMono;	
+	font-size:14px;
+	background-color: #424242;
+	color:white;
 }
 
 
@@ -54,10 +66,10 @@ a.tag.article-tag {
 
     .article-title a,
     .article-meta a {
-        color: inherit;
+        color: white;
         border-bottom: 1px dotted transparent;
         &:hover {
-            border-bottom-color: black;
+            border-bottom-color: white;
         }
     }
 
@@ -84,7 +96,7 @@ a.tag.article-tag {
         h1, h2, h3, h4, h5, h6 {
             cursor: pointer;
             position: relative;
-
+			color:white;
             &:hover:before {
                 content: '#';
                 position: absolute;
@@ -94,6 +106,12 @@ a.tag.article-tag {
 
         a {
             word-break: break-word;
+						color:#FF8C00;
+            &:hover {
+						color:#FF4500;
+
+            }
+			
         }
     }
 
@@ -108,7 +126,7 @@ a.tag.article-tag {
 
     .article-nav {
         a {
-            color: darkgray;
+            color: white;
             position: relative;
             display: inline-block;
         }
@@ -150,7 +168,7 @@ a.tag.article-tag {
 
     .caption {
         display: block;
-        color: darkgray;
+        color: white;
         font-size: .95rem;
         text-align: center;
     }
@@ -316,7 +334,7 @@ a.tag.article-tag {
         border-left: 3px solid transparent;
 
         &:hover {
-            border-left-color: black;
+            border-left-color: white;
         }
 
         time {
@@ -327,11 +345,11 @@ a.tag.article-tag {
         h6 {
             margin: 0;
             a {
-                color: inherit;
+                color: white;
                 border-bottom: 1px dotted transparent;
 
                 &:hover {
-                    border-bottom-color: darkgray;
+                    border-bottom-color: white;
                 }
             }
         }
@@ -341,9 +359,13 @@ a.tag.article-tag {
 .footer {
     font-size: .9rem;
     background: transparent;
-
+		color:black;
+		background-color:white;
+		padding:0;
     .content {
-        padding-top: 2rem;
+        padding-top: 1rem;
+		        padding-bottom: 1rem;
+
         border-top: 1px solid $border-color;
     }
 }
@@ -446,6 +468,7 @@ figure.highlight {
     padding: 0;
     width: 100%;
     margin: 0 0 1.5rem;
+    font-family: JetBrainsMono;	
 
     pre,
     table tr:hover {
@@ -460,6 +483,7 @@ figure.highlight {
     pre {
         padding: 0;
         overflow: visible;
+    font-family: JetBrainsMono;	
 
         .line {
             line-height: 1.5rem;
