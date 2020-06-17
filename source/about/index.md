@@ -13,7 +13,7 @@ Compiler design, Code generators, Web development, .NET Technologies, Typescript
 SEP 2019 – PRESENT
 AURELIA CORE TEAM MEMBER
 
-I am responsible for projects related to documentation of the Aurelia framework in which both API and Aurelia projects can be documented easier than before. You can find more information at Aurelia vNext - 2019 Fall Update
+I am responsible for projects related to documentation of the Aurelia framework in which both API and Aurelia projects can be documented easier than before. You can find more information at [Aurelia vNext - 2019 Fall Update](https://aurelia.io/blog/2019/10/31/aurelia-vnext-2019-fall-update/).
 
 * API documentation generator
 * Document generator for Aurelia projects
@@ -26,13 +26,6 @@ SENIOR SOFTWARE DEVELOPER, TAX ORGANIZATION OF TEHRAN PROVINCE
 
 DEC 2011 – JUL 2013
 SOFTWARE DEVELOPER, BEHPARDAZ JAHAN
-
-* Mobin Net WiMAX`s E-Care (Online Payment System)
-Mobin Net is an Iranian Internet service provider. The Company is the largest WiMAX ISP of Iran.
-This project provides you with various possibilities to manage your Internet usage. Full view of service information such as subscription details, volume and time remaining of the current plan, modification and renewal of the plan, purchase of additional volumes, purchase of fixed IPs are the most important account features.  We collaborated with the Mobile Telecommunication Company of Iran and Huawei Telecommunications equipment company in this project.
-
-* Shooka video conference web services
-Iran Video Conferencing Network (Shooka) is the first and foremost video communication service provider in Iran that offers video communication as the most effective type of communication.
 
 ### EDUCATION
 
