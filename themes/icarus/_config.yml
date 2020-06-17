@@ -121,7 +121,7 @@ widgets:
         # Author title
         author_title: Full-stack developer
         # Author's current location
-        location: Iran/Tehran
+        location: Iran-Tehran
         # URL or path to the avatar image
         avatar: /img/logo.jpg
         # Whether show the rounded avatar image
