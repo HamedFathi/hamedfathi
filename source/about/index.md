@@ -1,5 +1,5 @@
 ---
-title: About
+title: About Me
 ---
 
 I have been in the programming world for almost 10 years; That started with Pascal and VB6 and continued to Microsoft .NET platform in 2005, ranging from Windows Forms to MVC Core applications, amazing stuff. I believe teamwork and studying will increase your enthusiasm and I was so lucky to work with great developers whom made it even more fantastic. Individual creativity, moving on the edge of technology, having a never-give-up attitude and being a team player are words describing me. What I am interested in is to build robust, and reliable software to make this world more robust and reliable.
