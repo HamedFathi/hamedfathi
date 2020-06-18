@@ -74,7 +74,6 @@ navbar:
     # Naviagtion menu items
     menu:
         Home: /
-        Archives: /archives
         About: /about
 # Article related configurations
 article:
@@ -153,9 +152,6 @@ widgets:
         links:
             Aurelia Blog: 'https://aurelia.io/blog/'
             Andrew Lock: 'https://andrewlock.net/'
-    -
-        position: left
-        type: recent_posts
 # Plugin configurations
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/
 plugins:
