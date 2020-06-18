@@ -2,7 +2,7 @@
 title: CSS-in-JS in Aurelia 2
 ---
 
-### What is CSS-in-JS?
+### What is CSS-in-JS? 
 
 CSS-in-JS is a styling technique where JavaScript is used to style components. When this JavaScript is parsed, CSS is generated (usually as an `<style>` element) and attached to the DOM. It allows you to abstract CSS to the component level itself, using JavaScript to describe styles in a declarative and maintainable way.
 In the ecosystem of some client-side libraries, such as React, this method is very common. So we decided to discuss how to use CSS-in-JS in Aurelia.

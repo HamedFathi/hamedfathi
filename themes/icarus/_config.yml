@@ -74,7 +74,7 @@ navbar:
     # Naviagtion menu items
     menu:
         Home: /
-        Tags: /tags
+        Archives: /archives
         About: /about
 # Article related configurations
 article:
@@ -86,7 +86,7 @@ article:
         # Show copy code button
         clipboard: true
         # Default folding status of the code blocks. Can be "", "folded", "unfolded"
-        fold: unfolded
+        fold: ""
     # Whether to show thumbnail image for every article
     thumbnail: true
     # Whether to show estimated article reading time
@@ -153,11 +153,9 @@ widgets:
         links:
             Aurelia Blog: 'https://aurelia.io/blog/'
             Andrew Lock: 'https://andrewlock.net/'
-    # Tags widget configurations
     -
-        # Where should the widget be placed, left sidebar or right sidebar
         position: left
-        type: tags
+        type: recent_posts
 # Plugin configurations
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/
 plugins:
