@@ -74,8 +74,6 @@ navbar:
     # Naviagtion menu items
     menu:
         Home: /
-        Archives: /archives
-        Categories: /categories
         Tags: /tags
         About: /about
 # Article related configurations
@@ -155,21 +153,6 @@ widgets:
         links:
             Aurelia Blog: 'https://aurelia.io/blog/'
             Andrew Lock: 'https://andrewlock.net/'
-    # Categories widget configurations
-    -
-        # Where should the widget be placed, left sidebar or right sidebar
-        position: left
-        type: categories
-    # Recent posts widget configurations
-    -
-        # Where should the widget be placed, left sidebar or right sidebar
-        position: left
-        type: recent_posts
-    # Archives widget configurations
-    -
-        # Where should the widget be placed, left sidebar or right sidebar
-        position: left
-        type: archives
     # Tags widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
