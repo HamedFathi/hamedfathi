@@ -3,13 +3,13 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hamed Fathi | World of programming
+title: Hamed Fathi's Blog
 subtitle: ''
 description: ''
 keywords:
 author: Hamed Fathi
 language: en
-timezone: ''
+timezone: UTC
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -89,7 +89,9 @@ pagination_dir: page
 include:
 exclude:
 ignore:
-
+  # development only: ignore sub node_modules when `npm link hexo-theme-doc`
+  - '**/node_modules/**/*node_modules'
+  
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/

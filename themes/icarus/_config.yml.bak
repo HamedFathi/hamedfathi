@@ -3,11 +3,12 @@ version: 3.0.0
 # Icarus theme variant, can be "default" or "cyberpunk"
 variant: default
 # Path or URL to the website's logo
-logo: /img/logo.jpg
+logo: /img/logo.jpeg
+
 # Page metadata configurations
 head:
     # URL or path to the website's icon
-    favicon: /img/favicon.jpg
+    favicon: /img/favicon.jpeg
     # Open Graph metadata
     # https://hexo.io/docs/helpers.html#open-graph
     open_graph:
@@ -19,7 +20,7 @@ head:
         type: blog
         # Page URL (og:url) (optional)
         # You should leave this blank for most of the time
-        url: https://hamedfathi.me
+        url: https://shahabganji.me
         # Page cover (og:image) (optional)
         # You should leave this blank for most of the time
         image: 
@@ -28,14 +29,14 @@ head:
         site_name: 
         # Page author (article:author) (optional)
         # You should leave this blank for most of the time
-        author: Hamed Fathi
+        author: Saeed Ganji
         # Page description (og:description) (optional)
         # You should leave this blank for most of the time
         description: 
         # Twitter card type (twitter:card)
         twitter_card: 
         # Twitter ID (twitter:creator)
-        twitter_id: Hamed__Fathi
+        twitter_id: shahabganji
         # Twitter Site (twitter:site)
         twitter_site: 
         # Google+ profile link (deprecated)
@@ -49,10 +50,10 @@ head:
     structured_data:
         # Page title (optional)
         # You should leave this blank for most of the time
-        title: Hamed Fathi's Blog
+        title: Shahab's Blog
         # Page description (optional)
         # You should leave this blank for most of the time
-        description: I write about programming.
+        description: I write about programming on my leisure time
         # Page URL (optional)
         # You should leave this blank for most of the time
         url: 
@@ -102,7 +103,7 @@ article:
     highlight:
         # Code highlight themes
         # https://github.com/highlightjs/highlight.js/tree/master/src/styles
-        theme: atom-one-dark
+        theme: dracula
             # atom-one-light
         # Show copy code button
         clipboard: true
@@ -165,7 +166,7 @@ sidebar:
     # Left sidebar configurations
     left:
         # Whether the sidebar sticks to the top when page scrolls
-        sticky: true
+        sticky: false
     # Right sidebar configurations
     right:
         # Whether the sidebar sticks to the top when page scrolls
@@ -179,30 +180,30 @@ widgets:
         position: left
         type: profile
         # Author name
-        author: Hamed Fathi
+        author: Shahab
         # Author title
-        author_title: Full-stack developer
+        author_title: Software Developer
         # Author's current location
         location: Tehran, Iran
         # URL or path to the avatar image
-        avatar: /img/logo.jpg
+        avatar:
         # Whether show the rounded avatar image
         avatar_rounded: true
         # Email address for the Gravatar
-        gravatar: 'hamedfathi@outlook.com'
+        gravatar: 'shahabganji@gmail.com'
         # URL or path for the follow button
-        follow_link: 'https://ir.linkedin.com/in/hamedfathi'
+        follow_link: 'https://www.linkedin.com/in/saeedganji/'
         # Links to be shown on the bottom of the profile widget
         social_links:
-            Email:
-                icon: fa fa-envelope
-                url: 'mailto:hamedfathi@outlook.com'
             Github:
                 icon: fab fa-github
-                url: 'https://github.com/HamedFathi/'
+                url: 'https://github.com/shahabganji'
+            Facebook:
+                icon: fab fa-facebook
+                url: 'https://facebook.com/shahabganji'
             Twitter:
                 icon: fab fa-twitter
-                url: 'https://twitter.com/Hamed__Fathi'
+                url: 'https://twitter.com/shahabganji'
             # Dribbble:
             #     icon: fab fa-dribbble
             #     url: 'https://dribbble.com'
@@ -240,7 +241,7 @@ widgets:
     # Tags widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
-        position: right
+        position: left
         type: tags
     # # Google FeedBurner email subscription widget configurations
     # -
