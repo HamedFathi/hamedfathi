@@ -20,7 +20,7 @@ for more information take a look at [Tailwind CSS](https://tailwindcss.com/)
 
 1- Run the folowing command in your terminal
 
-```bash
+``` bash
 npx makes aurelia
 ```
 
@@ -30,7 +30,7 @@ npx makes aurelia
 
 3- Install Tailwind CSS in your project via this command
 
-```bash
+``` bash
 npm i tailwindcss -D
 or
 yarn add tailwindcss -D
@@ -38,13 +38,13 @@ yarn add tailwindcss -D
 
 4- After installation go to the root folder and run the below command too
 
-```bash
+``` bash
 ./node_modules/.bin/tailwind init
 ```
 
 This command will create a `tailwind.config.js` file in the root folder beside the `webpack.config.js` file with the following content
 
-```javascript
+``` typescript
 module.exports = {
   purge: [],
   theme: {
@@ -57,7 +57,7 @@ module.exports = {
 
 5- Open your `webpack.config.js` file and add the below line into the `postcssLoader` literal object as a first item in plugin array. (Just like the picture)
 
-```javascript
+``` typescript
 require('tailwindcss')('tailwind.config.js'),
 ```
 
@@ -75,7 +75,7 @@ require('tailwindcss')('tailwind.config.js'),
 
 In an easy way you can add the following Tailwind CSS snippet code to your project.
 
-```css
+``` css
 <div class="p-6">
 	<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
 	  <strong class="font-bold">Holy smokes!</strong>
@@ -89,7 +89,7 @@ In an easy way you can add the following Tailwind CSS snippet code to your proje
 
 I have added this to `my-app.html` now you can run the project by 
 
-```bash
+``` bash
 npm run start
 or
 yarn run 
@@ -109,7 +109,7 @@ Purgecss is particularly effective with Tailwind because Tailwind generates thou
 
 If you run the `build` command, you will see the final bundle side is huge (even in production mode)
 
-```bash
+``` bash
 npm run build
 or
 yarn build 
@@ -121,13 +121,13 @@ yarn build
 
 Open the `tailwind.config.js` file and replace 
 
-```javascript
+``` typescript
 purge: [],
 ```
 
 with
 
-```javascript
+``` typescript
 purge: {
   enabled: true,
   content: ['./src/**/*.html'],
