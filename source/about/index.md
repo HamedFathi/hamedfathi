@@ -42,24 +42,24 @@ ASSOCIATE’S DEGREE, COMPUTER SOFTWARE ENGINEERING
 
 I've been involved in various open source projects in recent years. Some of these projects are used by different people.
 
-* Aurelia-Toolbelt
+* Aurelia-Toolbelt:
 A bunch of components from bootstrap 4, jquery and vanilla js for Aurelia 1 framework. As one of the creators of Aurelia-Toolbelt, I tried to collect and make the best components.
 https://github.com/aurelia-toolbelt/aurelia-toolbelt
 
-* CoreExtensions
+* CoreExtensions:
 A set of extension methods in different contexts.
 
-* CoreUtilities
+* CoreUtilities:
 Any functionality that is not possible by extension methods. Like extending static classes.
 
-* CoreExtenders
+* CoreExtenders:
 This collection is designed to extend existing third-party libraries.
 
 You can access all of my projects through the following link:
 https://github.com/HamedFathi?tab=repositories
 https://www.nuget.org/profiles/hamedfathi
 
-* PasswordMeter
+* PasswordMeter:
 A project based on a point system. Its main goal is to help the end user with a stronger password.
 https://github.com/HamedFathi/passwordmeter
 https://www.npmjs.com/package/password-meter
@@ -69,9 +69,14 @@ https://www.npmjs.com/package/password-meter
 https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/zenscroll
 https://www.npmjs.com/package/@types/zenscroll
 
-* PersianToolkit
+* PersianToolkit:
 A project to work with currency, letters and so on for developers who work with Persian.
 https://github.com/HamedFathi/PersianToolkit
+
+* Severus: A simple parser toolkit.
+https://github.com/HamedFathi/Severus
+* Styl-Injector: Simple functionality to inject a text or object-based style sheet into your HTML document.
+https://github.com/HamedFathi/Styl-Injector
 
 ### INTERESTS AND HOBBIES
 

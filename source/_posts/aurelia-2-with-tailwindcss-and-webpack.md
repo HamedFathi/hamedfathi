@@ -24,7 +24,7 @@ for more information take a look at [Tailwind CSS](https://tailwindcss.com/)
 
 2- Use your type of project, I am using Default Typescript with Webpack and CSS.
 
-![](/images/aurelia-with-tailwindcss-and-webpack/1.png)
+![](/images/aurelia-2-with-tailwindcss-and-webpack/1.png)
 
 3- Install Tailwind CSS in your project via this command
 
@@ -55,7 +55,7 @@ module.exports = {
 
 `require('tailwindcss')('tailwind.config.js'),`
 
-![](/images/aurelia-with-tailwindcss-and-webpack/2.png)
+![](/images/aurelia-2-with-tailwindcss-and-webpack/2.png)
 
 7- Add these lines to **top** of your main CSS file (for example `my-app.css`)
 
@@ -91,7 +91,7 @@ yarn run
 
 Seems everything works
 
-![](/images/aurelia-with-tailwindcss-and-webpack/3.png)
+![](/images/aurelia-2-with-tailwindcss-and-webpack/3.png)
 
 ### What is PurgeCSS?
 
@@ -109,7 +109,7 @@ or
 yarn build 
 ```
 
-![](/images/aurelia-with-tailwindcss-and-webpack/4.png)
+![](/images/aurelia-2-with-tailwindcss-and-webpack/4.png)
 
 ### How can we enable PurgeCSS?
 
@@ -130,7 +130,7 @@ purge: {
 
 Now run `build` command again and see the result.
 
-![](/images/aurelia-with-tailwindcss-and-webpack/5.png)
+![](/images/aurelia-2-with-tailwindcss-and-webpack/5.png)
 
 Congrats!
 
