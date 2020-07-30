@@ -38,7 +38,7 @@ yarn add tailwindcss -D
 
 `./node_modules/.bin/tailwind init`
 
-5- This command will create a `tailwind.config.js` file in the root folder beside the `webpack.config.js` file with the following content
+This command will create a `tailwind.config.js` file in the root folder beside the `webpack.config.js` file with the following content
 
 ```js
 module.exports = {
@@ -51,13 +51,13 @@ module.exports = {
 }
 ```
 
-6- Open your `webpack.config.js` file and add the below line into the `postcssLoader` literal object as a first item in plugin array. (Just like the picture)
+5- Open your `webpack.config.js` file and add the below line into the `postcssLoader` literal object as a first item in plugin array. (Just like the picture)
 
 `require('tailwindcss')('tailwind.config.js'),`
 
 ![](/images/aurelia-2-with-tailwindcss-and-webpack/2.png)
 
-7- Add these lines to **top** of your main CSS file (for example `my-app.css`)
+6- Add these lines to **top** of your main CSS file (for example `my-app.css`)
 
 ```
 @tailwind base;
@@ -128,7 +128,7 @@ purge: {
 },
 ```
 
-Now run `build` command again and see the result.
+Now, execute the `build` command again and see the result.
 
 ![](/images/aurelia-2-with-tailwindcss-and-webpack/5.png)
 
