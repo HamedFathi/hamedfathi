@@ -20,7 +20,9 @@ for more information take a look at [Tailwind CSS](https://tailwindcss.com/)
 
 1- Run the folowing command in your terminal
 
-`npx makes aurelia`
+```bash
+npx makes aurelia
+```
 
 2- Use your type of project, I am using Default Typescript with Webpack and CSS.
 
@@ -28,7 +30,7 @@ for more information take a look at [Tailwind CSS](https://tailwindcss.com/)
 
 3- Install Tailwind CSS in your project via this command
 
-```
+```bash
 npm i tailwindcss -D
 or
 yarn add tailwindcss -D
@@ -36,11 +38,13 @@ yarn add tailwindcss -D
 
 4- After installation go to the root folder and run the below command too
 
-`./node_modules/.bin/tailwind init`
+```bash
+./node_modules/.bin/tailwind init
+```
 
 This command will create a `tailwind.config.js` file in the root folder beside the `webpack.config.js` file with the following content
 
-```js
+```javascript
 module.exports = {
   purge: [],
   theme: {
@@ -53,13 +57,15 @@ module.exports = {
 
 5- Open your `webpack.config.js` file and add the below line into the `postcssLoader` literal object as a first item in plugin array. (Just like the picture)
 
-`require('tailwindcss')('tailwind.config.js'),`
+```javascript
+require('tailwindcss')('tailwind.config.js'),
+```
 
 ![](/images/aurelia-2-with-tailwindcss-and-webpack/2.png)
 
 6- Add these lines to **top** of your main CSS file (for example `my-app.css`)
 
-```
+```css
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -83,7 +89,7 @@ In an easy way you can add the following Tailwind CSS snippet code to your proje
 
 I have added this to `my-app.html` now you can run the project by 
 
-```
+```bash
 npm run start
 or
 yarn run 
@@ -103,7 +109,7 @@ Purgecss is particularly effective with Tailwind because Tailwind generates thou
 
 If you run the `build` command, you will see the final bundle side is huge (even in production mode)
 
-```
+```bash
 npm run build
 or
 yarn build 
@@ -115,13 +121,13 @@ yarn build
 
 Open the `tailwind.config.js` file and replace 
 
-```
+```javascript
 purge: [],
 ```
 
 with
 
-```
+```javascript
 purge: {
   enabled: true,
   content: ['./src/**/*.html'],
