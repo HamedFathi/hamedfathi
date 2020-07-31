@@ -55,7 +55,7 @@ module.exports = {
 }
 ```
 
-5- Open your `webpack.config.js` file and add the below line into the `postcssLoader` literal object as a first item in plugin array. (Just like the picture)
+5- Open your `webpack.config.js` file and add the below line into the `postcssLoader` literal object as a first item in `plugins` array. (Just like the picture)
 
 ``` typescript
 require('tailwindcss')('tailwind.config.js'),
@@ -63,7 +63,7 @@ require('tailwindcss')('tailwind.config.js'),
 
 ![](/images/aurelia-2-with-tailwindcss-and-webpack/2.png)
 
-6- Add these lines to **top** of your main CSS file (for example `my-app.css`)
+6- Add these lines to the **top** of your main CSS file (for example `my-app.css`)
 
 ```css
 @tailwind base;
