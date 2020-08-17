@@ -1,4 +1,4 @@
-﻿---
+---
 title: Using Puppeteer with Mocha and Aurelia 2
 date: August 18 2020
 category: aurelia
@@ -29,7 +29,7 @@ Most things that you can do manually in the browser can be done using Puppeteer!
 
 ### What browsers are supported?
 
-After version 3.0, Puppeteer now supports `Firefox` in addition to the `Chrome` browser.
+After version 3.0, Puppeteer supports `Firefox` in addition to the `Chrome` browser.
 
 ### Puppeteer, Mocha & Aurelia 2 (Typescript) integration
 
@@ -41,7 +41,7 @@ How to set it up is as follows:
 npx makes aurelia
 ```
 
-2- Make your "Custom Aurelia 2 App" with these options
+2- Make your `Custom Aurelia 2 App` with these options
 * Typescript
 * Mocha + Chai
 
