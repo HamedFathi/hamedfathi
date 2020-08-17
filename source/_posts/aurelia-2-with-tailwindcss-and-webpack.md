@@ -18,7 +18,7 @@ for more information take a look at [Tailwind CSS](https://tailwindcss.com/)
 
 ### How to configure an Aurelia 2 project with Tailwind CSS?
 
-1- Run the folowing command in your terminal
+1- Run the following command in your terminal
 
 ``` bash
 npx makes aurelia
