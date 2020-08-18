@@ -1,5 +1,5 @@
 ---
-title: Using Puppeteer with Mocha and Aurelia 2
+title: Using Puppeteer with Mocha/Jest and Aurelia 2
 date: August 18 2020
 category: aurelia
 tags:
