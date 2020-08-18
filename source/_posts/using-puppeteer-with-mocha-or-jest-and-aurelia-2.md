@@ -10,6 +10,7 @@ tags:
     - puppeteer
     - mocha
     - chai
+    - jest
 ---
 
 ### What is Puppeteer? 
@@ -119,6 +120,6 @@ As you see, we have filtered the files in `test` folder that ends with `.e2e.ts`
 npm run test:e2e
 ```
 
-![](/images/using-puppeteer-with-mocha-and-aurelia-2/1.png)
+![](/images/using-puppeteer-with-mocha-or-jest-and-aurelia-2/1.png)
 
 Congrats.
