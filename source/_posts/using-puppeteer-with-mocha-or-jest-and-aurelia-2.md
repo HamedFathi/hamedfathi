@@ -46,7 +46,7 @@ npx makes aurelia
 * Typescript
 * Mocha + Chai
 
-Don't choose `Cypress` for e2e testing, we will setup `Puppeteer` soon!
+**Don't** choose `Cypress` for e2e testing, we will set `Puppeteer` up soon!
 
 3- Install the following Node packages
 
