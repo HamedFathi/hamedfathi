@@ -64,9 +64,7 @@ require("ts-node").register({
   },
 });
 ```
-As you see, you can use `project` option to define a separated `tsconfig` just for using E2E test.
-
-The most important thing to consider is set `module` to `commonjs` otherwise you will get an [Cannot use import statement outside a module](https://github.com/TypeStrong/ts-node/issues/922) error.
+As you see, you can use `project` option to define a separated `tsconfig` just for using E2E test instead of defining `compilerOptions` but the most important thing to consider is set `module` to `commonjs` otherwise you will get an [Cannot use import statement outside a module](https://github.com/TypeStrong/ts-node/issues/922) error (Does not matter choose which one).
 
 5- Create `my-app.e2e.ts` file inside `test` folder and copy the following code
 
@@ -121,5 +119,10 @@ npm run test:e2e
 ```
 
 ![](/images/using-puppeteer-with-mocha-or-jest-and-aurelia-2/1.png)
+
+### Puppeteer, Jest & Aurelia 2 (Typescript) integration
+
+SOON!
+
 
 Congrats.
