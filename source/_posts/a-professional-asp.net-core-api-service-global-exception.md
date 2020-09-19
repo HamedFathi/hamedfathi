@@ -3,9 +3,9 @@ title: A Professional ASP.NET Core API Service
 date: September 19 2020
 category: aurelia
 tags:
-	- dotnet
-    - asp.net-core
-    - web-api
+    - dotnet
+    - aspnetcore
+    - webapi
     - api
     - exception
     - middleware
