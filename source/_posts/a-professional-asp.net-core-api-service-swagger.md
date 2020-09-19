@@ -3,6 +3,7 @@ title: A professional ASP.NET Core API service - Swagger
 date: September 19 2020
 category: aurelia
 tags:
+	- .net
     - asp.net core
     - web api
     - api
