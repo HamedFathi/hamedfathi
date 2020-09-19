@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core API Service
+title: A Professional ASP.NET Core API Service - Swagger
 date: September 19 2020
 category: aurelia
 tags:
@@ -11,7 +11,6 @@ tags:
     - swagger
 ---
 
-## Swagger
 
 When consuming a web API, understanding its various methods can be challenging for a developer. Swagger, also known as OpenAPI, solves the problem of generating useful documentation and help pages for web APIs. It provides benefits such as interactive documentation, client SDK generation, and API discoverability.
 
