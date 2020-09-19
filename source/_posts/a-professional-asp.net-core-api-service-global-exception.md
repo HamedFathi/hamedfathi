@@ -1,7 +1,7 @@
 ---
 title: A Professional ASP.NET Core API Service - Global Exception Handling
 date: September 19 2020
-category: aurelia
+category: aspnetcore
 tags:
     - dotnet
     - aspnetcore
