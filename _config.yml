@@ -101,3 +101,22 @@ theme: icarus
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: ''
+  
+plugins:
+  hexo-generator-robotstxt
+
+robotstxt:
+  useragent: "*"
+  disallow:
+    - /js/
+    - /css/
+    - /fonts/
+    - /vendors/
+    - /fancybox/
+  allow:
+    - /
+    - /about/ 
+    - /archives/
+    - /categories/
+    - /tags/
+  sitemap: /sitemap.xml
