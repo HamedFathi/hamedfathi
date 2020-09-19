@@ -1,17 +1,17 @@
 ---
-title: A Professional ASP.NET Core API Service - Global Exception Handling 
+title: A Professional ASP.NET Core API Service
 date: September 19 2020
 category: aurelia
 tags:
-	- .net
-    - asp.net core
-    - web api
+	- dotnet
+    - asp.net-core
+    - web-api
     - api
     - exception
     - middleware
 ---
 
-### Global Exception Handling
+## Global Exception Handling
 
 ASP.NET Core gives provides the ability to write middleware, which is logic inserted into the pipeline that the framework runs for every request that is received by the application. ASP.NET Core ships with core middleware components that enable things like rendering MVC pages, defining endpoint routes, and adding authentication support, and these things are configured in the application’s Startup class, where you can also add your own custom middleware components. This ability to easily configure and customize how ASP.NET Core processes requests is tremendously useful and powerful.
 

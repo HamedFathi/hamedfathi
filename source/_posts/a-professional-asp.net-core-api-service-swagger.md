@@ -1,17 +1,17 @@
 ---
-title: A Professional ASP.NET Core API Service - Swagger
+title: A Professional ASP.NET Core API Service
 date: September 19 2020
 category: aurelia
 tags:
-	- .net
-    - asp.net core
-    - web api
+	- dotnet
+    - asp.net-core
+    - web-api
     - api
-    - open api
+    - open-api
     - swagger
 ---
 
-### Swagger
+## Swagger
 
 When consuming a web API, understanding its various methods can be challenging for a developer. Swagger, also known as OpenAPI, solves the problem of generating useful documentation and help pages for web APIs. It provides benefits such as interactive documentation, client SDK generation, and API discoverability.
 
@@ -70,7 +70,7 @@ Browse Swagger doc via below URL
 
 `http[s]://localhost:port/swagger`
 
-#### How to set swagger on default URL?
+### How to set swagger on default URL?
 
 Update the above code with the following change
 
@@ -84,7 +84,7 @@ app.UseSwaggerUI(c =>
 
 Now you can browse the swagger doc url via `http[s]://localhost:port`
 
-#### How to integrate it with ReDoc?
+### How to integrate it with ReDoc?
 
 [ReDoc](https://github.com/Redocly/redoc) is just another implementation of Swagger UI.
 
@@ -134,7 +134,7 @@ Swagger: `http[s]://localhost:port/swagger`
 
 ReDoc: `http[s]://localhost:port/api-docs`
 
-#### How to use XML comments with Swagger?
+### How to use XML comments with Swagger?
 
 Right-click the project in Solution Explorer and select Edit `<project_name>.csproj`.
 
