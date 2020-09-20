@@ -14,9 +14,9 @@ tags:
 
 When consuming a web API, understanding its various methods can be challenging for a developer. Swagger, also known as OpenAPI, solves the problem of generating useful documentation and help pages for web APIs. It provides benefits such as interactive documentation, client SDK generation, and API discoverability.
 
-`Swashbuckle` can be added with the following approaches:
-
 <!-- more -->
+
+`Swashbuckle` can be added with the following approaches:
 
 Install the below package
 
