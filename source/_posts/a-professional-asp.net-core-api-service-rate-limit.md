@@ -439,12 +439,16 @@ and use it like the following example:
 
 ```cs
 [ApiController]
-[HttpGet]
-[RequestRateLimit(Name = "Limit Request Number", Seconds = 5)] // HERE
-[ProducesResponseType(StatusCodes.Status200OK)]
-public IActionResult Get()
+[Route("api")]
+public class ApiController : ControllerBase
 {
-    return Ok();
+    [HttpGet]
+    [RequestRateLimit(Name = "Limit Request Number", Seconds = 5)] // HERE
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public IActionResult Get()
+    {
+        return Ok();
+    }
 }
 ```
 
