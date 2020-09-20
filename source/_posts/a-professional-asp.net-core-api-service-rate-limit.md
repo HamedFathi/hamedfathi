@@ -169,7 +169,7 @@ services.AddSingleton<IRateLimitCounterStore,DistributedCacheRateLimitCounterSto
 
 *EnableEndpointRateLimiting* 
 
-If it is set to `false` then the limits will apply globally and only rules that have as endpoint `*`` will apply. For example if you set a limit of 5 calls per second, any HTTP call to any endpoint will count towards that limit.
+If it is set to `false` then the limits will apply globally and only rules that have as endpoint `*` will apply. For example if you set a limit of 5 calls per second, any HTTP call to any endpoint will count towards that limit.
 
 If it is set to `true` then the limits will apply for each endpoint as in `{HTTP_Verb}:{PATH}`. For example if you set a limit of 5 calls per second for `*:/api/values` a client can call `get:/api/values` 5 times per second but also 5 times `put:/api/values`.
 
