@@ -29,7 +29,7 @@ You can use two kinds of limitation:
 
 We examine both methods together.
 
-Add the following code 
+First, Add the following code:
 
 ```cs
 // Startup.ConfigureServices
@@ -71,7 +71,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-And You should register the middleware before any other components.
+Second, You should register the middleware before any other components as following:
 
 ```cs
 // Startup.Configure
@@ -113,6 +113,8 @@ services.AddSingleton<IRateLimitCounterStore,DistributedCacheRateLimitCounterSto
 
 ## IP-based:
 
+
+
 **General rules appsettings.json:**
 
 ```json
@@ -127,7 +129,7 @@ services.AddSingleton<IRateLimitCounterStore,DistributedCacheRateLimitCounterSto
   "ClientWhitelist": [ "dev-id-1", "dev-id-2" ],
   "GeneralRules": [
     {
-      "Endpoint": "*:/fw/*",
+      "Endpoint": "*:/api/*",
       "Period": "1m",
       "Limit": 30
     },
@@ -164,6 +166,39 @@ services.AddSingleton<IRateLimitCounterStore,DistributedCacheRateLimitCounterSto
   ]
 }
 ```
+
+*EnableEndpointRateLimiting* 
+
+If it is set to `false` then the limits will apply globally and only rules that have as endpoint `*`` will apply. For example if you set a limit of 5 calls per second, any HTTP call to any endpoint will count towards that limit.
+
+If it is set to `true` then the limits will apply for each endpoint as in `{HTTP_Verb}:{PATH}`. For example if you set a limit of 5 calls per second for `*:/api/values` a client can call `get:/api/values` 5 times per second but also 5 times `put:/api/values`.
+
+*Endpoint*
+
+* `*`: A placeholder to anything
+* `{HTTP_Verb}:{PATH}`: Endpoint format like `get:/api/license`
+
+*Period*
+
+Period format is `{INT}{PERIOD_TYPE}`, you can use one of the following period types: `s, m, h, d`.
+
+* `s`: second
+* `m`: minute
+* `h`: hour
+* `d`: day
+
+*HttpStatusCode* 
+
+is set to `429`, which means the HTTP status code returned to the client after the limit is triggered.
+
+*ClientIdHeader*
+
+It is used to extract the client id, if a client id is present in this header and matches a value specified in `ClientWhitelist` then no rate limits are applied.
+
+*Limit*
+
+Number of requests allowed. Limit format is `{LONG}`.
+
 
 **Specific IPs appsettings.json:**
 
@@ -292,6 +327,8 @@ services.AddSingleton<IRateLimitCounterStore,DistributedCacheRateLimitCounterSto
 
 ## Update rate limits at runtime
 
+At application startup the IP/client rate limit rules defined in `appsettings.json` are loaded in cache by either `MemoryCacheClientPolicyStore` or `DistributedCacheClientPolicyStore` depending on what type of cache provider you are using. You can access the IP/client policy store inside a controller and modify the rules like so:
+
 **IP-based**
 
 ```cs
@@ -371,7 +408,7 @@ public class ClientRateLimitController : Controller
 
 ## Quota exceeded response
 
-You can customize the throttled response using the QuotaExceededResponse property of the IpRateLimiting or ClientRateLimiting configuration sections:
+You can customize the throttled response using the `QuotaExceededResponse` property of the `IpRateLimiting` or `ClientRateLimiting` configuration sections:
 
 ```json
 "IpRateLimiting": {
