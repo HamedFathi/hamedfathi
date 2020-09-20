@@ -137,6 +137,11 @@ services.AddSingleton<IRateLimitCounterStore,DistributedCacheRateLimitCounterSto
       "Limit": 5
     },
     {
+      "Endpoint": "get:/api/values",
+      "Period": "1h",
+      "Limit": 5
+    },
+    {
       "Endpoint": "*",
       "Period": "1s",
       "Limit": 2
@@ -385,6 +390,66 @@ You can customize the throttled response using the QuotaExceededResponse propert
 
 ### How to write a custom IP rate limit?
 
-?
+To begin with, we need a class that inherits from `ActionFilterAttribute`.
+
+```cs
+// https://github.com/sahgilbert/rate-limit-action-filter-attribute-aspnetcore
+
+using System;
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace Attributes
+{
+    [AttributeUsage(AttributeTargets.Method)]
+    public class RequestRateLimitAttribute : ActionFilterAttribute
+    {
+        public string Name { get; set; }
+
+        public int Seconds { get; set; }
+
+        private static MemoryCache Cache { get; } = new MemoryCache(new MemoryCacheOptions());
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            var ipAddress = context.HttpContext.Request.HttpContext.Connection.RemoteIpAddress;
+
+            var memoryCacheKey = $"{Name}-{ipAddress}";
+
+            if (!Cache.TryGetValue(memoryCacheKey, out bool entry))
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(Seconds));
+
+                Cache.Set(memoryCacheKey, true, cacheEntryOptions);
+            }
+            else
+            {
+                context.Result = new ContentResult
+                {
+                    Content = $"Requests are limited to 1, every {Seconds} seconds.",
+                };
+
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
+            }
+        }
+    }
+}
+```
+
+and use it like the following example:
+
+```cs
+[ApiController]
+[HttpGet]
+[RequestRateLimit(Name = "Limit Request Number", Seconds = 5)] // HERE
+[ProducesResponseType(StatusCodes.Status200OK)]
+public IActionResult Get()
+{
+    return Ok();
+}
+```
 
 Enjoy!
