@@ -69,7 +69,7 @@ Browse Swagger doc via below URL
 
 `http[s]://localhost:port/swagger`
 
-### How to set swagger on default URL?
+## How to set swagger on default URL?
 
 Update the above code with the following change
 
@@ -83,7 +83,7 @@ app.UseSwaggerUI(c =>
 
 Now you can browse the swagger doc url via `http[s]://localhost:port`
 
-### How to integrate it with ReDoc?
+## How to integrate it with ReDoc?
 
 [ReDoc](https://github.com/Redocly/redoc) is just another implementation of Swagger UI.
 
@@ -133,7 +133,7 @@ Swagger: `http[s]://localhost:port/swagger`
 
 ReDoc: `http[s]://localhost:port/api-docs`
 
-### How to use XML comments with Swagger?
+## How to use XML comments with Swagger?
 
 Right-click the project in Solution Explorer and select Edit `<project_name>.csproj`.
 
@@ -197,4 +197,9 @@ public ActionResult<TodoItem> Create(TodoItem item)
 }
 ```
 
-Enjoy!
+## Reference(s)
+
+Most of the information in this article is from various resources.
+
+* https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle
+* http://stevenmaglio.blogspot.com/2019/12/using-swagger-ui-and-redoc-in-aspnet.html

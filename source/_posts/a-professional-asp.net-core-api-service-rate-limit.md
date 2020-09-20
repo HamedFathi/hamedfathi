@@ -111,7 +111,7 @@ services.AddSingleton<IClientPolicyStore, DistributedCacheClientPolicyStore>();
 services.AddSingleton<IRateLimitCounterStore,DistributedCacheRateLimitCounterStore>();
 ```
 
-### IP-based:
+## IP-based:
 
 **General rules appsettings.json:**
 
@@ -209,7 +209,7 @@ services.AddSingleton<IRateLimitCounterStore,DistributedCacheRateLimitCounterSto
 }
 ```
 
-### Client-based
+## Client-based
 
 **General rules appsettings.json:**
 
@@ -246,7 +246,7 @@ services.AddSingleton<IRateLimitCounterStore,DistributedCacheRateLimitCounterSto
 }
 ```
 
-**Specific IPs appsettings.json:**
+**Specific Clients appsettings.json:**
 
 ```json
 "ClientRateLimitPolicies": {
@@ -290,7 +290,7 @@ services.AddSingleton<IRateLimitCounterStore,DistributedCacheRateLimitCounterSto
 }
 ```
 
-### Update rate limits at runtime
+## Update rate limits at runtime
 
 **IP-based**
 
@@ -369,8 +369,7 @@ public class ClientRateLimitController : Controller
 }
 ```
 
-### Quota exceeded response
-
+## Quota exceeded response
 
 You can customize the throttled response using the QuotaExceededResponse property of the IpRateLimiting or ClientRateLimiting configuration sections:
 
@@ -389,12 +388,11 @@ You can customize the throttled response using the QuotaExceededResponse propert
 * {2} - retryAfter
 
 ---
-### How to write a custom IP rate limit?
+## How to write a custom IP rate limiter?
 
 To begin with, we need a class that inherits from `ActionFilterAttribute`.
 
 ```cs
-// https://github.com/sahgilbert/rate-limit-action-filter-attribute-aspnetcore
 
 using System;
 using System.Net;
@@ -453,4 +451,13 @@ public class ApiController : ControllerBase
 }
 ```
 
-Enjoy!
+## Reference(s)
+
+Most of the information in this article is from various resources.
+
+* https://github.com/stefanprodan/AspNetCoreRateLimit
+* https://riptutorial.com/asp-net-core/example/18611/rate-limiting-based-on-client-ip
+* https://riptutorial.com/asp-net-core/example/18612/rate-limiting-based-on-client-id
+* https://edi.wang/post/2019/6/16/ip-rate-limit-for-aspnet-core
+* https://github.com/sahgilbert/rate-limit-action-filter-attribute-aspnetcore
+

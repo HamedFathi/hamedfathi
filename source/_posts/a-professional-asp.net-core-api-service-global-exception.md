@@ -132,4 +132,8 @@ public void Configure(IApplicationBuilder app)
 }
 ```
 
-Enjoy!
+## Reference(s)
+
+Most of the information in this article is from various resources.
+
+* https://blog.jonblankenship.com/2020/04/12/global-exception-handling-in-aspnet-core-api/

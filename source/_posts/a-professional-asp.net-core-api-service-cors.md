@@ -14,7 +14,7 @@ Browser security prevents a web page from making requests to a different domain 
 
 <!-- more -->
 
-### What is the meaning of Same origin?
+## What is the meaning of Same origin?
 
 Two URLs have the same origin if they have identical schemes, hosts, and ports.
 
@@ -30,7 +30,7 @@ These URLs have different origins than the previous two URLs:
 * `http://example.com/foo.html`: Different scheme
 * `https://example.com:9000/foo.html`: Different port
 
-### How to enable CORS?
+## How to enable CORS?
 
 There are three ways to enable CORS:
 
@@ -40,7 +40,7 @@ There are three ways to enable CORS:
 
 **Warning:** `UseCors` must be called before `UseResponseCaching`.
 
-### CORS with named policy and middleware
+## CORS with named policy and middleware
 
 ```cs
 public class Startup
@@ -90,7 +90,7 @@ public class Startup
 }
 ```
 
-### CORS with default policy and middleware
+## CORS with default policy and middleware
 
 ```cs
 public class Startup
@@ -135,7 +135,7 @@ public class Startup
 }
 ```
 
-### Enable CORS with endpoint routing
+## Enable CORS with endpoint routing
 
 ```cs
 public class Startup
@@ -191,7 +191,7 @@ public class Startup
 }
 ```
 
-### Enable CORS with attributes
+## Enable CORS with attributes
 
 Enabling CORS with the `[EnableCors]` attribute and applying a named policy to only those endpoints that require CORS provides the finest control.
 
@@ -302,7 +302,7 @@ For the finest control of limiting CORS requests:
 * Don't define a default policy.
 * Don't use endpoint routing.
 
-### Disable CORS
+## Disable CORS
 
 The `[DisableCors]` attribute does not disable CORS that has been enabled by endpoint routing.
 
@@ -385,7 +385,7 @@ public class ValuesController : ControllerBase
 }
 ```
 
-### CORS policy options
+## CORS policy options
 
 * `AllowAnyOrigin`: Allows CORS requests from all origins with any scheme (http or https). AllowAnyOrigin is insecure because any website can make cross-origin requests to the app.
 * `AllowAnyMethod`: Allows any HTTP method.
@@ -416,4 +416,8 @@ public class Startup
 }
 ```
 
-Enjoy!
+## Reference(s)
+
+Most of the information in this article is from various resources.
+
+* https://docs.microsoft.com/en-us/aspnet/core/security/cors
