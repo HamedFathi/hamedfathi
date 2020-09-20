@@ -191,9 +191,9 @@ public class Startup
 
 ### Enable CORS with attributes
 
-Enabling CORS with the `[EnableCors]`` attribute and applying a named policy to only those endpoints that require CORS provides the finest control.
+Enabling CORS with the `[EnableCors]` attribute and applying a named policy to only those endpoints that require CORS provides the finest control.
 
-The `[EnableCors]`` attribute provides an alternative to applying CORS globally. The `[EnableCors]`` attribute enables CORS for selected endpoints, rather than all endpoints:
+The `[EnableCors]` attribute provides an alternative to applying CORS globally. The `[EnableCors]` attribute enables CORS for selected endpoints, rather than all endpoints:
 
 * `[EnableCors]` specifies the default policy.
 * `[EnableCors("{Policy String}")]` specifies a named policy.
@@ -204,7 +204,7 @@ The [EnableCors] attribute can be applied to:
 * Controller
 * Controller action method
 
-Different policies can be applied to controllers, page models, or action methods with the `[EnableCors]`` attribute. When the `[EnableCors]`` attribute is applied to a controller, page model, or action method, and CORS is enabled in middleware, both policies are applied. **We recommend against combining policies. Use the [EnableCors] attribute or middleware, not both in the same app.**
+Different policies can be applied to controllers, page models, or action methods with the `[EnableCors]` attribute. When the `[EnableCors]` attribute is applied to a controller, page model, or action method, and CORS is enabled in middleware, both policies are applied. **We recommend against combining policies. Use the [EnableCors] attribute or middleware, not both in the same app.**
 
 A different policy to each method:
 
@@ -302,7 +302,7 @@ For the finest control of limiting CORS requests:
 
 ### Disable CORS
 
-The `[DisableCors]`` attribute does not disable CORS that has been enabled by endpoint routing.
+The `[DisableCors]` attribute does not disable CORS that has been enabled by endpoint routing.
 
 The following code defines the CORS policy "MyPolicy":
 
