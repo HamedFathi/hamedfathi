@@ -388,6 +388,7 @@ You can customize the throttled response using the QuotaExceededResponse propert
 * {1} - rule.Period
 * {2} - retryAfter
 
+---
 ### How to write a custom IP rate limit?
 
 To begin with, we need a class that inherits from `ActionFilterAttribute`.
