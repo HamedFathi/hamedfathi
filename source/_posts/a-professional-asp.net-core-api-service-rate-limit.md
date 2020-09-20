@@ -479,7 +479,8 @@ and use it like the following example:
 public class ApiController : ControllerBase
 {
     [HttpGet]
-    [RequestRateLimit(Name = "Limit Request Number", Seconds = 5)] // HERE
+    // HERE
+    [RequestRateLimit(Name = "Limit Request Number", Seconds = 5)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IActionResult Get()
     {
