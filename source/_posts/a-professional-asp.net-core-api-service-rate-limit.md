@@ -48,8 +48,8 @@ public void ConfigureServices(IServiceCollection services)
     // Client
     services.Configure<ClientRateLimitOptions>(Configuration.GetSection("ClientRateLimiting"));
 
-    //load ip rules from appsettings.json
     // IP
+    //load ip rules from appsettings.json
     services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
     // Client
     //load client rules from appsettings.json
