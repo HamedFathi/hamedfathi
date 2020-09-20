@@ -52,13 +52,13 @@ public class Startup
         services.AddCors(options =>
         {
             options.AddPolicy(name: MyAllowSpecificOrigins,
-                              builder =>
-                              {
-                                  builder.WithOrigins("http://example.com",
-                                                  "http://www.contoso.com")
-                                                  .AllowAnyHeader()
-                                                  .AllowAnyMethod();
-                              });
+                    builder =>
+                    {
+                        builder.WithOrigins("http://example.com",
+                                        "http://www.contoso.com")
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                    });
         });
 
         // services.AddResponseCaching();
@@ -145,11 +145,11 @@ public class Startup
         services.AddCors(options =>
         {
             options.AddPolicy(name: MyAllowSpecificOrigins,
-                              builder =>
-                              {
-                                  builder.WithOrigins("http://example.com",
-                                                      "http://www.contoso.com");
-                              });
+                    builder =>
+                    {
+                        builder.WithOrigins("http://example.com",
+                                            "http://www.contoso.com");
+                    });
         });
 
         services.AddControllers();
@@ -386,7 +386,7 @@ public class ValuesController : ControllerBase
 ### CORS policy options
 
 * `AllowAnyOrigin`: Allows CORS requests from all origins with any scheme (http or https). AllowAnyOrigin is insecure because any website can make cross-origin requests to the app.
-* `AllowAnyMethod`: Allows any HTTP method
+* `AllowAnyMethod`: Allows any HTTP method.
 * `AllowAnyHeader`: Ensures that the policy allows any header.
 * `AllowCredentials`: The server must allow the credentials.
 
@@ -398,14 +398,14 @@ public class Startup
         services.AddCors(options =>
         {
             options.AddPolicy(name: MyAllowSpecificOrigins,
-                              builder =>
-                              {
-                                  builder
-                                     .AllowAnyOrigin()
-                                     .AllowAnyMethod()
-                                     .AllowAnyHeader()
-                                     .AllowCredentials();
-                              });
+                    builder =>
+                    {
+                        builder
+                           .AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowCredentials();
+                    });
         });
 
         // services.AddResponseCaching();
