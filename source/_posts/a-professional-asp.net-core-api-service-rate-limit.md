@@ -98,7 +98,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 }
 ```
 
-If you load-balance your app, you'll need to use IDistributedCache with Redis or SQLServer so that all kestrel instances will have the same rate limit store. Instead of the in-memory stores you should inject the distributed stores like this:
+If you load-balance your app, you'll need to use `IDistributedCache` with `Redis` or `SQLServer` so that all kestrel instances will have the same rate limit store. Instead of the in-memory stores you should inject the distributed stores like this:
 
 ```cs
 // inject counter and rules distributed cache stores
