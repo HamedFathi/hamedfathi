@@ -111,7 +111,7 @@ services.AddSingleton<IClientPolicyStore, DistributedCacheClientPolicyStore>();
 services.AddSingleton<IRateLimitCounterStore,DistributedCacheRateLimitCounterStore>();
 ```
 
-### IP-based limitation
+### IP-based:
 
 **General rules appsettings.json:**
 
@@ -204,7 +204,7 @@ services.AddSingleton<IRateLimitCounterStore,DistributedCacheRateLimitCounterSto
 }
 ```
 
-### Client-based limitation
+### Client-based
 
 **General rules appsettings.json:**
 
@@ -287,7 +287,7 @@ services.AddSingleton<IRateLimitCounterStore,DistributedCacheRateLimitCounterSto
 
 ### Update rate limits at runtime
 
-**IP-based limitation**
+**IP-based**
 
 ```cs
 public class IpRateLimitController : Controller
@@ -328,7 +328,7 @@ public class IpRateLimitController : Controller
 }
 ```
 
-**Client-based limitation**
+**Client-based**
 
 ```cs
 public class ClientRateLimitController : Controller
