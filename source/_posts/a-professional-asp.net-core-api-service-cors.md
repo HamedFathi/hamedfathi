@@ -102,8 +102,8 @@ public class Startup
             options.AddDefaultPolicy(
                 builder =>
                 {
-				    // Be careful dont use '\' at the end of the url.
-					// eg. 'http://example.com\' does not work correctly.
+                    // Be careful dont use '/' at the end of the url.
+                    // eg. 'http://example.com/' does not work correctly.
                     builder.WithOrigins("http://example.com",
                                         "http://www.contoso.com");
                 });
