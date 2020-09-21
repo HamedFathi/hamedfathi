@@ -68,7 +68,7 @@ public class GlobalExceptionMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Something went wrong: {ex}");
+            _logger.LogError($"An unhandled exception has occurred while executing the request. {ex}");
 
             // ASPNETCORE_ENVIRONMENT = Development
             if (_env.IsDevelopment())
