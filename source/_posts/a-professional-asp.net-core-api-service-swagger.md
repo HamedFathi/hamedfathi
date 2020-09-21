@@ -69,6 +69,24 @@ Browse Swagger doc via below URL
 
 `http[s]://localhost:port/swagger`
 
+## How to use Newtonsoft.Json?
+
+Install the below package
+
+```bash
+Install-Package Swashbuckle.AspNetCore.Newtonsoft -Version 5.6.1
+dotnet add package Swashbuckle.AspNetCore.Newtonsoft --version 5.6.1
+<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.1" />
+```
+
+Then
+
+```cs
+// explicit opt-in - needs to be placed after AddSwaggerGen()
+
+services.AddSwaggerGenNewtonsoftSupport();
+```
+
 ## How to set swagger on default URL?
 
 Update the above code with the following change
@@ -322,6 +340,17 @@ public abstract class Shape
 }
 ```
 
+## Filters
+
+Install the below package
+
+```bash
+Install-Package Swashbuckle.AspNetCore.Filters -Version 5.1.2
+dotnet add package Swashbuckle.AspNetCore.Filters --version 5.1.2
+<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.2" />
+```
+
+
 
 ## Reference(s)
 
@@ -329,3 +358,5 @@ Most of the information in this article is from various resources.
 
 * https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle
 * http://stevenmaglio.blogspot.com/2019/12/using-swagger-ui-and-redoc-in-aspnet.html
+* https://github.com/domaindrivendev/Swashbuckle.AspNetCore
+* https://github.com/mattfrear/Swashbuckle.AspNetCore.Filters
