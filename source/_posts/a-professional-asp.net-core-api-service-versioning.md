@@ -26,6 +26,8 @@ dotnet add package Microsoft.AspNetCore.Mvc.Versioning --version 4.1.1
 
 ```cs
 // Startup.ConfigureServices
+using Microsoft.AspNetCore.Mvc.Versioning;
+
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddApiVersioning(config =>
@@ -232,10 +234,6 @@ services.AddApiVersioning(config =>
     config.Conventions.Add(new MyCustomConvention());
 });
 ```
-
-## Integrate with Swagger
-
-
 
 ## Reference(s)
 
