@@ -18,7 +18,7 @@ To add a header for each request, we can use middleware.
 
 <!-- more -->
 
-## Headers in middleware
+## Headers via middleware
 
 This is my favorite. Specifying headers in middleware can be done in C# code by creating one or more pieces of middleware. Most examples in this post will use this approach. In short, you either create a new middleware class or call the `Use` method directly in the `Configure` method in `Startup.cs`:
 
@@ -146,14 +146,28 @@ public sealed class SecurityHeadersMiddleware
 
 You can check you have correctly set the security headers by using the following service: https://securityheaders.com
 
+## Ready to use libraries
+
+**NWebsec**
+
+NWebsec consists of several security libraries for ASP.NET applications.
+
+`Site`: https://github.com/NWebsec/NWebsec
+
+`Docs`: https://docs.nwebsec.com/en/latest/
+
+**NetEscapades.AspNetCore.SecurityHeaders**
+
+Small package to allow adding security headers to ASP.NET Core websites 
+ 
+`Site`: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders
+
 ## Reference(s)
 
 Most of the information in this article is from various resources.
 
 * https://blog.elmah.io/the-asp-net-core-security-headers-guide/
 * https://www.meziantou.net/security-headers-in-asp-net-core.htm
-* https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders
-* https://github.com/NWebsec/NWebsec
 * https://improveandrepeat.com/2019/05/how-to-improve-the-security-headers-for-your-asp-net-application/
 * https://www.c-sharpcorner.com/article/asp-net-core-security-headers/
 * https://andrewlock.net/adding-default-security-headers-in-asp-net-core/
