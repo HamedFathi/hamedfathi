@@ -143,6 +143,31 @@ public class ValuesController : ControllerBase
 
 **Tip:** Since no version number is specified to the actions in `ValuesController`, all the endpoints are assumed to have the default version of `1.0`.
 
+**[ApiVersion("1.0", Deprecated = true)]**
+
+Annotating our controller with, for example, [ApiVersion("1.0")] attribute, means that this controller supports API version 1.0.
+
+To deprecate some version in our API controller, we need to set Deprecated flag to true: [ApiVersion("1.0", Deprecated = true)].
+
+In such cases a `api-deprecated-versions` header will be added to identify deprecated versions.
+
+`api-deprecated-versions: 1.0`
+
+**[ApiVersion("1.1")]**
+
+**[ApiVersion("2.0")]**
+
+Controllers can support multiple API versions.
+
+**[Route("api/v{version:apiVersion}/[controller]")]**
+
+To implement URL path versioning, You can modify the Route attribute of the controllers to accept API versioning info in the path param.
+
+**[MapToApiVersion("2.0")]**
+
+From the several versions introduced for the controller, you can specify a specific version (eg. version 2.0) for the action. The action is **only** available with this version.
+
+If you try to access it with other versions, you will encounter an `UnsupportedApiVersion` error.
 
 ```json
 {
@@ -154,6 +179,61 @@ public class ValuesController : ControllerBase
 }
 ```
 
+**[ApiVersionNeutral]**
+
+If we have a service that is version-neutral, we will mark that controller with `[ApiVersionNeutral]` attribute.
+
+
+**How to get the API version inside a controller?**
+
+```cs
+var apiVersion = HttpContext.GetRequestedApiVersion();
+```
+
+And also
+
+```cs
+public IActionResult Get( int id, ApiVersion apiVersion ) { ... }
+```
+
+## API Version Conventions
+
+Besides attributing our controllers and methods, another way to configure service versioning is with API versioning conventions. There are several reasons why would we use API versioning conventions instead of attributes:
+
+* Centralized management and application of all service API versions
+* Apply API versions to services defined by controllers in external .NET assemblies
+* Dynamically apply API versions from external sources; for example, from the configuration
+
+```cs
+services.AddApiVersioning(config =>
+{
+    config.Conventions.Controller<MyController>().HasApiVersion(1, 0);
+});
+```
+
+Here's an example of setting deprecated API version as well as versioning controller actions:
+
+```cs
+services.AddApiVersioning(config =>
+{
+    config.Conventions.Controller<MyController>()	   
+                       .HasDeprecatedApiVersion(1, 0)
+                       .HasApiVersion(1, 1)
+                       .HasApiVersion(2, 0)
+                       .Action(c => c.Get1_0()).MapToApiVersion(1, 0)
+                       .Action(c => c.Get1_1()).MapToApiVersion(1, 1)
+                       .Action(c => c.Get2_0()).MapToApiVersion(2, 0);
+});
+```
+
+There is also an option to define custom conventions.There is a `IControllerConvention` interface for this purpose. Custom conventions are added to the convention builder through the API versioning options:
+
+```cs
+services.AddApiVersioning(config =>
+{
+    config.Conventions.Add(new MyCustomConvention());
+});
+```
 
 ## Integrate with Swagger
 

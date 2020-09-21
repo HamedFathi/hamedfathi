@@ -471,7 +471,19 @@ namespace Attributes
 }
 ```
 
-and use it like the following example:
+`Name`: A name for uniqueness.
+
+`Seconds`: An integer to store the number of seconds.
+
+We need to override the virtual OnActionExecuting method from our inherited class. Within this method we are doing the following:
+
+1) Obtaining the users ip address.
+
+2) Storing the ip address in our memory cache, with a timeout based on the number of seconds we have assigned to our rate limiting action filter attribute.
+
+3) Returning an error message and a relevant status code (HTTP 429), in the event that the user hits our rate limit for the Api.
+
+Now to apply our action filter attribute to our desired controller action. I've added a simple Api endpoint for this example, and applied the attribute to the method, stating that we want to rate limit to 1 request, every 5 seconds.
 
 ```cs
 [ApiController]
