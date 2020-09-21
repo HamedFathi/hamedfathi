@@ -1,7 +1,6 @@
 ---
 title: A Professional ASP.NET Core API Service - Versioning
 date: September 21 2020
-draft: true
 category: aspnetcore
 tags:
     - dotnet
@@ -98,6 +97,8 @@ config.ApiVersionReader = new UrlSegmentApiVersionReader();
 ```
 
 ##  Set version(s) to Controllers and Actions 
+
+Consider the following example:
 
 ```cs
 [ApiController]
