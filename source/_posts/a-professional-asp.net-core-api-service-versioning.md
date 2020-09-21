@@ -97,13 +97,16 @@ config.ApiVersionReader = new UrlSegmentApiVersionReader();
 ```
 
 
-##  Set version to Controllers and Actions 
+##  Set version(s) to Controllers and Actions 
 
 ```cs
 [Route("api/[controller]")]
 [ApiController]
-[ApiVersion("1.0")]
+// api-supported-versions: 1.1, 2.0
+// api-deprecated-versions: 1.0
+[ApiVersion("1.0", Deprecated = true)]
 [ApiVersion("1.1")]
+[ApiVersion("2.0")]
 public class ValuesController : ControllerBase
 {
     // GET api/values
@@ -115,6 +118,7 @@ public class ValuesController : ControllerBase
 
     // GET api/values/5
     [HttpGet("{id}")]
+    [MapToApiVersion("2.0")]
     public ActionResult<string> Get(int id)
     {
         return "value";
@@ -123,6 +127,9 @@ public class ValuesController : ControllerBase
 ```
 
 **Tip:** Since no version number is specified to the actions in values controller, all the endpoints are assumed to have the default version of 1.0. 
+
+## Integrate with Swagger
+
 
 
 ## Reference(s)
@@ -133,3 +140,4 @@ Most of the information in this article is from various resources.
 * https://dev.to/99darshan/restful-web-api-versioning-with-asp-net-core-1e8g
 * https://dotnetcoretutorials.com/2017/01/17/api-versioning-asp-net-core/
 * https://exceptionnotfound.net/overview-of-api-versioning-in-asp-net-core-3-0/
+* https://dev.to/htissink/versioning-asp-net-core-apis-with-swashbuckle-making-space-potatoes-v-x-x-x-3po7
