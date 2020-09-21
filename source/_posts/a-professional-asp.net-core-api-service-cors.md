@@ -105,7 +105,11 @@ public class Startup
                     // Be careful dont use '/' at the end of the url.
                     // eg. 'http://example.com/' does not work correctly.
                     builder.WithOrigins("http://example.com",
-                                        "http://www.contoso.com");
+                                        "http://www.contoso.com"); 
+                                        
+                    builder.WithOrigins("http://localhost:4200")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader(); 
                 });
         });
 
@@ -321,6 +325,9 @@ public class Startup
                     builder.WithOrigins("http://example.com",
                                         "http://www.contoso.com")
                             .WithMethods("PUT", "DELETE", "GET");
+                    builder.WithOrigins("http://localhost:4200")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();                            
                 });
         });
 
