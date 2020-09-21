@@ -402,16 +402,42 @@ public class Startup
             options.AddPolicy(name: MyAllowSpecificOrigins,
                     builder =>
                     {
+                        // Allow Anything
                         builder
                            .AllowAnyOrigin()
                            .AllowAnyMethod()
                            .AllowAnyHeader()
-                           .AllowCredentials();
+                           .AllowCredentials()
+                           ;
                     });
         });
 
         // services.AddResponseCaching();
         services.AddControllers();
+    }
+    
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+        app.UseRouting();
+
+        // HERE
+        app.UseCors(MyAllowSpecificOrigins);
+
+        // app.UseResponseCaching();
+
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
     }
 }
 ```
