@@ -82,12 +82,25 @@ config.ApiVersionReader = new QueryStringApiVersionReader("v");
 config.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
 ```
 
+**Media type**
+
+```cs
+// Content-Type: text/plain; charset=utf-8; v=2
+// Content-Type: application/json; charset=utf-8; v=2
+config.ApiVersionReader = new MediaTypeApiVersionReader();
+
+// Content-Type: text/plain; charset=utf-8; version=2
+// Content-Type: application/json; charset=utf-8; version=2
+config.ApiVersionReader = new MediaTypeApiVersionReader("version"));
+```
+
 **API Version Reader Composition**
 
 ```cs
 config.ApiVersionReader = ApiVersionReader.Combine(
         new QueryStringApiVersionReader("v"),
-        new HeaderApiVersionReader("x-api-version")
+        new HeaderApiVersionReader("x-api-version"),
+        new MediaTypeApiVersionReader("version")
 );
 ```
 
@@ -243,4 +256,5 @@ Most of the information in this article is from various resources.
 * https://dev.to/99darshan/restful-web-api-versioning-with-asp-net-core-1e8g
 * https://dotnetcoretutorials.com/2017/01/17/api-versioning-asp-net-core/
 * https://exceptionnotfound.net/overview-of-api-versioning-in-asp-net-core-3-0/
-* https://dev.to/htissink/versioning-asp-net-core-apis-with-swashbuckle-making-space-potatoes-v-x-x-x-3po7
+* https://github.com/microsoft/aspnet-api-versioning/wiki/API-Version-Reader
+* 
