@@ -35,14 +35,72 @@ app.Use(async (context, next) =>
 
 The code adds a new header named `Header-Name` to all responses. It's important to call the `Use` method **before** calling `UseEndpoints`, `UseMvc`, and similar.
 
+## Enforce HTTPS
+
+HTTPS is pretty awesome. It not only encrypts the traffic between the client and server so others can't see it, but also prevents others from modifying the content. So it also provides integrity. And being that you can now have HTTPS for free with services like Let's Encrypt, most apps should start to look into using HTTPS.
+
+```cs
+// Startup.ConfigureServices
+public void ConfigureServices(IServiceCollection services)
+{
+    // Configure HTTPS redirection
+    services.AddHttpsRedirection(options =>
+    {
+        options.RedirectStatusCode = StatusCodes.Status301MovedPermanently;
+        options.HttpsPort = 443;
+    });
+}
+
+// Startup.Configure
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    // Configure HTTPS redirection
+    app.UseHttpsRedirection();
+}
+```
+
 ## Types of headers
 
 The following list examines an important part of application headers.
 
+**Strict-Transport-Security (HSTS)**
+
+It tells the browser: "You shall only access this URL over a secure connection.". By submitting a Strict-Transport-Security header, the browser saves it and redirects itself to the HTTPS version without making an insecure call.
+
+```cs
+// Startup.ConfigureServices
+public void ConfigureServices(IServiceCollection services)
+{
+    // Configure HSTS
+    // https://aka.ms/aspnetcore-hsts
+    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
+    services.AddHsts(options =>
+    {
+        options.MaxAge = TimeSpan.FromDays(90);
+        options.IncludeSubDomains = true;
+        options.Preload = true;
+    });
+}
+
+// Startup.Configure
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    if (!env.IsDevelopment())
+    {
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+        app.UseHsts();
+    }
+}
+```
+
+
 **X-Frame-Options**
 
+The `X-Frame-Options` HTTP response header can be used to indicate whether or not a browser should be allowed to render a page in a `<frame>`, `<iframe>`, `<embed>` or `<object>`. Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.
 
-
+```cs
+context.Response.Headers.Add("x-frame-options", new StringValues("DENY"));
+```
 
 
 ## All-In-One as a middleware
@@ -171,3 +229,6 @@ Most of the information in this article is from various resources.
 * https://improveandrepeat.com/2019/05/how-to-improve-the-security-headers-for-your-asp-net-application/
 * https://www.c-sharpcorner.com/article/asp-net-core-security-headers/
 * https://andrewlock.net/adding-default-security-headers-in-asp-net-core/
+* https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl
+* https://joonasw.net/view/hsts-in-aspnet-core
+* https://joonasw.net/view/enforcing-https-in-aspnet-core
