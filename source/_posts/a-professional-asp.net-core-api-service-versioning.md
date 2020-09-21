@@ -64,7 +64,7 @@ specified.",
 
 ## API Version Reader
 
-API Version Reader defines how an API version is read from the HTTP request. If not explicitly configured, the default setting is that our API version will be a query string parameter named 'api-version' (example: ../users?api-version=2.0 ). Another, probably more popular option is to store the API version in the HTTP header. We have also the possibility of having an API version both in a query string as well as in an HTTP header.
+API Version Reader defines how an API version is read from the HTTP request. If not explicitly configured, the default setting is that our API version will be a query string parameter named 'v' (example: ../users?v=2.0). Another, probably more popular option is to store the API version in the HTTP header. We have also the possibility of having an API version both in a query string as well as in an HTTP header.
 
 **Query string parameter**
 
@@ -96,37 +96,50 @@ config.ApiVersionReader = ApiVersionReader.Combine(
 config.ApiVersionReader = new UrlSegmentApiVersionReader();
 ```
 
-
 ##  Set version(s) to Controllers and Actions 
 
 ```cs
-[Route("api/[controller]")]
 [ApiController]
 // api-supported-versions: 1.1, 2.0
 // api-deprecated-versions: 1.0
 [ApiVersion("1.0", Deprecated = true)]
 [ApiVersion("1.1")]
 [ApiVersion("2.0")]
+// api/v2/values/4
+// api/v2.0/values/4
+[Route("api/v{version:apiVersion}/[controller]")]
 public class ValuesController : ControllerBase
 {
-    // GET api/values
+    // GET api/v1/values
     [HttpGet]
     public ActionResult<IEnumerable<string>> Get()
     {
         return new string[] { "value1", "value2" };
     }
 
-    // GET api/values/5
+    // GET api/v2/values/5
+    // GET api/v2.0/values/5
     [HttpGet("{id}")]
     [MapToApiVersion("2.0")]
     public ActionResult<string> Get(int id)
     {
         return "value";
     }
+
+    // POST api/v1/values/5
+    // POST api/v1.0/values/5
+    // POST api/v1.1/values/5
+    // POST api/v2/values/5
+    // POST api/v2.0/values/5
+    [HttpPost("{id}")]
+    public ActionResult<string> Post(int id)
+    {
+        return "value";
+    }
 }
 ```
 
-**Tip:** Since no version number is specified to the actions in values controller, all the endpoints are assumed to have the default version of 1.0. 
+**Tip:** Since no version number is specified to the actions in `ValuesController`, all the endpoints are assumed to have the default version of `1.0`.
 
 ## Integrate with Swagger
 
