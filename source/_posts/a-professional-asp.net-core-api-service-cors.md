@@ -359,7 +359,7 @@ public class Startup
 }
 ```
 
-The following code disables CORS for the GetValues2 action:
+The following code disables CORS for the `GetValues2` action:
 
 ```cs
 [EnableCors("MyPolicy")]
