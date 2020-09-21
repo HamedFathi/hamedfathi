@@ -151,8 +151,6 @@ To deprecate some version in our API controller, we need to set Deprecated flag 
 
 In such cases a `api-deprecated-versions` header will be added to identify deprecated versions.
 
-`api-deprecated-versions: 1.0`
-
 **[ApiVersion("1.1")]**
 
 **[ApiVersion("2.0")]**
@@ -193,7 +191,7 @@ var apiVersion = HttpContext.GetRequestedApiVersion();
 And also
 
 ```cs
-public IActionResult Get( int id, ApiVersion apiVersion ) { ... }
+public IActionResult Get( int id, ApiVersion apiVersion ) {}
 ```
 
 ## API Version Conventions
