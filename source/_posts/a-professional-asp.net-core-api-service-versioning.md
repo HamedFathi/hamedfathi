@@ -1,6 +1,7 @@
 ---
 title: A Professional ASP.NET Core API Service - Versioning
 date: September 21 2020
+draft: true
 category: aspnetcore
 tags:
     - dotnet
@@ -64,7 +65,7 @@ specified.",
 
 ## API Version Reader
 
-API Version Reader defines how an API version is read from the HTTP request. If not explicitly configured, the default setting is that our API version will be a query string parameter named 'v' (example: ../users?v=2.0). Another, probably more popular option is to store the API version in the HTTP header. We have also the possibility of having an API version both in a query string as well as in an HTTP header.
+API Version Reader defines how an API version is read from the HTTP request. If not explicitly configured, the default setting is that our API version will be a query string parameter named `v` (example: ../users?v=2.0). Another, probably more popular option is to store the API version in the HTTP header. We have also the possibility of having an API version both in a query string as well as in an HTTP header.
 
 **Query string parameter**
 
@@ -140,6 +141,18 @@ public class ValuesController : ControllerBase
 ```
 
 **Tip:** Since no version number is specified to the actions in `ValuesController`, all the endpoints are assumed to have the default version of `1.0`.
+
+
+```json
+{
+    "error": {
+        "code": "UnsupportedApiVersion",
+        "message": "The HTTP resource that matches the request URI 'http://localhost:5000/api/v1.0/values/4' does not support the API version '1.0'.",
+        "innerError": null
+    }
+}
+```
+
 
 ## Integrate with Swagger
 
