@@ -1,6 +1,6 @@
 ---
 title: A Professional ASP.NET Core API Service - Background Task
-date: September 20 2020
+date: September 22 2020
 category: aspnetcore
 tags:
     - dotnet
