@@ -8,7 +8,7 @@ tags:
     - webapi
     - di
     - ioc
-	- dryioc
+    - dryioc
 ---
  
 DryIoc is fast, small, full-featured IoC Container for .NET. Designed for low-ceremony use, performance, and extensibility.
