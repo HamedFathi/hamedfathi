@@ -340,9 +340,11 @@ public abstract class Shape
 }
 ```
 
-## Filters
+## Ready to use plugins
 
-Install the below package
+**Swashbuckle.AspNetCore.Filters**
+
+Some useful Swashbuckle filters which add additional documentation, e.g. request and response examples, a file upload button, etc. See its Readme for more details
 
 ```bash
 Install-Package Swashbuckle.AspNetCore.Filters -Version 5.1.2
@@ -350,11 +352,30 @@ dotnet add package Swashbuckle.AspNetCore.Filters --version 5.1.2
 <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.2" />
 ```
 
+**Unchase.Swashbuckle.AspNetCore.Extensions**
 
+Some useful extensions (filters), which add additional documentation, e.g. hide PathItems for unaccepted roles, fix enums for client code generation, etc. See its Readme for more details
+
+
+```cs
+Install-Package Unchase.Swashbuckle.AspNetCore.Extensions -Version 2.3.12
+dotnet add package Unchase.Swashbuckle.AspNetCore.Extensions --version 2.3.12
+<PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.3.12" />
+```
+
+**MicroElements.Swashbuckle.FluentValidation**
+
+Use FluentValidation rules instead of ComponentModel attributes to augment generated Swagger Schemas
+
+```cs
+Install-Package MicroElements.Swashbuckle.FluentValidation -Version 4.0.0
+dotnet add package MicroElements.Swashbuckle.FluentValidation --version 4.0.0
+<PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="4.0.0" />
+```
 
 ## Reference(s)
 
-Most of the information in this article is from various resources.
+Most of the information in this article is from various sources.
 
 * https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle
 * http://stevenmaglio.blogspot.com/2019/12/using-swagger-ui-and-redoc-in-aspnet.html

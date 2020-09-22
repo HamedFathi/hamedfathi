@@ -250,7 +250,7 @@ services.AddApiVersioning(config =>
 
 ## Reference(s)
 
-Most of the information in this article is from various resources.
+Most of the information in this article is from various sources.
 
 * https://www.infoworld.com/article/3562355/how-to-use-api-versioning-in-aspnet-core.html
 * https://dev.to/99darshan/restful-web-api-versioning-with-asp-net-core-1e8g
