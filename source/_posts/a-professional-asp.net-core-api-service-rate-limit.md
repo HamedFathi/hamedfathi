@@ -503,7 +503,7 @@ public class ApiController : ControllerBase
 
 ## Reference(s)
 
-Most of the information in this article is from various sources.
+Most of the information in this article has gathered from various references.
 
 * https://github.com/stefanprodan/AspNetCoreRateLimit
 * https://riptutorial.com/asp-net-core/example/18611/rate-limiting-based-on-client-ip

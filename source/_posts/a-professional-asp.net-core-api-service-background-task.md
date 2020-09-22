@@ -28,7 +28,7 @@ Implement `BackgroundService` if you want to have a task always run continuously
 
 ## Reference(s)
 
-Most of the information in this article is from various sources.
+Most of the information in this article has gathered from various references.
 
 * https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-3.1&* tabs=visual-studio
 * https://andrewlock.net/creating-a-quartz-net-hosted-service-with-asp-net-core/

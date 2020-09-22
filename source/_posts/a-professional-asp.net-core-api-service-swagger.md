@@ -375,7 +375,7 @@ dotnet add package MicroElements.Swashbuckle.FluentValidation --version 4.0.0
 
 ## Reference(s)
 
-Most of the information in this article is from various sources.
+Most of the information in this article has gathered from various references.
 
 * https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle
 * http://stevenmaglio.blogspot.com/2019/12/using-swagger-ui-and-redoc-in-aspnet.html
