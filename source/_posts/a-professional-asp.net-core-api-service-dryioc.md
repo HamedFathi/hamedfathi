@@ -15,6 +15,7 @@ DryIoc is fast, small, full-featured IoC Container for .NET. Designed for low-ce
 
 <!-- more -->
 
+
 ```cs
 public static class DryIocExtensions
 {
