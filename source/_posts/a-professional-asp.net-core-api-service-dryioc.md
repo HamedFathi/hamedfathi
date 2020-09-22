@@ -13,6 +13,8 @@ tags:
  
 DryIoc is fast, small, full-featured IoC Container for .NET. Designed for low-ceremony use, performance, and extensibility.
 
+In the following we will see how it can be added to a project.
+
 <!-- more -->
 
 Install the below packages
@@ -246,10 +248,6 @@ public static class SpecialServicesRegistrator
     }
 }
 ```
-
-
-
-
 
 ## Reference(s)
 
