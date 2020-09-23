@@ -463,7 +463,7 @@ Now, the action filter consider the version `1.0` as an unavailable and you will
 [PreventUnavailableApiVersions(UrlSegment = "myversion")] 
 ```
 
-**Second way!**
+**A Second way!**
 
 Always you can find an easier way so you can rewrite the above action filter as following
 
