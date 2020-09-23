@@ -248,6 +248,199 @@ services.AddApiVersioning(config =>
 });
 ```
 
+## How to prevent an unavailable or deprecated api version from loading?
+
+Consider the following example
+
+```cs
+[ApiController]
+[ApiVersion("1.1")]
+[ApiVersion("2.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
+public class ValuesController : ControllerBase
+{
+    // GET api/v1/values
+    [HttpGet]
+    [MapToApiVersion("1.0")]
+    public ActionResult<IEnumerable<string>> Get()
+    {
+        return new string[] { "value1", "value2" };
+    }
+
+    [HttpGet("{id}")]
+    [MapToApiVersion("2.0")]
+    public ActionResult<string> Get(int id)
+    {
+        return "value";
+    }
+}
+```
+
+In this example, we have two valid versions (`1.1`, `2.0`) for all actions but the `Get()` has mapped to version `1.0` which is invalid for us. We want to prevent this method from loading.
+
+To do this, you should write an `ActionFilterAttribute` as following
+
+```cs
+// PreventUnavailableApiVersionsAttribute.cs
+
+[AttributeUsage(AttributeTargets.Class)]
+public class PreventUnavailableApiVersionsAttribute : ActionFilterAttribute
+{
+    public string Header { get; set; } = "x-api-version";
+    public string QueryString { get; set; } = "v";
+    public string UrlSegment { get; set; } = "version";
+    public bool IsADeprecatedVersionValid { get; set; } = true;
+    private string GetUrl(HttpRequest request)
+    {
+        return $"{request.Scheme}://{request.Host}{request.Path}{request.QueryString}";
+    }
+    public override void OnActionExecuting(ActionExecutingContext context)
+    {
+        var props = context.ActionDescriptor.Properties;
+        var url = GetUrl(context.HttpContext.Request);
+        var headerVersion = context.HttpContext.Request.Headers.Count(x => string.Equals(x.Key, Header.Trim(), StringComparison.InvariantCultureIgnoreCase));
+        var routeVersion = context.RouteData.Values[UrlSegment.Trim()];
+        var queryVersion = context.HttpContext.Request.QueryString.Value.Trim();
+        var matchedQuery = queryVersion.Replace("?", "").Split('&').FirstOrDefault(x => x.StartsWith($"{QueryString}="));
+        var isSkippable = routeVersion == null && headerVersion == 0 && string.IsNullOrEmpty(matchedQuery);
+        if (isSkippable) return;
+        var version = "";
+        if (routeVersion != null)
+        {
+            version = routeVersion.ToString();
+        }
+        if (headerVersion > 0)
+        {
+            version = context.HttpContext.Request.Headers["x-api-version"].ToString();
+        }
+        if (!string.IsNullOrEmpty(matchedQuery))
+        {
+            version = matchedQuery.Replace($"{QueryString}=", "");
+        }
+        version = version.Contains('.') ? version : $"{version}.0";
+        foreach (var prop in props)
+        {
+            var apiVersionModel = prop.Value as ApiVersionModel;
+            if (apiVersionModel != null)
+            {
+                if (apiVersionModel.IsApiVersionNeutral) return;
+                var deprecated = apiVersionModel.DeprecatedApiVersions.Select(x => x.ToString());
+                var impl = apiVersionModel.ImplementedApiVersions.Select(x => x.ToString());
+                var supported = apiVersionModel.SupportedApiVersions.Select(x => x.ToString());
+                var isSupported = IsADeprecatedVersionValid ? impl.Contains(version) : supported.Contains(version);
+                if (!isSupported)
+                {
+                    context.Result = new JsonResult(new ApiVersionUnavailable
+                    {
+                        Code = "UnavailableApiVersion",
+                        AvailableVersions = supported,
+                        Message = $"The HTTP resource that matches the request URI '{url}' does not available by the API version '{version}'."
+                    });
+                    context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                }
+            }
+        }
+    }
+}
+```
+
+And consume it on top of your controller
+
+```cs
+[PreventUnavailableApiVersions]
+[ApiController]
+[ApiVersion("1.1")]
+[ApiVersion("2.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
+public class ValuesController : ControllerBase
+{
+    // GET api/v1/values
+    [HttpGet]
+    [MapToApiVersion("1.0")]
+    public ActionResult<IEnumerable<string>> Get()
+    {
+        return new string[] { "value1", "value2" };
+    }
+
+    [HttpGet("{id}")]
+    [MapToApiVersion("2.0")]
+    public ActionResult<string> Get(int id)
+    {
+        return "value";
+    }
+}
+```
+
+Now, whenever you call the `Get()` action, the `PreventUnavailableApiVersions` checks the version you requested (`1.0`) with versions  of your controller (`1.1`, `2.0`), If the requested version is not in the list, it returns the same error as below.
+
+```json
+// Status code: 400 Bad Request
+{
+    "code": "UnavailableApiVersion",
+    "message": "The HTTP resource that matches the request URI 'http://localhost:5000/api/v1.0/values' does not available by the API version '1.0'.",
+    "availableVersions": [
+        "1.1",
+        "2.0"
+    ]
+}
+```
+
+**Deprecated versions**
+
+As a default behaviour deprecated versions are in valid list it means if you write like the below code
+
+```cs
+[PreventUnavailableApiVersions]
+[ApiController]
+[ApiVersion("1.0", Deprecated = true)]
+[ApiVersion("1.1")]
+[ApiVersion("2.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
+public class ValuesController : ControllerBase
+{
+    // GET api/v1/values
+    [HttpGet]
+    [MapToApiVersion("1.0")]
+    public ActionResult<IEnumerable<string>> Get()
+    {
+        return new string[] { "value1", "value2" };
+    }
+
+    [HttpGet("{id}")]
+    [MapToApiVersion("2.0")]
+    public ActionResult<string> Get(int id)
+    {
+        return "value";
+    }
+}
+```
+
+You will see the result of action method without any unavailable error but you can config to remove deprecated versions from list of valid versions.
+You just need to write
+
+```cs
+// IsADeprecatedVersionValid: default is true
+[PreventUnavailableApiVersions(IsADeprecatedVersionValid = false)]
+```
+
+Now, the action filter consider the version `1.0` as an unavailable and you will get an `UnavailableApiVersion` response.
+
+**Configuration**
+
+`PreventUnavailableApiVersions` action filter supports `header`, `query string` and `url segment` mode so you can configure any of these just like what you did in `ApiVersionReader`.
+
+```cs
+// QueryStringApiVersionReader("ver")
+[PreventUnavailableApiVersions(QueryString = "ver")] // Default is 'v'
+
+// HeaderApiVersionReader("api-version-header")
+[PreventUnavailableApiVersions(Header = "ver")] // Default is 'x-api-version'
+
+// UrlSegmentApiVersionReader
+// [Route("api/v{myversion:apiVersion}/[controller]")]
+[PreventUnavailableApiVersions(UrlSegment = "myversion")] // Default is 'version',  [Route("api/v{version:apiVersion}/[controller]")]
+```
+
 ## Reference(s)
 
 Most of the information in this article is from various resources.
