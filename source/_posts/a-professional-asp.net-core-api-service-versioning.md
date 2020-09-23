@@ -436,7 +436,7 @@ Now, the action filter consider the version `1.0` as an unavailable and you will
 
 // Default is 'x-api-version'
 // HeaderApiVersionReader("api-version-header")
-[PreventUnavailableApiVersions(Header = "ver")]
+[PreventUnavailableApiVersions(Header = "api-version-header")]
 
 // UrlSegmentApiVersionReader
 // Default is 'version', [Route("api/v{version:apiVersion}/[controller]")]
