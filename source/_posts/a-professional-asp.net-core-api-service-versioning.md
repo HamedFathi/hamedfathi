@@ -430,15 +430,18 @@ Now, the action filter consider the version `1.0` as an unavailable and you will
 `PreventUnavailableApiVersions` action filter supports `header`, `query string` and `url segment` mode so you can configure any of these just like what you did in `ApiVersionReader`.
 
 ```cs
+// Default is 'v'
 // QueryStringApiVersionReader("ver")
-[PreventUnavailableApiVersions(QueryString = "ver")] // Default is 'v'
+[PreventUnavailableApiVersions(QueryString = "ver")] 
 
+// Default is 'x-api-version'
 // HeaderApiVersionReader("api-version-header")
-[PreventUnavailableApiVersions(Header = "ver")] // Default is 'x-api-version'
+[PreventUnavailableApiVersions(Header = "ver")]
 
 // UrlSegmentApiVersionReader
+// Default is 'version', [Route("api/v{version:apiVersion}/[controller]")]
 // [Route("api/v{myversion:apiVersion}/[controller]")]
-[PreventUnavailableApiVersions(UrlSegment = "myversion")] // Default is 'version',  [Route("api/v{version:apiVersion}/[controller]")]
+[PreventUnavailableApiVersions(UrlSegment = "myversion")] 
 ```
 
 ## Reference(s)
