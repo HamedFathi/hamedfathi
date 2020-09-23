@@ -443,7 +443,7 @@ Small package to allow adding security headers to ASP.NET Core websites
 
 ## Reference(s)
 
-Most of the information in this article is from various resources.
+Most of the information in this article has gathered from various references.
 
 * https://blog.elmah.io/the-asp-net-core-security-headers-guide/
 * https://www.meziantou.net/security-headers-in-asp-net-core.htm

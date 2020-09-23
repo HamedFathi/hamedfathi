@@ -443,7 +443,7 @@ Now, the action filter consider the version `1.0` as an unavailable and you will
 
 ## Reference(s)
 
-Most of the information in this article is from various resources.
+Most of the information in this article has gathered from various references.
 
 * https://www.infoworld.com/article/3562355/how-to-use-api-versioning-in-aspnet-core.html
 * https://dev.to/99darshan/restful-web-api-versioning-with-asp-net-core-1e8g
