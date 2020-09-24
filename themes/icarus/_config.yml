@@ -49,7 +49,7 @@ head:
     structured_data:
         # Page title (optional)
         # You should leave this blank for most of the time
-        title: Hamed Fathi's Blog
+        title: Hamed Fathi's Personal Blog
         # Page description (optional)
         # You should leave this blank for most of the time
         description: I write about programming.
@@ -66,7 +66,14 @@ head:
     meta:
         # Meta tag specified in <attribute>=<value> style
         # E.g., name=theme-color;content=#123456 => <meta name="theme-color" content="#123456">
-        - ''
+        - 'name=description;content=I share information from the world of programming.'
+        - 'name=robots;content=index, follow'
+        - 'property=og:type;content=article'
+        - 'property=og:title;content=Hamed Fathi`s Personal Blog'
+        - 'property=og:description;content=I share information from the world of programming.'
+        - 'property=og:site_name;content=hamedfathi.me'
+        - 'name=viewport;content=width=device-width,initial-scale=1.0'
+
     # URL or path to the website's RSS atom.xml
     rss: 
 # Page top navigation bar configurations
@@ -102,7 +109,7 @@ article:
     highlight:
         # Code highlight themes
         # https://github.com/highlightjs/highlight.js/tree/master/src/styles
-        theme: atom-one-dark
+        theme: vs
             # atom-one-light
         # Show copy code button
         clipboard: true
@@ -176,7 +183,7 @@ widgets:
     # Profile widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
-        position: left
+        position: right
         type: profile
         # Author name
         author: Hamed Fathi
@@ -212,12 +219,12 @@ widgets:
     # Table of contents widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
-        position: left
+        position: right
         type: toc
     # Recommendation links widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
-        position: left
+        position: right
         type: links
         # Names and URLs of the sites
         links:
@@ -225,7 +232,7 @@ widgets:
     # Categories widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
-        position: left
+        position: right
         type: categories
     # Recent posts widget configurations
     -
