@@ -10,7 +10,7 @@ tags:
     - hostedservices
 ---
 
-In ASP.NET Core, background tasks can be implemented as `hosted services`. A hosted service is a class with background task logic that implements the `IHostedService` interface. This topic provides three hosted service examples:
+In `ASP.NET Core`, background tasks can be implemented as `hosted services`. A hosted service is a class with background task logic that implements the `IHostedService` interface. This topic provides three hosted service examples:
 
 * Background task that runs on a timer.
 * Hosted service that activates a scoped service. The scoped service can use dependency injection (DI).
@@ -118,6 +118,23 @@ public class Program
 }
 ```
 
+## Consuming a scoped service in a background task
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 You should implement `IScheduledTask` if you want to have the ability to config the schedule for the task to run, for example 1 a days, every hours, etc. using cron expression.
@@ -126,6 +143,83 @@ Implement `BackgroundService` if you want to have a task always run continuously
 
 ## Quartz scheduler 
 
+Install the below packages
+
+```bash
+Install-Package Quartz -Version 3.1.0
+dotnet add package Quartz --version 3.1.0
+<PackageReference Include="Quartz" Version="3.1.0" />
+
+Install-Package Quartz.Extensions.DependencyInjection -Version 3.1.0
+dotnet add package Quartz.Extensions.DependencyInjection --version 3.1.0
+<PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.1.0" />
+
+Install-Package Quartz.AspNetCore -Version 3.1.0
+dotnet add package Quartz.AspNetCore --version 3.1.0
+<PackageReference Include="Quartz.AspNetCore" Version="3.1.0" />
+```
+
+
+```cs
+// Startup.ConfigureServices
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+
+    // base configuration for DI
+    services.AddQuartz(q =>
+    {
+        // handy when part of cluster or you want to otherwise identify multiple schedulers
+        q.SchedulerId = "Scheduler-Core";
+
+        // we take this from appsettings.json, just show it's possible
+        // q.SchedulerName = "Quartz ASP.NET Core Sample Scheduler";
+
+        // we could leave DI configuration intact and then jobs need to have public no-arg constructor
+        // the MS DI is expected to produce transient job instances 
+        q.UseMicrosoftDependencyInjectionJobFactory(options =>
+        {
+            // if we don't have the job in DI, allow fallback to configure via default constructor
+            options.AllowDefaultConstructor = true;
+        });
+
+        // or 
+        // q.UseMicrosoftDependencyInjectionScopedJobFactory();
+
+        // these are the defaults
+        q.UseSimpleTypeLoader();
+        q.UseInMemoryStore();
+        q.UseDefaultThreadPool(tp =>
+        {
+            tp.MaxConcurrency = 10;
+        });
+
+        // configure jobs with code
+        var jobKey = new JobKey("awesome job", "awesome group");
+        q.AddJob<ExampleJob>(j => j
+            .StoreDurably()
+            .WithIdentity(jobKey)
+            .WithDescription("my awesome job")
+        );
+
+        q.AddTrigger(t => t
+            .WithIdentity("Simple Trigger")
+            .ForJob(jobKey)
+            .StartNow()
+            .WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromSeconds(1)).RepeatForever())
+            .WithDescription("my awesome simple trigger")
+        );
+
+    });
+
+    services.AddQuartzServer(options =>
+    {
+        // when shutting down we want jobs to complete gracefully
+        options.WaitForJobsToComplete = true;
+    });
+}
+```
 
 
 ## Reference(s)
@@ -139,3 +233,5 @@ Most of the information in this article has gathered from various references.
 * https://www.stevejgordon.co.uk/asp-net-core-2-ihostedservice
 * https://medium.com/@nickfane/introduction-to-worker-services-in-net-core-3-0-4bb3fc631225
 * https://blog.maartenballiauw.be/post/2017/08/01/building-a-scheduled-cache-updater-in-aspnet-core-2.html
+* https://www.quartz-scheduler.net/
+* https://github.com/quartznet/quartznet/tree/master/src/Quartz.Examples.AspNetCore
