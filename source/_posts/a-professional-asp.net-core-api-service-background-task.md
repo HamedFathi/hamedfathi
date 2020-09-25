@@ -157,6 +157,7 @@ dotnet add package Quartz.AspNetCore --version 3.1.0
 
 ```cs
 // ExampleJob.cs
+
 public class ExampleJob : IJob
 {
     public async Task Execute(IJobExecutionContext context)
