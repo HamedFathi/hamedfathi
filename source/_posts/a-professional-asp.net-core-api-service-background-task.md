@@ -150,15 +150,10 @@ Install-Package Quartz -Version 3.1.0
 dotnet add package Quartz --version 3.1.0
 <PackageReference Include="Quartz" Version="3.1.0" />
 
-Install-Package Quartz.Extensions.DependencyInjection -Version 3.1.0
-dotnet add package Quartz.Extensions.DependencyInjection --version 3.1.0
-<PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.1.0" />
-
 Install-Package Quartz.AspNetCore -Version 3.1.0
 dotnet add package Quartz.AspNetCore --version 3.1.0
 <PackageReference Include="Quartz.AspNetCore" Version="3.1.0" />
 ```
-
 
 ```cs
 // Startup.ConfigureServices
