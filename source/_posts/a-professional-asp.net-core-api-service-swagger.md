@@ -372,6 +372,69 @@ dotnet add package MicroElements.Swashbuckle.FluentValidation --version 4.0.0
 <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="4.0.0" />
 ```
 
+## Swagger & Authorization
+
+```cs
+// SwaggerBasicAuthMiddleware.cs
+public class SwaggerBasicAuthMiddleware
+{
+    private readonly RequestDelegate _next;
+    public SwaggerBasicAuthMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
+    public async Task Invoke(HttpContext context)
+    {
+        if (context.Request.Path.StartsWithSegments("/swagger")
+            && !context.User.Identity.IsAuthenticated)
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            context.Response.Redirect("/Login");
+            return;
+        }
+        await _next.Invoke(context);
+    }
+}
+
+// SwaggerAuthorizeExtensions.cs
+public static class SwaggerAuthorizeExtensions
+{
+    public static IApplicationBuilder UseSwaggerAuthorization(this IApplicationBuilder builder)
+    {
+        return builder.UseMiddleware<SwaggerBasicAuthMiddleware>();
+    }
+}
+
+// Startup.Configure
+public void Configure(IApplicationBuilder app)
+{
+    app.UseRouting();
+    app.UseAuthorization();
+    app.UseAuthentication();
+
+    // HERE
+    // Becarful, It should be after UseAuthorization & UseAuthentication middlewares.
+    app.UseSwaggerAuthorization();
+
+    // Enable middleware to serve generated Swagger as a JSON endpoint.
+    app.UseSwagger();
+
+    // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+    // specifying the Swagger JSON endpoint.
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    });
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+    });
+}
+```
+
+
+
 ## Reference(s)
 
 Most of the information in this article has gathered from various references.
