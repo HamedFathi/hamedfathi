@@ -379,30 +379,60 @@ dotnet add package MicroElements.Swashbuckle.FluentValidation --version 4.0.0
 public class SwaggerBasicAuthMiddleware
 {
     private readonly RequestDelegate _next;
-    public SwaggerBasicAuthMiddleware(RequestDelegate next)
+    private readonly SwaggerAuthorizationOptions _options;
+    public SwaggerBasicAuthMiddleware(RequestDelegate next, IOptions<SwaggerAuthorizationOptions> options)
     {
         _next = next;
+        _options = options.Value;
     }
     public async Task Invoke(HttpContext context)
     {
-        if (context.Request.Path.StartsWithSegments("/swagger")
+        var segment = string.IsNullOrEmpty(_options.UrlSegment) ? "swagger" : _options.UrlSegment;
+        var redirect = string.IsNullOrEmpty(_options.RedirectUrl) ? "/Login" : _options.RedirectUrl;
+        if (context.Request.Path.StartsWithSegments(segment)
             && !context.User.Identity.IsAuthenticated)
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            context.Response.Redirect("/Login");
+            context.Response.Redirect(redirect);
             return;
         }
         await _next.Invoke(context);
     }
 }
 
+// SwaggerAuthorizationOptions.cs
+public class SwaggerAuthorizationOptions
+{
+    public string RedirectUrl { get; set; }
+    public string UrlSegment { get; set; }
+}
+
 // SwaggerAuthorizeExtensions.cs
 public static class SwaggerAuthorizeExtensions
 {
+    public static IServiceCollection AddSwaggerAuthorization(this IServiceCollection service, Action<SwaggerAuthorizationOptions> options = default)
+    {
+        options = options ?? (opts => { });
+        service.Configure(options);
+        return service;
+    }
+
     public static IApplicationBuilder UseSwaggerAuthorization(this IApplicationBuilder builder)
     {
         return builder.UseMiddleware<SwaggerBasicAuthMiddleware>();
     }
+}
+
+// Startup.ConfigureServices
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+    services.AddSwaggerGen();
+    services.AddSwaggerAuthorization(option =>
+    {
+        option.RedirectUrl = "/Login";
+        option.UrlSegment = "swagger";
+    });
 }
 
 // Startup.Configure
