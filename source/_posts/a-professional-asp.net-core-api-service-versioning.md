@@ -573,7 +573,141 @@ public class ValuesController : ControllerBase
 
 ## Swagger integration
 
+Install the below packages
 
+```bash
+Install-Package Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer -Version 4.1.1
+dotnet add package Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer --version 4.1.1
+<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
+```
+
+Add `ConfigureSwaggerOptions` to make some custom options.
+
+```cs
+// ConfigureSwaggerOptions.cs
+
+/// <summary>
+///     Configures the Swagger generation options.
+/// </summary>
+/// <remarks>
+///     This allows API versioning to define aSwagger document per API version after the
+///     <see cref="IApiVersionDescriptionProvider" />service has been resolved from the service container.
+/// </remarks>
+public sealed class ConfigureSwaggerOptions :IConfigureOptions<SwaggerGenOptions>
+{
+    private readonly IApiVersionDescriptionProvider _provider;
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ConfigureSwaggerOptions" /> class.
+    /// </summary>
+    /// <param name="provider">
+    ///     The <see cref="IApiVersionDescriptionProvider">provider</see> used to generate Swagger
+    ///     documents.
+    /// </param>
+    public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider) => _provider = provider;
+    /// <inheritdoc />
+    public void Configure(SwaggerGenOptions options)
+    {
+        // add a swagger document for each discovered API version
+        // note: you might choose to skip or document deprecated API versions differently
+        foreach (ApiVersionDescription description in _provider.ApiVersionDescriptions)
+        {
+            options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
+        }
+    }
+    private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
+    {
+        var info = new OpenApiInfo
+        {
+            Title = "A Web API",
+            Version = description.ApiVersion.ToString(),
+            Description = "An API sample.",
+            Contact = new OpenApiContact { Name = "hamedfathi", Email = "hamedfathi@outlook.com" },
+            TermsOfService = new Uri("https://hamedfathi.me"),
+            License = new OpenApiLicense
+            {
+                Name = "MIT License",
+                Url = new Uri("https://opensource.org/licenses/MIT")
+            }
+        };
+        if (description.IsDeprecated)
+        {
+            info.Description += " This API version has been deprecated.";
+        }
+        return info;
+    }
+}
+```
+
+Modify your `Startup.cs` as following
+
+```cs
+// Startup.ConfigureServices
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+
+    services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+    services.AddSwaggerGen(c =>
+    {
+        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+        c.IncludeXmlComments(xmlPath);
+    }); 
+	services.AddApiVersioning(config =>
+    {
+        config.DefaultApiVersion = new ApiVersion(1, 0);
+        config.AssumeDefaultVersionWhenUnspecified = true;
+        config.ReportApiVersions = true;
+        config.ApiVersionReader = new UrlSegmentApiVersionReader();
+    });
+    services.AddVersionedApiExplorer(
+       options =>
+       {
+           // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
+           // note: the specified format code will format the version as "'v'major[.minor][-status]"
+           options.GroupNameFormat = "'v'VVV";
+
+           // note: this option is only necessary when versioning by url segment. the SubstitutionFormat
+           // can also be used to control the format of the API version in route templates
+           options.SubstituteApiVersionInUrl = true;
+       });
+
+}
+
+// Startup.Configure
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(
+        options =>
+        {
+            foreach (ApiVersionDescription description in provider.ApiVersionDescriptions)
+            {
+                string swaggerEndpoint;
+
+                string basePath = Configuration["ASPNETCORE_BASEPATH"];
+                Console.WriteLine("PATH: " + basePath);
+                if (!string.IsNullOrEmpty(basePath))
+                {
+                    swaggerEndpoint = $"{basePath}/swagger/{description.GroupName}/swagger.json";
+                }
+                else
+                {
+                    swaggerEndpoint = $"/swagger/{description.GroupName}/swagger.json";
+                }
+
+                options.SwaggerEndpoint(swaggerEndpoint, description.GroupName.ToUpperInvariant());
+            }
+        });
+
+    app.UseRouting();
+    app.UseAuthorization();
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+    });
+}
+```
 
 ## Reference(s)
 
