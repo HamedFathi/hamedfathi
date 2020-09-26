@@ -571,6 +571,10 @@ public class ValuesController : ControllerBase
 }
 ```
 
+## Swagger integration
+
+
+
 ## Reference(s)
 
 Most of the information in this article has gathered from various references.

@@ -169,10 +169,9 @@ Then add the below code too
 ```cs
 public void ConfigureServices(IServiceCollection services)
 {
+    services.AddControllers();
     services.AddSwaggerGen(c =>
     {
-        services.AddControllers();
-
         // HERE
         // Set the comments path for the Swagger JSON and UI.
         var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
