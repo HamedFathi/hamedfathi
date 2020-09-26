@@ -387,7 +387,7 @@ public class SwaggerBasicAuthMiddleware
     }
     public async Task Invoke(HttpContext context)
     {
-        var segment = string.IsNullOrEmpty(_options.UrlSegment) ? "swagger" : _options.UrlSegment;
+        var segment = string.IsNullOrEmpty(_options.UrlSegment) ? "/swagger" : _options.UrlSegment;
         var redirect = string.IsNullOrEmpty(_options.RedirectUrl) ? "/Login" : _options.RedirectUrl;
         if (context.Request.Path.StartsWithSegments(segment)
             && !context.User.Identity.IsAuthenticated)
@@ -431,7 +431,7 @@ public void ConfigureServices(IServiceCollection services)
     services.AddSwaggerAuthorization(option =>
     {
         option.RedirectUrl = "/Login";
-        option.UrlSegment = "swagger";
+        option.UrlSegment = "/swagger";
     });
 }
 
