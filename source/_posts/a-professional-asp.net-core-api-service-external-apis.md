@@ -363,7 +363,6 @@ public class Country
     public string Demonym { get; set; }
 
     [JsonProperty("area")]
-    // int => double
     public double Area { get; set; }
 
     [JsonProperty("gini")]
@@ -484,8 +483,15 @@ services.AddRefitClient<ICountryApi>(settings /*HERE*/)
 ## Polly
 
 ```bash
+Install-Package Polly -Version 7.2.1
+dotnet add package Polly --version 7.2.1
 <PackageReference Include="Polly" Version="7.2.1" />
 ```
+
+`Polly` is a .NET resilience and transient-fault-handling library that allows developers to express policies such as `Retry`, `Circuit Breaker`, `Timeout`, `Bulkhead Isolation`, and `Fallback` in a fluent and thread-safe manner.
+
+
+
 
 
 ## Polly & HttpClientFactory
@@ -507,12 +513,12 @@ Register your `Polly` policy to `Refit` client
 ```cs
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddControllers();
+    services.AddControllers(); 
 
     // HERE           
-	AsyncRetryPolicy<HttpResponseMessage> retryPolicy = HttpPolicyExtensions
+    AsyncRetryPolicy<HttpResponseMessage> retryPolicy = HttpPolicyExtensions
         .HandleTransientHttpError()
-		.Or<TimeoutRejectedException>() // Thrown by Polly's TimeoutPolicy if the inner call gets timeout.
+        .Or<TimeoutRejectedException>() // Thrown by Polly's TimeoutPolicy if the inner call gets     timeout.
         .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
         .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
@@ -527,9 +533,9 @@ public void ConfigureServices(IServiceCollection services)
         ContentSerializer = new SystemTextJsonContentSerializer(options)
     };
     services.AddRefitClient<ICountryApi>(settings)
-            .ConfigureHttpClient(c => c.BaseAddress = new Uri(Configuration["MyRefitOptions:BaseAddress"]))                         
-            .AddPolicyHandler(retryPolicy) /*HERE*/
-            ;
+        .ConfigureHttpClient(c => c.BaseAddress = new Uri(Configuration["MyRefitOptions:BaseAddress"]))
+        .AddPolicyHandler(retryPolicy) /*HERE*/
+        ;
 }
 ```
 
