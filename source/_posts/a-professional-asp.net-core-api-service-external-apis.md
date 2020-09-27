@@ -227,8 +227,159 @@ public class ValuesController : Controller
  
 **Named Clients**
 
+The basic use of HTTPClientFactory in above example is ideal in a situation where you need to make a quick request from a single place in the code. When you need to make multiple requests from multiple places from your code, "Named Clients" will help you. With named clients, you can define the HTTP client with some pre-configured settings which will be applied when creating the HttpClient. Like,
 
+ ```cs
+// Startup.ConfigureServices
 
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+
+	// HERE
+    services.AddHttpClient();
+    services.AddHttpClient("github", c =>
+    {
+        c.BaseAddress = new Uri("https://api.github.com/");
+        c.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+        c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+    });
+}
+ ```
+ 
+ Here we call `AddHttpClient` twice, once with the name "github" and once without. The github client has some default configuration applied, namely the base address and two headers required to work with the GitHub API. The overload of `AddHttpClient` method accepts two parameters, a name and an Action delegate taking a HttpClient which allows us to configure the HttpClient.
+
+You can use named client in the following way in the API controller.
+
+```cs
+public class ValuesController : Controller
+{
+    private readonly IHttpClientFactory _httpClientFactory;
+  
+    public ValuesController(IHttpClientFactory httpClientFactory)
+    {
+        _httpClientFactory = httpClientFactory;
+    }
+  
+    [HttpGet]
+    public async Task<ActionResult> Get()
+    {
+        var client = _httpClientFactory.CreateClient("github");
+        string result = await client.GetStringAsync("/");
+        return Ok(result);
+    }
+}
+```
+
+Here, we are passing the registered name of the client in `CreateClient()` method to create HttpClient. This is useful as the default configuration defined at the time of registration will be pre-applied when we ask for a named client.
+
+**Typed Client**
+ 
+ Using Typed clients, you can define pre-configuration for your HttpClient inside a custom class. This custom class can be registered as Typed client, and later when needed, it can be injected via the calling class constructor. I prefer Typed Client for the following reasons,
+
+* Flexible approach compare to named clients.
+* You no longer have to deal with strings (like in named clients).
+* You can encapsulate the HTTP calls and all logic dealing with that endpoint.
+
+Let’s see an example. Below is a custom class defined for Github client.
+ 
+```cs
+public class GitHubClient
+{
+    public HttpClient Client { get; private set; }
+    
+    public GitHubClient(HttpClient httpClient)
+    {
+        httpClient.BaseAddress = new Uri("https://api.github.com/");
+        httpClient.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+        httpClient.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+        Client = httpClient;
+    }
+}
+```
+
+You can register this as a typed client using the following line.
+
+```cs
+services.AddHttpClient<GitHubClient>();
+```
+
+And, use it in the following way in the API controller.
+
+```cs
+public class ValuesController : Controller
+{
+    private readonly GitHubClient _gitHubClient;;
+  
+    public ValuesController(GitHubClient gitHubClient)
+    {
+        _gitHubClient = gitHubClient;
+    }
+  
+    [HttpGet]
+    public async Task<ActionResult> Get()
+    {
+        string result = await _gitHubClient.client.GetStringAsync("/");
+        return Ok(result);
+    }
+}
+```
+
+This works great. There is another better way of making typed client work. Here, the HttpClient is exposed directly, but you can encapsulate the HttpClient entirely using the following way. First, define a contract for the `GitHubClient`.
+
+```cs
+public interface IGitHubClient
+{
+    Task<string> GetData();
+}
+ 
+public class GitHubClient : IGitHubClient
+{
+    private readonly HttpClient _client;
+ 
+    public GitHubClient(HttpClient httpClient)
+    {
+        httpClient.BaseAddress = new Uri("https://api.github.com/");
+        httpClient.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+        httpClient.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+        _client = httpClient;
+    }
+ 
+    public async Task<string> GetData()
+    {
+        return await _client.GetStringAsync("/");
+    }
+}
+```
+
+Register this as a typed client using the following line.
+
+```cs
+services.AddHttpClient<IGitHubClient, GitHubClient>();
+```
+
+And, use it in the following way in the API controller.
+
+```cs
+public class ValuesController : Controller
+{
+    private readonly IGitHubClient _gitHubClient;;
+     
+    public ValuesController(IGitHubClient gitHubClient)
+    {
+        _gitHubClient = gitHubClient;
+    }
+     
+    [HttpGet]
+    public async Task<ActionResult> Get()
+    {
+        string result = await _gitHubClient.GetData();
+        return Ok(result);
+    }
+}
+```
+
+This approach also makes unit testing easy while testing HttpClients as you no longer have to mock them.
 
 ## Refit
 
