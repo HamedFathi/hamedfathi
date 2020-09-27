@@ -20,7 +20,7 @@ In many projects we want to call external APIs and use their results in our appl
 
 <!-- more -->
 
-Suppose in our project we want to call the following address to get comprehensive information about the country we want.
+Suppose in our project we want to call the following address to get comprehensive information about the `country` we want.
 
 The documentation and how to call it is as follows:
 
@@ -178,6 +178,57 @@ public class Country
 
 ## HttpClientFactory
 
+Microsoft introduced the `HttpClient` in .Net Framework 4.5 and is the most popular way to consume a Web API in your .NET server-side code. But it has some serious issues like disposing the HttpClient object doesn’t close the socket immediately, too many instances affecting the performance and Singleton HttpClient or shared HttpClient instance not respecting the DNS Time to Live (TTL) settings. `HttpClientFactory` solves the all these problems. It is one of the newest feature of ASP.NET Core 2.1. It provides a central location for naming and configuring and consuming logical HttpClients in your application, and this post talks about 3 ways to use HTTPClientFactory in ASP.NET Core 2.1.
+
+There are 3 different ways to use it and we’ll see an example of each of them.
+
+* Using HttpClientFactory Directly
+* Named Clients
+* Typed Clients
+
+**Using HttpClientFactory Directly**
+
+ you’ll always have to register the HttpClient in `ConfigureServices` method of the `Startup.cs` class. The following line of code registers HttpClient with no special configuration.
+ 
+ ```cs
+// Startup.ConfigureServices
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+
+	// HERE
+    services.AddHttpClient();
+}
+ ```
+ 
+You can use it in the following way in the API controller.
+
+```cs
+public class ValuesController : Controller
+{
+    private readonly IHttpClientFactory _httpClientFactory;
+  
+    public ValuesController(IHttpClientFactory httpClientFactory)
+    {
+        _httpClientFactory = httpClientFactory;
+    }
+  
+    [HttpGet]
+    public async Task<ActionResult> Get()
+    {
+        var client = _httpClientFactory.CreateClient();
+        client.BaseAddress = new Uri("http://api.github.com");
+        string result = await client.GetStringAsync("/");
+        return Ok(result);
+    }
+}
+```
+ 
+**Named Clients**
+
+
+
 
 ## Refit
 
@@ -282,12 +333,12 @@ public void ConfigureServices(IServiceCollection services)
 {
     services.AddControllers();
 
-    // HERE
-    AsyncRetryPolicy<HttpResponseMessage> retryPolicy = HttpPolicyExtensions                
-            .HandleTransientHttpError()
-            .Or<TimeoutRejectedException>() // Thrown by Polly's TimeoutPolicy if the inner call gets timeout.
-            .WaitAndRetryAsync(10, _ => TimeSpan.FromMilliseconds(5))
-            ;
+    // HERE           
+	AsyncRetryPolicy<HttpResponseMessage> retryPolicy = HttpPolicyExtensions
+        .HandleTransientHttpError()
+		.Or<TimeoutRejectedException>() // Thrown by Polly's TimeoutPolicy if the inner call gets timeout.
+        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+        .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
     var options = new JsonSerializerOptions()
     {
@@ -318,3 +369,4 @@ Most of the information in this article has gathered from various references.
 * https://github.com/App-vNext/Polly.Extensions.Http
 * https://anthonygiretti.com/2019/08/31/building-a-typed-httpclient-with-refit-in-asp-net-core-3/
 * https://blog.martincostello.com/refit-and-system-text-json/
+* https://www.talkingdotnet.com/3-ways-to-use-httpclientfactory-in-asp-net-core-2-1/
