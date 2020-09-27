@@ -490,9 +490,240 @@ dotnet add package Polly --version 7.2.1
 
 `Polly` is a .NET resilience and transient-fault-handling library that allows developers to express policies such as `Retry`, `Circuit Breaker`, `Timeout`, `Bulkhead Isolation`, and `Fallback` in a fluent and thread-safe manner.
 
+There are many topics in which you can use `Polly` and for this you should refer to its [site](https://github.com/App-vNext/Polly). But one of the most important reasons for using `Polly` is the `retry` process.
 
+**Retry**
 
+```
+// Retry once
+Policy
+  .Handle<SomeExceptionType>()
+  .Retry()
 
+// Retry multiple times
+Policy
+  .Handle<SomeExceptionType>()
+  .Retry(3)
+
+// Retry multiple times, calling an action on each retry 
+// with the current exception and retry count
+Policy
+    .Handle<SomeExceptionType>()
+    .Retry(3, onRetry: (exception, retryCount) =>
+    {
+        // Add logic to be executed before each retry, such as logging
+    });
+
+// Retry multiple times, calling an action on each retry 
+// with the current exception, retry count and context 
+// provided to Execute()
+Policy
+    .Handle<SomeExceptionType>()
+    .Retry(3, onRetry: (exception, retryCount, context) =>
+    {
+        // Add logic to be executed before each retry, such as logging 
+    });
+```
+
+**Retry forever (until succeeds)**
+
+```
+// Retry forever
+Policy
+  .Handle<SomeExceptionType>()
+  .RetryForever()
+
+// Retry forever, calling an action on each retry with the 
+// current exception
+Policy
+  .Handle<SomeExceptionType>()
+  .RetryForever(onRetry: exception =>
+  {
+        // Add logic to be executed before each retry, such as logging       
+  });
+
+// Retry forever, calling an action on each retry with the
+// current exception and context provided to Execute()
+Policy
+  .Handle<SomeExceptionType>()
+  .RetryForever(onRetry: (exception, context) =>
+  {
+        // Add logic to be executed before each retry, such as logging       
+  });
+```
+
+**Wait and retry**
+
+```cs
+// Retry, waiting a specified duration between each retry. 
+// (The wait is imposed on catching the failure, before making the next try.)
+Policy
+  .Handle<SomeExceptionType>()
+  .WaitAndRetry(new[]
+  {
+    TimeSpan.FromSeconds(1),
+    TimeSpan.FromSeconds(2),
+    TimeSpan.FromSeconds(3)
+  });
+
+// Retry, waiting a specified duration between each retry, 
+// calling an action on each retry with the current exception
+// and duration
+Policy
+  .Handle<SomeExceptionType>()
+  .WaitAndRetry(new[]
+  {
+    TimeSpan.FromSeconds(1),
+    TimeSpan.FromSeconds(2),
+    TimeSpan.FromSeconds(3)
+  }, (exception, timeSpan) => {
+    // Add logic to be executed before each retry, such as logging    
+  }); 
+
+// Retry, waiting a specified duration between each retry, 
+// calling an action on each retry with the current exception, 
+// duration and context provided to Execute()
+Policy
+  .Handle<SomeExceptionType>()
+  .WaitAndRetry(new[]
+  {
+    TimeSpan.FromSeconds(1),
+    TimeSpan.FromSeconds(2),
+    TimeSpan.FromSeconds(3)
+  }, (exception, timeSpan, context) => {
+    // Add logic to be executed before each retry, such as logging    
+  });
+
+// Retry, waiting a specified duration between each retry, 
+// calling an action on each retry with the current exception, 
+// duration, retry count, and context provided to Execute()
+Policy
+  .Handle<SomeExceptionType>()
+  .WaitAndRetry(new[]
+  {
+    TimeSpan.FromSeconds(1),
+    TimeSpan.FromSeconds(2),
+    TimeSpan.FromSeconds(3)
+  }, (exception, timeSpan, retryCount, context) => {
+    // Add logic to be executed before each retry, such as logging    
+  });
+
+// Retry a specified number of times, using a function to 
+// calculate the duration to wait between retries based on 
+// the current retry attempt (allows for exponential backoff)
+// In this case will wait for
+//  2 ^ 1 = 2 seconds then
+//  2 ^ 2 = 4 seconds then
+//  2 ^ 3 = 8 seconds then
+//  2 ^ 4 = 16 seconds then
+//  2 ^ 5 = 32 seconds
+Policy
+  .Handle<SomeExceptionType>()
+  .WaitAndRetry(5, retryAttempt => 
+	TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) 
+  );
+
+// Retry a specified number of times, using a function to 
+// calculate the duration to wait between retries based on 
+// the current retry attempt, calling an action on each retry 
+// with the current exception, duration and context provided 
+// to Execute()
+Policy
+  .Handle<SomeExceptionType>()
+  .WaitAndRetry(
+    5, 
+    retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), 
+    (exception, timeSpan, context) => {
+      // Add logic to be executed before each retry, such as logging
+    }
+  );
+
+// Retry a specified number of times, using a function to 
+// calculate the duration to wait between retries based on 
+// the current retry attempt, calling an action on each retry 
+// with the current exception, duration, retry count, and context 
+// provided to Execute()
+Policy
+  .Handle<SomeExceptionType>()
+  .WaitAndRetry(
+    5, 
+    retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), 
+    (exception, timeSpan, retryCount, context) => {
+      // Add logic to be executed before each retry, such as logging
+    }
+  );
+```
+
+**Wait and retry forever (until succeeds)**
+
+```
+// Wait and retry forever
+Policy
+  .Handle<SomeExceptionType>()
+  .WaitAndRetryForever(retryAttempt => 
+	TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
+    );
+
+// Wait and retry forever, calling an action on each retry with the 
+// current exception and the time to wait
+Policy
+  .Handle<SomeExceptionType>()
+  .WaitAndRetryForever(
+    retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),    
+    (exception, timespan) =>
+    {
+        // Add logic to be executed before each retry, such as logging       
+    });
+
+// Wait and retry forever, calling an action on each retry with the
+// current exception, time to wait, and context provided to Execute()
+Policy
+  .Handle<SomeExceptionType>()
+  .WaitAndRetryForever(
+    retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),    
+    (exception, timespan, context) =>
+    {
+        // Add logic to be executed before each retry, such as logging       
+    });
+```
+
+Therefore, according to the above examples, we can implement our scenario as follows to see if the requested country is valid or not.
+
+```cs
+using Polly;
+using System.Net;
+using System.Net.Http;
+
+[ApiController]
+[Route("[controller]")]
+public class CountryController : ControllerBase
+{
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public CountryController(IHttpClientFactory httpClientFactory)
+    {
+        _httpClientFactory = httpClientFactory;
+    }
+
+    // http://localhost:5000/Country?country=usa
+    // Result: true
+    [HttpGet]
+    public async Task<bool> IsValid(string country)
+    {
+        var retryPolicy = Policy
+            .Handle<HttpRequestException>()
+            .WaitAndRetryAsync(5, _ => TimeSpan.FromSeconds(2));
+
+        var result = await retryPolicy.ExecuteAsync(async () =>
+        {
+            var status = await _httpClientFactory.CreateClient().GetAsync($"https://restcountries.eu/rest/v2/name/{country}").ConfigureAwait(false);
+            return status.StatusCode == HttpStatusCode.OK;
+        });
+
+        return result;
+    }
+}
+```
 
 ## Polly & HttpClientFactory
 
