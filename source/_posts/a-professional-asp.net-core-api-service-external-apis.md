@@ -190,6 +190,7 @@ public class Country
 ```cs
 public interface ICountryApi
 {
+    // You have to start the URL with '/'
     [Get("/{version}/name/{country}")]
     Task<List<Country>> GetCountry(string version,string country);
 }
@@ -197,6 +198,7 @@ public interface ICountryApi
 
 ```json
 // appsettings.json
+// Don't use '/' at the end of the URL.
 "MyRefitOptions": {
   "BaseAddress": "https://restcountries.eu/rest"
 }
@@ -310,3 +312,9 @@ public void ConfigureServices(IServiceCollection services)
 Most of the information in this article has gathered from various references.
 
 * https://json2csharp.com/
+* https://github.com/App-vNext/Polly
+* https://github.com/reactiveui/refit
+* https://github.com/19balazs86/PlayingWithRefit
+* https://github.com/App-vNext/Polly.Extensions.Http
+* https://anthonygiretti.com/2019/08/31/building-a-typed-httpclient-with-refit-in-asp-net-core-3/
+* https://blog.martincostello.com/refit-and-system-text-json/
