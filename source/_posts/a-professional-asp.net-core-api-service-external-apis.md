@@ -494,7 +494,7 @@ There are many topics in which you can use `Polly` and for this you should refer
 
 **Retry**
 
-```
+```cs
 // Retry once
 Policy
   .Handle<SomeExceptionType>()
@@ -527,7 +527,7 @@ Policy
 
 **Retry forever (until succeeds)**
 
-```
+```cs
 // Retry forever
 Policy
   .Handle<SomeExceptionType>()
@@ -656,7 +656,7 @@ Policy
 
 **Wait and retry forever (until succeeds)**
 
-```
+```cs
 // Wait and retry forever
 Policy
   .Handle<SomeExceptionType>()
