@@ -496,7 +496,34 @@ dotnet add package Polly --version 7.2.1
 
 ## Polly & HttpClientFactory
 
+The following steps show how you can use Http retries with `Polly` integrated into `IHttpClientFactory`, which is explained in the previous section.
 
+Install the below package
+
+```bash
+Install-Package Microsoft.Extensions.Http.Polly -Version 3.1.8
+dotnet add package Microsoft.Extensions.Http.Polly --version 3.1.8
+<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="3.1.8" />
+```
+
+Register your `Polly` policy to `HttpClient` client
+
+```cs
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers(); 
+
+    // HERE           
+    AsyncRetryPolicy<HttpResponseMessage> retryPolicy = HttpPolicyExtensions
+        .HandleTransientHttpError()
+        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+        .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
+    services.AddHttpClient<IBasketService, BasketService>()
+        .SetHandlerLifetime(TimeSpan.FromMinutes(5))  //Set lifetime to five minutes
+        .AddPolicyHandler(retryPolicy); // HERE
+}
+```
 
 ## Polly & Refit
 
@@ -551,3 +578,4 @@ Most of the information in this article has gathered from various references.
 * https://anthonygiretti.com/2019/08/31/building-a-typed-httpclient-with-refit-in-asp-net-core-3/
 * https://blog.martincostello.com/refit-and-system-text-json/
 * https://www.talkingdotnet.com/3-ways-to-use-httpclientfactory-in-asp-net-core-2-1/
+* https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/implement-http-call-retries-exponential-backoff-polly
