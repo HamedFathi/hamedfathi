@@ -20,162 +20,6 @@ In many projects we want to call external APIs and use their results in our appl
 
 <!-- more -->
 
-Suppose in our project we want to call the following address to get comprehensive information about the `country` we want.
-
-The documentation and how to call it is as follows:
-
-**Doc**: https://restcountries.eu/
-
-**API**: https://restcountries.eu/rest/v2/name/usa
-
-Based on the documentation and results provided as an example, we want to have a strongly typed output so I used [json2csharp](https://json2csharp.com) to convert `JSON` to `C#` but I made some changes to the result like the following:
-
-* Replace all `int` with `double`
-* Removed `Root` class
-* Changed `MyArray` to `Country`
-
-`JsonProperty` uses for `Newtonsoft.Json` library but if you want to use the new `System.Text.Json` library, you should change it to `JsonPropertyName`.
-
-**C# Class**
-
-```cs
-public class Currency
-{
-    [JsonProperty("code")]
-    public string Code { get; set; }
-
-    [JsonProperty("name")]
-    public string Name { get; set; }
-
-    [JsonProperty("symbol")]
-    public string Symbol { get; set; }
-}
-
-public class Language
-{
-    [JsonProperty("iso639_1")]
-    public string Iso6391 { get; set; }
-
-    [JsonProperty("iso639_2")]
-    public string Iso6392 { get; set; }
-
-    [JsonProperty("name")]
-    public string Name { get; set; }
-
-    [JsonProperty("nativeName")]
-    public string NativeName { get; set; }
-}
-
-public class Translations
-{
-    [JsonProperty("de")]
-    public string De { get; set; }
-
-    [JsonProperty("es")]
-    public string Es { get; set; }
-
-    [JsonProperty("fr")]
-    public string Fr { get; set; }
-
-    [JsonProperty("ja")]
-    public string Ja { get; set; }
-
-    [JsonProperty("it")]
-    public string It { get; set; }
-
-    [JsonProperty("br")]
-    public string Br { get; set; }
-
-    [JsonProperty("pt")]
-    public string Pt { get; set; }
-
-    [JsonProperty("nl")]
-    public string Nl { get; set; }
-
-    [JsonProperty("hr")]
-    public string Hr { get; set; }
-
-    [JsonProperty("fa")]
-    public string Fa { get; set; }
-}
-
-public class Country
-{
-    [JsonProperty("name")]
-    public string Name { get; set; }
-
-    [JsonProperty("topLevelDomain")]
-    public List<string> TopLevelDomain { get; set; }
-
-    [JsonProperty("alpha2Code")]
-    public string Alpha2Code { get; set; }
-
-    [JsonProperty("alpha3Code")]
-    public string Alpha3Code { get; set; }
-
-    [JsonProperty("callingCodes")]
-    public List<string> CallingCodes { get; set; }
-
-    [JsonProperty("capital")]
-    public string Capital { get; set; }
-
-    [JsonProperty("altSpellings")]
-    public List<string> AltSpellings { get; set; }
-
-    [JsonProperty("region")]
-    public string Region { get; set; }
-
-    [JsonProperty("subregion")]
-    public string Subregion { get; set; }
-
-    [JsonProperty("population")]
-    public double Population { get; set; }
-
-    [JsonProperty("latlng")]
-    public List<double> Latlng { get; set; }
-
-    [JsonProperty("demonym")]
-    public string Demonym { get; set; }
-
-    [JsonProperty("area")]
-    // int => double
-    public double Area { get; set; }
-
-    [JsonProperty("gini")]
-    public object Gini { get; set; }
-
-    [JsonProperty("timezones")]
-    public List<string> Timezones { get; set; }
-
-    [JsonProperty("borders")]
-    public List<object> Borders { get; set; }
-
-    [JsonProperty("nativeName")]
-    public string NativeName { get; set; }
-
-    [JsonProperty("numericCode")]
-    public string NumericCode { get; set; }
-
-    [JsonProperty("currencies")]
-    public List<Currency> Currencies { get; set; }
-
-    [JsonProperty("languages")]
-    public List<Language> Languages { get; set; }
-
-    [JsonProperty("translations")]
-    public Translations Translations { get; set; }
-
-    [JsonProperty("flag")]
-    public string Flag { get; set; }
-
-    [JsonProperty("regionalBlocs")]
-    public List<object> RegionalBlocs { get; set; }
-
-    [JsonProperty("cioc")]
-    public string Cioc { get; set; }
-}
-```
-
 ## HttpClientFactory
 
 Microsoft introduced the `HttpClient` in .Net Framework 4.5 and is the most popular way to consume a Web API in your .NET server-side code. But it has some serious issues like disposing the HttpClient object doesn’t close the socket immediately, too many instances affecting the performance and Singleton HttpClient or shared HttpClient instance not respecting the DNS Time to Live (TTL) settings. `HttpClientFactory` solves the all these problems. It is one of the newest feature of ASP.NET Core 2.1. It provides a central location for naming and configuring and consuming logical HttpClients in your application, and this post talks about 3 ways to use HTTPClientFactory in ASP.NET Core 2.1.
@@ -383,11 +227,181 @@ This approach also makes unit testing easy while testing HttpClients as you no l
 
 ## Refit
 
+Refit is a library heavily inspired by `Square's Retrofit` library, and it turns your REST API into a live interface:
+
+Install below packages
+
 ```bash
+Install-Package refit -Version 5.2.1
+dotnet add package refit --version 5.2.1
 <PackageReference Include="refit" Version="5.2.1" />
+
+Install-Package Refit.HttpClientFactory -Version 5.2.1
+dotnet add package Refit.HttpClientFactory --version 5.2.1
 <PackageReference Include="Refit.HttpClientFactory" Version="5.2.1" />
+
+Install-Package Newtonsoft.Json -Version 12.0.3
+dotnet add package Newtonsoft.Json --version 12.0.3
 <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 ```
+
+Suppose in our project we want to call the following address to get comprehensive information about the `country` we want.
+
+The documentation and how to call it is as follows:
+
+**Doc**: https://restcountries.eu/
+
+**API**: https://restcountries.eu/rest/v2/name/usa
+
+Based on the documentation and results provided as an example, we want to have a strongly typed output so I used [json2csharp](https://json2csharp.com) to convert `JSON` to `C#` but I made some changes to the result like the following:
+
+* Replace all `int` with `double`
+* Removed `Root` class
+* Changed `MyArray` to `Country`
+
+`JsonProperty` uses for `Newtonsoft.Json` library but if you want to use the new `System.Text.Json` library, you should change it to `JsonPropertyName`.
+
+**C# Class**
+
+```cs
+public class Currency
+{
+    [JsonProperty("code")]
+    public string Code { get; set; }
+
+    [JsonProperty("name")]
+    public string Name { get; set; }
+
+    [JsonProperty("symbol")]
+    public string Symbol { get; set; }
+}
+
+public class Language
+{
+    [JsonProperty("iso639_1")]
+    public string Iso6391 { get; set; }
+
+    [JsonProperty("iso639_2")]
+    public string Iso6392 { get; set; }
+
+    [JsonProperty("name")]
+    public string Name { get; set; }
+
+    [JsonProperty("nativeName")]
+    public string NativeName { get; set; }
+}
+
+public class Translations
+{
+    [JsonProperty("de")]
+    public string De { get; set; }
+
+    [JsonProperty("es")]
+    public string Es { get; set; }
+
+    [JsonProperty("fr")]
+    public string Fr { get; set; }
+
+    [JsonProperty("ja")]
+    public string Ja { get; set; }
+
+    [JsonProperty("it")]
+    public string It { get; set; }
+
+    [JsonProperty("br")]
+    public string Br { get; set; }
+
+    [JsonProperty("pt")]
+    public string Pt { get; set; }
+
+    [JsonProperty("nl")]
+    public string Nl { get; set; }
+
+    [JsonProperty("hr")]
+    public string Hr { get; set; }
+
+    [JsonProperty("fa")]
+    public string Fa { get; set; }
+}
+
+public class Country
+{
+    [JsonProperty("name")]
+    public string Name { get; set; }
+
+    [JsonProperty("topLevelDomain")]
+    public List<string> TopLevelDomain { get; set; }
+
+    [JsonProperty("alpha2Code")]
+    public string Alpha2Code { get; set; }
+
+    [JsonProperty("alpha3Code")]
+    public string Alpha3Code { get; set; }
+
+    [JsonProperty("callingCodes")]
+    public List<string> CallingCodes { get; set; }
+
+    [JsonProperty("capital")]
+    public string Capital { get; set; }
+
+    [JsonProperty("altSpellings")]
+    public List<string> AltSpellings { get; set; }
+
+    [JsonProperty("region")]
+    public string Region { get; set; }
+
+    [JsonProperty("subregion")]
+    public string Subregion { get; set; }
+
+    [JsonProperty("population")]
+    public double Population { get; set; }
+
+    [JsonProperty("latlng")]
+    public List<double> Latlng { get; set; }
+
+    [JsonProperty("demonym")]
+    public string Demonym { get; set; }
+
+    [JsonProperty("area")]
+    // int => double
+    public double Area { get; set; }
+
+    [JsonProperty("gini")]
+    public object Gini { get; set; }
+
+    [JsonProperty("timezones")]
+    public List<string> Timezones { get; set; }
+
+    [JsonProperty("borders")]
+    public List<object> Borders { get; set; }
+
+    [JsonProperty("nativeName")]
+    public string NativeName { get; set; }
+
+    [JsonProperty("numericCode")]
+    public string NumericCode { get; set; }
+
+    [JsonProperty("currencies")]
+    public List<Currency> Currencies { get; set; }
+
+    [JsonProperty("languages")]
+    public List<Language> Languages { get; set; }
+
+    [JsonProperty("translations")]
+    public Translations Translations { get; set; }
+
+    [JsonProperty("flag")]
+    public string Flag { get; set; }
+
+    [JsonProperty("regionalBlocs")]
+    public List<object> RegionalBlocs { get; set; }
+
+    [JsonProperty("cioc")]
+    public string Cioc { get; set; }
+}
+```
+
+Now, We want to use `Refit` to fetch data so write the following interface.
 
 ```cs
 public interface ICountryApi
@@ -398,6 +412,8 @@ public interface ICountryApi
 }
 ```
 
+And write your base address in `appsettings.json`
+
 ```json
 // appsettings.json
 // Don't use '/' at the end of the URL.
@@ -405,6 +421,8 @@ public interface ICountryApi
   "BaseAddress": "https://restcountries.eu/rest"
 }
 ```
+
+Register `Refit` client like below
 
 ```cs
 public void ConfigureServices(IServiceCollection services)
@@ -417,6 +435,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
+Use it inside a controller as following
 
 ```cs
 [ApiController]
@@ -439,10 +458,9 @@ public class CountryController : ControllerBase
 }
 ```
 
-
-
 ## Using Refit with the System.Text.Json
 
+Using `Refit` with the new System.Text.Json APIs in .NET Core 3.0 to boost performance:
 
 ```cs
 using System.Text.Json;
@@ -469,15 +487,22 @@ services.AddRefitClient<ICountryApi>(settings /*HERE*/)
 <PackageReference Include="Polly" Version="7.2.1" />
 ```
 
+
 ## Polly & HttpClientFactory
 
 
 
 ## Polly & Refit
 
+Install the below package
+
 ```bash
+Install-Package Microsoft.Extensions.Http.Polly -Version 3.1.8
+dotnet add package Microsoft.Extensions.Http.Polly --version 3.1.8
 <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="3.1.8" />
 ```
+
+Register your `Polly` policy to `Refit` client
 
 ```cs
 public void ConfigureServices(IServiceCollection services)
@@ -507,7 +532,6 @@ public void ConfigureServices(IServiceCollection services)
             ;
 }
 ```
-
 
 ## Reference(s)
 
