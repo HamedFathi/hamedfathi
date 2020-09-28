@@ -146,8 +146,6 @@ public void ConfigureServices(IServiceCollection services)
             // OR
             options.RegisterValidatorsFromAssemblyContaining<PersonValidator>(discoveredType => discoveredType.ValidatorType != typeof(SomeValidatorToExclude));
         });
-
-    services.AddTransient<IValidator<Person>, PersonValidator>(); 
 }                
 ```
 
@@ -167,8 +165,6 @@ public void ConfigureServices(IServiceCollection services)
             // HERE
             options.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
         });
-
-    services.AddTransient<IValidator<Person>, PersonValidator>(); 
 }    
 ```
 
@@ -203,8 +199,6 @@ public void ConfigureServices(IServiceCollection services)
             // HERE
             options.ImplicitlyValidateChildProperties  = true;
         });
-
-    services.AddTransient<IValidator<Person>, PersonValidator>(); 
 }    
 ```
 
@@ -255,7 +249,56 @@ public class PersonValidator : AbstractValidator<Person> {
 
 ## Localization
 
+You can add `IStringLocalizer<T>` to the `ctor` of a validator
 
+```cs
+public class PersonValidator : AbstractValidator<Person>
+{
+    public PersonValidator(IStringLocalizer<Person> localizer /*HERE*/)
+    {
+        RuleFor(e => e.Name).MinimumLength(5)
+            .WithMessage(e => string.Format(localizer[Name], nameof(e.Name) /*{0}*/ ));
+        RuleFor(e => e.FamilyName).MinimumLength(5)
+            .WithMessage(e => string.Format(localizer[Name], nameof(e.Name) /*{0}*/ ));
+        RuleFor(e => e.Address).MinimumLength(10)
+            .WithMessage(e => localizer[Address]);
+        RuleFor(e => e.EmailAddress).EmailAddress()
+            .WithMessage(e => localizer[EmailAddress]);           
+        RuleFor(e => e.Age).InclusiveBetween(20, 60)
+            .WithMessage(e => localizer[Age]);
+    }
+}
+```
+
+And these are our resources
+
+```json
+// person.en-US.json
+{
+  "Name": "'{0}' must be at least 5 characters length.",
+  "Address": "'Address' must be at least 10 characters length.",
+  "EmailAddress": "'EmailAddress' is not valid.",
+  "Age": "'Age' must be between 20 and 60.",
+}
+
+// person.de.json
+{
+  "Name": "'{0}' muss mindestens 5 Zeichen lang sein.",
+  "Address": "'Address' muss mindestens 10 Zeichen lang sein.",
+  "EmailAddress": "'EmailAddress' ist ungültig.",
+  "Age": "'Age' muss zwischen 20 und 60 liegen.",
+}
+
+// person.fa-IR.json
+{
+  "Country": "کشور وارد شده معتبر نیست.",
+  "Name": "{0} نباید کمتر از 5 کاراکتر باشد.",
+  "Address": "آدرس نباید کمتر از 10 کاراکتر باشد.",
+  "EmailAddress": "ایمیل وارد شده معتبر نیست.",
+  "Age": "سن باید بین 20 تا 60 باشد.",
+  "IsNull": "{0} نمی تواند نال باشد."
+}
+```
 
 ## Swagger integration
 
