@@ -322,6 +322,94 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
+## Enrich from global properties
+
+You can also specify properties globally. In some cases, we need to calculate properties on startup, which can be done using the Fluent API:
+
+```cs
+Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    // HERE
+    .Enrich.WithProperty("Version", typeof(Program).Assembly.GetName().Version)
+    // 'Version' is accessible via {Properties}
+    .WriteTo.Console(outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj} {Properties}{NewLine}{Exception}")
+    .CreateLogger();
+```
+
+## Timings
+
+Serilog's support for structured data makes it a great way to collect timing information. It's easy to get started with in development, because the timings are printed to the same output as other log messages (the console, files, etc.) so a metrics server doesn't have to be available all the time.
+
+`Serilog Timings` is built with some specific requirements in mind:
+
+One operation produces exactly one log event (events are raised at the completion of an operation)
+Natural and fully-templated messages
+Events for a single operation have a single event type, across both success and failure cases (only the logging level and Outcome properties change)
+This keeps noise in the log to a minimum, and makes it easy to extract and manipulate timing information on a per-operation basis.
+
+Install below packages
+
+```bash
+Install-Package SerilogTimings -Version 2.3.0
+dotnet add package SerilogTimings --version 2.3.0
+<PackageReference Include="SerilogTimings" Version="2.3.0" />
+```
+
+The simplest use case is to time an operation, without explicitly recording success/failure:
+
+```cs
+using (Operation.Time("Submitting payment for {OrderId}", order.Id))
+{
+    // Timed block of code goes here
+}
+```
+
+At the completion of the using block, a message will be written to the log like:
+
+```
+[INF] Submitting payment for order-12345 completed in 456.7 ms
+```
+
+Operations that can either `succeed` or `fail`, or that produce a result, can be created with `Operation.Begin()`:
+
+```cs
+using (var op = Operation.Begin("Retrieving orders for {CustomerId}", customer.Id))
+{
+	// Timed block of code goes here
+
+	op.Complete();
+}
+```
+
+Using `op.Complete()` will produce the same kind of result as in the first example:
+
+```
+[INF] Retrieving orders for customer-67890 completed in 7.8 ms
+```
+
+If the operation is not completed by calling `Complete()`, it is assumed to have failed and a warning-level event will be written to the log instead:
+
+```
+[WRN] Retrieving orders for customer-67890 abandoned in 1234.5 ms
+```
+
+In this case the Outcome property will be "abandoned".
+To suppress this message, for example when an operation turns out to be inapplicable, use `op.Cancel()`. Once `Cancel()` has been called, no event will be written by the operation on either `completion` or `abandonment`.
+
+**Levelling**
+
+Timings are most useful in production, so timing events are recorded at the Information level and higher, which should generally be collected all the time.
+
+If you truly need `Verbose` - or `Debug`-level timings, you can trigger them with `Operation.At()` or the `OperationAt()` extension method on `ILogger`:
+
+```cs
+using (Operation.At(LogEventLevel.Debug).Time("Preparing zip archive"))
+{
+    // ...
+}
+```
+When a level is specified, both completion and abandonment events will use it. To configure a different abandonment level, pass the second optional parameter to the `At()` method.
+
 ## Reference(s)
 
 Most of the information in this article has gathered from various references.
@@ -329,3 +417,5 @@ Most of the information in this article has gathered from various references.
 * https://nblumhardt.com/2019/10/serilog-in-aspnetcore-3/
 * https://www.codewithmukesh.com/blog/serilog-in-aspnet-core-3-1/
 * https://dejanstojanovic.net/aspnet/2018/october/extending-serilog-with-additional-values-to-log/
+* https://github.com/nblumhardt/serilog-timings
+* https://benfoster.io/blog/serilog-best-practices/
