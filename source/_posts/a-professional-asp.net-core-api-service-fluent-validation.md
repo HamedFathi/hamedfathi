@@ -257,9 +257,9 @@ public class PersonValidator : AbstractValidator<Person>
     public PersonValidator(IStringLocalizer<Person> localizer /*HERE*/)
     {
         RuleFor(e => e.Name).MinimumLength(5)
-            .WithMessage(e => string.Format(localizer[Name], nameof(e.Name) /*{0}*/ ));
+            .WithMessage(e => string.Format(localizer[Name], nameof(e.Name) /* {0} placeholder */ ));
         RuleFor(e => e.FamilyName).MinimumLength(5)
-            .WithMessage(e => string.Format(localizer[Name], nameof(e.Name) /*{0}*/ ));
+            .WithMessage(e => string.Format(localizer[Name], nameof(e.Name) /* {0} placeholder */ ));
         RuleFor(e => e.Address).MinimumLength(10)
             .WithMessage(e => localizer[Address]);
         RuleFor(e => e.EmailAddress).EmailAddress()
