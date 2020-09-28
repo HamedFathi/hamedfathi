@@ -1,6 +1,6 @@
 ---
 title: A Professional ASP.NET Core API Service - Localization
-date: September 20 2020
+date: September 27 2020
 category: aspnetcore
 tags:
     - dotnet
