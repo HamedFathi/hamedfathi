@@ -10,7 +10,7 @@ tags:
     - miniprofiler
 ---
  
-`MiniProfiler` is a library and UI for profiling your application. By letting you see where your time is spent, which queries are run, and any other custom timings you want to add, MiniProfiler helps you debug issues and optimize performance.
+`MiniProfiler` is a library and UI for profiling your application. By letting you see where your time is spent, which queries are run, and any other custom timings you want to add, `MiniProfiler` helps you debug issues and optimize performance.
 
 <!-- more -->
 
@@ -113,9 +113,9 @@ Hooking up profiling to Entity Framework Core is easy to do:
 Install the below package
 
 ```bash
-Install-Package MiniProfiler.AspNetCore.Mvc -Version 4.2.1
-dotnet add package MiniProfiler.AspNetCore.Mvc --version 4.2.1
-<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.1" />
+Install-Package MiniProfiler.EntityFrameworkCore -Version 4.2.1
+dotnet add package MiniProfiler.EntityFrameworkCore --version 4.2.1
+<PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="4.2.1" />
 ```
 
 And, In your `Startup.cs`, call `AddEntityFramework()`:
