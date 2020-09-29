@@ -32,7 +32,8 @@ Edit your `Startup.cs` to add the middleware and configure options:
 
 public void ConfigureServices(IServiceCollection services)
 {
-    // The services.AddMemoryCache(); code is required - there is a bug in MiniProfiler, if we have not configured MemoryCache, it will fail.
+    // The services.AddMemoryCache(); code is required
+    // There is a bug in MiniProfiler, if we have not configured MemoryCache, it will fail.
     services.AddMemoryCache();
     // HERE
     services.AddMiniProfiler(options => options.RouteBasePath = "/profiler");
