@@ -148,9 +148,13 @@ Next, add a resources file into the newly created folder. Name the resource file
 
 `Resources` are named for **the full type name of their class minus the assembly name**. For example, a French resource in a project whose main assembly is `LocalizationWebsite.Web.dll` for the class `LocalizationWebsite.Web.Startup` would be named `Startup.fr.resx`. A resource for the class `LocalizationWebsite.Web.Controllers.HomeController` would be named `Controllers.HomeController.fr.resx`. If your targeted class's namespace isn't the same as the assembly name you will need the full type name. For example, in the sample project a resource for the type `ExtraNamespace.Tools` would be named `ExtraNamespace.Tools.fr.resx`.
 
+In the sample project, the `ConfigureServices` method sets the `ResourcesPath` to "Resources", so the project relative path for the home controller's French resource file is `Resources/Controllers.HomeController.fr.resx`. Alternatively, you can use folders to organize resource files. For the about controller, the path would be `Resources/Controllers/AboutController.fr.resx`. If you don't use the `ResourcesPath` option, the `.resx` file would go in the project base directory. The resource file for `AboutController` would be named `Controllers.HomeController.fr.resx`. The choice of using the `dot` or `path` naming convention depends on how you want to organize your resource files.
+
 In our sample, `WebApplicationSample` is the assembly name so we should create our resources inside `Resources` folder with this way.
 
-`[NamespaceWithoutAssemblyName].[ControllerName].[Culture].resx`
+**[NamespaceWithoutAssemblyName].[ControllerName].[Culture].resx**
+Or
+**[NamespaceWithoutAssemblyName]/[ControllerName].[Culture].resx**
 
 ## How to use resource files?
 
@@ -169,6 +173,103 @@ Write below key-values:
 |-----------------|-----------|
 | GreetingMessage | Hallo {0} |
 | SayHello        | Hallo     |
+
+Now, You can use them via controllers
+
+```cs
+namespace WebApplicationSample.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class AboutController : ControllerBase
+    {
+        private readonly IStringLocalizer<AboutController> _localizer;
+
+        public AboutController(IStringLocalizer<AboutController> localizer)
+        {
+            _localizer = localizer;
+        }
+
+        // http://localhost:PORT/weatherforecast
+        // http://localhost:PORT/weatherforecast?culture=en-GB
+        // http://localhost:PORT/weatherforecast?culture=de-DE
+        [HttpGet]
+        public string Get()
+        {
+            return _localizer["SayHello"];
+
+        }
+
+        // http://localhost:PORT/weatherforecast/hamed
+        // http://localhost:PORT/weatherforecast/hamed?culture=en-GB
+        // http://localhost:PORT/weatherforecast/hamed?culture=de-DE
+        [HttpGet("{name}")]
+        public string Get(string name)
+        {
+
+            return _localizer[string.Format(_localizer["GreetingMessage"], name)];
+
+        }
+    }
+}
+```
+
+`SayHello` returns a simple text based on your culture.
+`GreetingMessage` returns a text but accept variable too. You can use unlimited place holders `({0} {1} {2} {3} , ...)` and pass your variables via `string.Format()`.
+
+If `IStringLocalizer` does not find any value for the key, It will return `the key` itself as a result.
+
+## JSON Localization Resources
+
+You may want to use `.json` files as a resource instead of `.resx` files, so
+
+Install below package 
+
+```bash
+Install-Package My.Extensions.Localization.Json -Version 2.1.0
+dotnet add package My.Extensions.Localization.Json --version 2.1.0
+<PackageReference Include="My.Extensions.Localization.Json" Version="2.1.0" />
+```
+
+Remove `services.AddLocalization();` and replace it with `services.AddJsonLocalization()`:
+
+```cs
+// Startup.ConfigureServices
+
+using System.IO;
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+
+    // REMOVE THIS
+    // services.AddLocalization(opt => opt.ResourcesPath = "Resources");
+
+    // HERE
+    var directory = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
+    services.AddJsonLocalization(opt => opt.ResourcesPath = directory);
+}
+```
+
+Write below `JSON` files:
+
+`Controllers.AboutController.en-GB.json`
+
+```json
+{
+  "GreetingMessage": "Hello {0}",
+  "SayHello": "Hello"
+}
+```
+
+`Controllers.AboutController.de-DE.json`
+
+```json
+{
+  "GreetingMessage": "Hallo {0}",
+  "SayHello": "Hallo"
+}
+```
 
 Now, You can use them via controllers
 
@@ -210,25 +311,6 @@ namespace WebApplicationSample.Controllers
     }
 }
 ```
-
-`SayHello` returns a simple text based on your culture but `GreetingMessage` returns a text but accept variable too. You can use unlimited place holders `({0} {1} {2} {3} , ...)` and pass your variables via `string.Format()`.
-
-If `IStringLocalizer` does not find any value for the key, It will return `the key` itself as a result.
-
-
-## JSON Localization Resources
-
-You may want to use `.json` files as a resource instead of `.resx` files, so
-
-Install below package 
-
-```bash
-Install-Package My.Extensions.Localization.Json -Version 2.1.0
-dotnet add package My.Extensions.Localization.Json --version 2.1.0
-<PackageReference Include="My.Extensions.Localization.Json" Version="2.1.0" />
-```
-
-
 
 ## DataAnnotation & Localization
 
