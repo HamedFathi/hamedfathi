@@ -314,9 +314,81 @@ namespace WebApplicationSample.Controllers
 
 ## DataAnnotation & Localization
 
+Install below package
+
+```bash
+Install-Package Microsoft.AspNetCore.Mvc.DataAnnotations -Version 2.2.0
+dotnet add package Microsoft.AspNetCore.Mvc.DataAnnotations --version 2.2.0
+<PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
+```
+
+?
 
 ## FluentValidation & Localization
 
+Install below packages
+
+```bash
+Install-Package FluentValidation -Version 9.2.2
+dotnet add package FluentValidation --version 9.2.2
+<PackageReference Include="FluentValidation" Version="9.2.2" />
+
+Install-Package FluentValidation.AspNetCore -Version 9.2.0
+dotnet add package FluentValidation.AspNetCore --version 9.2.0
+<PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
+```
+
+Register `FluentValidation` as following
+
+```cs
+public void ConfigureServices(IServiceCollection services)
+{
+    services
+        .AddControllers()        
+        .AddFluentValidation() // HERE
+        ;
+
+    // HERE
+    services.AddTransient<IValidator<Person>, PersonValidator>(); 
+}
+
+
+```
+
+To use localization, pass `IStringLocalizer<T>` to the constructor and do the same as we explained before.
+
+```cs
+// Person.cs
+public class Person {
+	public string Name { get; set; }
+	public string FamilyName { get; set; }
+    public string Address { get; set; }
+	public string EmailAddress { get; set; }
+	public int Age { get; set; }
+}
+
+// PersonValidator.cs
+namespace namespace WebApplicationSample.Validation
+{
+    public class PersonValidator : AbstractValidator<Person>
+    {
+        public PersonValidator(IStringLocalizer<Person> localizer)
+        {
+            RuleFor(e => e.Name).MinimumLength(5)
+                .WithMessage(e => string.Format(localizer[Name], nameof(e.Name)));
+
+            RuleFor(e => e.FamilyName).MinimumLength(5)
+                .WithMessage(e => string.Format(localizer[Name], nameof(e.FamilyName)));
+
+            RuleFor(e => e.Address).MinimumLength(10).WithMessage(e => localizer[Address]);
+
+            RuleFor(e => e.EmailAddress).EmailAddress().WithMessage(e => localizer[EmailAddress]);               
+
+            RuleFor(e => e.Age).InclusiveBetween(20, 60).WithMessage(e => localizer[Age]);
+        }
+    }
+}
+```
 
 ## Reference(s)
 
