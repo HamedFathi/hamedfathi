@@ -160,14 +160,14 @@ Or
 
 Write below key-values:
 
-`Controllers.AboutController.en-GB.resx`
+Controllers.AboutController.en-GB.resx
 
 | Key             | Value     |
 |-----------------|-----------|
 | GreetingMessage | Hello {0} |
 | SayHello        | Hello     |
 
-`Controllers.AboutController.de-DE.resx`
+Controllers.AboutController.de-DE.resx
 
 | Key             | Value     |
 |-----------------|-----------|
@@ -253,7 +253,7 @@ public void ConfigureServices(IServiceCollection services)
 
 Write below `JSON` files:
 
-`Controllers.AboutController.en-GB.json`
+Controllers.AboutController.en-GB.json
 
 ```json
 {
@@ -262,7 +262,7 @@ Write below `JSON` files:
 }
 ```
 
-`Controllers.AboutController.de-DE.json`
+Controllers.AboutController.de-DE.json
 
 ```json
 {
