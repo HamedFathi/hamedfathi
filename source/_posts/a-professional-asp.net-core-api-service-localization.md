@@ -368,24 +368,21 @@ public class Person {
 }
 
 // PersonValidator.cs
-namespace namespace WebApplicationSample.Validation
+public class PersonValidator : AbstractValidator<Person>
 {
-    public class PersonValidator : AbstractValidator<Person>
+    public PersonValidator(IStringLocalizer<Person> localizer)
     {
-        public PersonValidator(IStringLocalizer<Person> localizer)
-        {
-            RuleFor(e => e.Name).MinimumLength(5)
-                .WithMessage(e => string.Format(localizer[Name], nameof(e.Name)));
+        RuleFor(e => e.Name).MinimumLength(5)
+            .WithMessage(e => string.Format(localizer[Name], nameof(e.Name)));
 
-            RuleFor(e => e.FamilyName).MinimumLength(5)
-                .WithMessage(e => string.Format(localizer[Name], nameof(e.FamilyName)));
+        RuleFor(e => e.FamilyName).MinimumLength(5)
+            .WithMessage(e => string.Format(localizer[Name], nameof(e.FamilyName)));
 
-            RuleFor(e => e.Address).MinimumLength(10).WithMessage(e => localizer[Address]);
+        RuleFor(e => e.Address).MinimumLength(10).WithMessage(e => localizer[Address]);
 
-            RuleFor(e => e.EmailAddress).EmailAddress().WithMessage(e => localizer[EmailAddress]);               
-
-            RuleFor(e => e.Age).InclusiveBetween(20, 60).WithMessage(e => localizer[Age]);
-        }
+        RuleFor(e => e.EmailAddress).EmailAddress().WithMessage(e => localizer[EmailAddress]);     
+                  
+        RuleFor(e => e.Age).InclusiveBetween(20, 60).WithMessage(e => localizer[Age]);
     }
 }
 ```
