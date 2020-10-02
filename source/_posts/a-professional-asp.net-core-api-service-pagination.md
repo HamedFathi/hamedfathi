@@ -27,3 +27,4 @@ Most of the information in this article has gathered from various references.
 * https://code-maze.com/paging-aspnet-core-webapi/
 * https://medium.com/@zarkopafilis/asp-net-core-2-2-3-rest-api-26-pagination-650d0363ccf6
 * https://www.carlrippon.com/scalable-and-performant-asp-net-core-web-apis-paging/
+* https://schneids.net/paging-in-asp-net-web-api
