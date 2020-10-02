@@ -362,7 +362,7 @@ To use localization, pass `IStringLocalizer<T>` to the constructor and do the sa
 public class Person {
 	public string Name { get; set; }
 	public string FamilyName { get; set; }
-    public string Address { get; set; }
+	public string Address { get; set; }
 	public string EmailAddress { get; set; }
 	public int Age { get; set; }
 }
