@@ -299,7 +299,7 @@ public class UnavailableApiVersion
 // PreventUnavailableApiVersionsAttribute.cs
 
 [AttributeUsage(AttributeTargets.Class)]
-public class PreventUnavailableApiVersionsAttribute : ActionFilterAttribute
+public class PreventUnavailableApiVersionsAttribute : ActionFilterAttribute, IActionFilter
 {
     public string Header { get; set; } = "x-api-version";
     public string QueryString { get; set; } = "v";
@@ -468,8 +468,8 @@ Now, the action filter consider the version `1.0` as an unavailable and you will
 Always you can find an easier way so you can rewrite the above action filter as following
 
 ```cs
-[AttributeUsage(AttributeTargets.Method)]
-public class UnavailableApiVersionsAttribute : ActionFilterAttribute
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+public class UnavailableApiVersionsAttribute : ActionFilterAttribute, IActionFilter
 {
     private string GetUrl(HttpRequest request)
     {
@@ -515,7 +515,7 @@ public class UnavailableApiVersionsAttribute : ActionFilterAttribute
         }
         version = FixVersion(version);
         var unavailableVersions = _commaSeparatedVersions.Split(',').Select(x => FixVersion(x.Trim()));
-        var isUnavailableVersion = unavailableVersions.Contains(version);
+        var isUnavailableVersion =  unavailableVersions.Contains(version);
         foreach (var prop in props)
         {
             var apiVersionModel = prop.Value as ApiVersionModel;
@@ -523,7 +523,13 @@ public class UnavailableApiVersionsAttribute : ActionFilterAttribute
             {
                 if (apiVersionModel.IsApiVersionNeutral) return;
                 var deprecated = apiVersionModel.DeprecatedApiVersions.Select(x => x.ToString());
-                var supported = apiVersionModel.SupportedApiVersions.Select(x => x.ToString());
+                var supported = IsADeprecatedVersionValid ?
+                    apiVersionModel.SupportedApiVersions.Select(x => x.ToString()).Concat(deprecated).Except(unavailableVersions) :
+                    apiVersionModel.SupportedApiVersions.Select(x => x.ToString()).Except(unavailableVersions);
+                if(!isUnavailableVersion && !IsADeprecatedVersionValid)
+                {
+                    isUnavailableVersion = deprecated.Contains(version);
+                }
                 if (isUnavailableVersion)
                 {
                     context.Result = new JsonResult(new UnavailableApiVersion
@@ -536,7 +542,7 @@ public class UnavailableApiVersionsAttribute : ActionFilterAttribute
                     context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 }
             }
-        }           
+        }
     }
 }
 ```
@@ -570,6 +576,10 @@ public class ValuesController : ControllerBase
     }
 }
 ```
+
+**Global registration**
+
+
 
 ## Swagger integration
 
