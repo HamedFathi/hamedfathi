@@ -224,7 +224,7 @@ public class WeatherForecastController : ControllerBase
 }
 ```
 
-`[FromQuery]` is necessary because we will send out parameters via query strings.
+`[FromQuery]` is necessary because we will send our parameters via query strings.
 
 ## Generating Pagination URLs
 
@@ -255,7 +255,7 @@ public class PagedUriService : IPagedUriService
 }
 ```
 
-We should add `PagedUriService` to DI.
+We should register `PagedUriService` into the DI.
 
 ```cs
 // PagingServiceExtension.cs
@@ -312,6 +312,25 @@ public static class PagingExtensions
         return new OkObjectResult(pagedData.ToPagedReponse(new PaginationFilter(pageNumber, pageSize), totalRecords, uriService, route));
     }
     public static IActionResult ToPagedResult<T>(this IEnumerable<T> pagedData, PaginationFilter validFilter, int totalRecords, IPagedUriService uriService, string route)
+    {
+        return new OkObjectResult(pagedData.ToPagedReponse(validFilter, totalRecords, uriService, route));
+    }
+    public static PagedResponse<IQueryable<T>> ToPagedReponse<T>(this IQueryable<T> pagedData, PaginationFilter validFilter, int totalRecords, IPagedUriService uriService, string route)
+    {
+        return pagedData.ToPagedReponse(validFilter, totalRecords, uriService, route);
+    }
+    
+    public static PagedResponse<IQueryable<T>> ToPagedReponse<T>(this IQueryable<T> pagedData, int pageNumber,  int pageSize, int totalRecords, IPagedUriService uriService, string route)
+    {
+        return pagedData.ToPagedReponse(new PaginationFilter(pageNumber, pageSize), totalRecords, uriService, route);
+    }
+    
+    public static IActionResult ToPagedResult<T>(this IQueryable<T> pagedData, int pageNumber, int pageSize,    int totalRecords, IPagedUriService uriService, string route)
+    {
+        return new OkObjectResult(pagedData.ToPagedReponse(new PaginationFilter(pageNumber, pageSize), totalRecords, uriService, route));
+    }
+    
+    public static IActionResult ToPagedResult<T>(this IQueryable<T> pagedData, PaginationFilter validFilter,    int totalRecords, IPagedUriService uriService, string route)
     {
         return new OkObjectResult(pagedData.ToPagedReponse(validFilter, totalRecords, uriService, route));
     }
