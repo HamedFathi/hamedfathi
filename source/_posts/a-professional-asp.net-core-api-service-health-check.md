@@ -46,3 +46,5 @@ Most of the information in this article has gathered from various references.
 
 * https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks
 * https://www.codewithmukesh.com/blog/healthchecks-in-aspnet-core-explained/
+* https://blog.zhaytam.com/2020/04/30/health-checks-aspnetcore/
+* https://volosoft.com/blog/Using-Health-Checks-in-ASP.NET-Boilerplate
