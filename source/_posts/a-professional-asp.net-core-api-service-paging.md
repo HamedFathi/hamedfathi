@@ -80,6 +80,8 @@ To generate fake data we should do like below
 
 ```cs
 // PeopleDataGenerator.cs
+using Bogus;
+
 public static class PeopleDataGenerator
 {
     public static IEnumerable<Person> GetPeople(int count = 200)
@@ -283,23 +285,34 @@ Finally, we need some functionalities to convert our raw list to paged result:
 
 ```cs
 // PagingExtensions.cs
+
 public static class PagingExtensions
-{       
+{
     public static PagedResponse<IEnumerable<T>> ToPagedReponse<T>(this IEnumerable<T> pagedData, PaginationFilter validFilter, int totalRecords, IPagedUriService uriService, string route)
     {
         var respose = new PagedResponse<IEnumerable<T>>(pagedData, validFilter.PageNumber, validFilter.PageSize);
         var totalPages = totalRecords / (double)validFilter.PageSize;
         int roundedTotalPages = Convert.ToInt32(Math.Ceiling(totalPages));
-        respose.NextPage =
-            validFilter.PageNumber >= 1 && validFilter.PageNumber < roundedTotalPages
-            ? uriService.GetPageUri(new PaginationFilter(validFilter.PageNumber + 1, validFilter.PageSize), route)
-            : null;
-        respose.PreviousPage =
-            validFilter.PageNumber - 1 >= 1 && validFilter.PageNumber <= roundedTotalPages
-            ? uriService.GetPageUri(new PaginationFilter(validFilter.PageNumber - 1, validFilter.PageSize), route)
-            : null;
-        respose.FirstPage = uriService.GetPageUri(new PaginationFilter(1, validFilter.PageSize), route);
-        respose.LastPage = uriService.GetPageUri(new PaginationFilter(roundedTotalPages, validFilter.PageSize), route);
+        if (string.IsNullOrEmpty(route) || uriService == null)
+        {
+            respose.FirstPage = null;
+            respose.PreviousPage = null;
+            respose.NextPage = null;
+            respose.LastPage = null;
+        }
+        else
+        {
+            respose.NextPage =
+                validFilter.PageNumber >= 1 && validFilter.PageNumber < roundedTotalPages
+                ? uriService.GetPageUri(new PaginationFilter(validFilter.PageNumber + 1, validFilter.PageSize), route)
+                : null;
+            respose.PreviousPage =
+                validFilter.PageNumber - 1 >= 1 && validFilter.PageNumber <= roundedTotalPages
+                ? uriService.GetPageUri(new PaginationFilter(validFilter.PageNumber - 1, validFilter.PageSize), route)
+                : null;
+            respose.FirstPage = uriService.GetPageUri(new PaginationFilter(1, validFilter.PageSize), route);
+            respose.LastPage = uriService.GetPageUri(new PaginationFilter(roundedTotalPages, validFilter.PageSize), route);
+        }
         respose.TotalPages = roundedTotalPages;
         respose.TotalRecords = totalRecords;
         return respose;
@@ -320,20 +333,33 @@ public static class PagingExtensions
     {
         return pagedData.ToPagedReponse(validFilter, totalRecords, uriService, route);
     }
-
-    public static PagedResponse<IQueryable<T>> ToPagedReponse<T>(this IQueryable<T> pagedData, int pageNumber,  int pageSize, int totalRecords, IPagedUriService uriService, string route)
+    public static PagedResponse<IQueryable<T>> ToPagedReponse<T>(this IQueryable<T> pagedData, int pageNumber, int pageSize, int totalRecords, IPagedUriService uriService, string route)
     {
         return pagedData.ToPagedReponse(new PaginationFilter(pageNumber, pageSize), totalRecords, uriService, route);
     }
-
-    public static IActionResult ToPagedResult<T>(this IQueryable<T> pagedData, int pageNumber, int pageSize,    int totalRecords, IPagedUriService uriService, string route)
+    public static IActionResult ToPagedResult<T>(this IQueryable<T> pagedData, int pageNumber, int pageSize, int totalRecords, IPagedUriService uriService, string route)
     {
         return new OkObjectResult(pagedData.ToPagedReponse(new PaginationFilter(pageNumber, pageSize), totalRecords, uriService, route));
     }
-
-    public static IActionResult ToPagedResult<T>(this IQueryable<T> pagedData, PaginationFilter validFilter,    int totalRecords, IPagedUriService uriService, string route)
+    public static IActionResult ToPagedResult<T>(this IQueryable<T> pagedData, PaginationFilter validFilter, int totalRecords, IPagedUriService uriService, string route)
     {
         return new OkObjectResult(pagedData.ToPagedReponse(validFilter, totalRecords, uriService, route));
+    }
+    public static IActionResult ToOnePagedResult<T>(this IQueryable<T> pagedData, int totalRecords, IPagedUriService uriService, string route)
+    {
+        return pagedData.ToPagedResult(1, totalRecords, totalRecords, uriService, route);
+    }
+    public static IActionResult ToOnePagedResult<T>(this IEnumerable<T> pagedData, int totalRecords, IPagedUriService uriService, string route)
+    {
+        return pagedData.ToPagedResult(1, totalRecords, totalRecords, uriService, route);
+    }
+    public static PagedResponse<IEnumerable<T>> ToOnePagedReponse<T>(this IEnumerable<T> pagedData, int totalRecords, IPagedUriService uriService, string route)
+    {
+        return pagedData.ToPagedReponse(1, totalRecords, totalRecords, uriService, route);
+    }
+    public static PagedResponse<IQueryable<T>> ToOnePagedReponse<T>(this IQueryable<T> pagedData, int totalRecords, IPagedUriService uriService, string route)
+    {
+        return pagedData.ToPagedReponse(1,totalRecords, totalRecords, uriService, route);
     }
 }
 ```
