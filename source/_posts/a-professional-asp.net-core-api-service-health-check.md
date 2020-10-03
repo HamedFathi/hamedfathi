@@ -30,6 +30,16 @@ dotnet add package Microsoft.AspNetCore.Diagnostics.HealthChecks --version 2.2.0
 <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
 ```
 
+## Enterprise solution
+
+[AspNetCore.Diagnostics.HealthChecks](https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks) is an enterprise HealthChecks for ASP.NET Core Diagnostics Package.
+
+**HealthChecks**
+
+
+**HealthChecks UI**
+
+
 ## Reference(s)
 
 Most of the information in this article has gathered from various references.
