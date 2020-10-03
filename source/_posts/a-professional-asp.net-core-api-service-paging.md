@@ -285,7 +285,6 @@ Finally, we need some functionalities to convert our raw list to paged result:
 
 ```cs
 // PagingExtensions.cs
-
 public static class PagingExtensions
 {
     public static PagedResponse<IEnumerable<T>> ToPagedReponse<T>(this IEnumerable<T> pagedData, PaginationFilter validFilter, int totalRecords, IPagedUriService uriService, string route)
@@ -359,7 +358,7 @@ public static class PagingExtensions
     }
     public static PagedResponse<IQueryable<T>> ToOnePagedReponse<T>(this IQueryable<T> pagedData, int totalRecords, IPagedUriService uriService, string route)
     {
-        return pagedData.ToPagedReponse(1,totalRecords, totalRecords, uriService, route);
+        return pagedData.ToPagedReponse(1, totalRecords, totalRecords, uriService, route);
     }
 }
 ```
