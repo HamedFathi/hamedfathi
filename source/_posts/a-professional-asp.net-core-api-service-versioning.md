@@ -299,7 +299,7 @@ public class UnavailableApiVersion
 // PreventUnavailableApiVersionsAttribute.cs
 
 [AttributeUsage(AttributeTargets.Class)]
-public class PreventUnavailableApiVersionsAttribute : ActionFilterAttribute, IActionFilter
+public class PreventUnavailableApiVersionsAttribute : ActionFilterAttribute
 {
     public string Header { get; set; } = "x-api-version";
     public string QueryString { get; set; } = "v";
@@ -469,7 +469,7 @@ Always you can find an easier way so you can rewrite the above action filter as 
 
 ```cs
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-public class UnavailableApiVersionsAttribute : ActionFilterAttribute, IActionFilter
+public class UnavailableApiVersionsAttribute : ActionFilterAttribute
 {
     private string GetUrl(HttpRequest request)
     {
@@ -577,9 +577,23 @@ public class ValuesController : ControllerBase
 }
 ```
 
+You can use `UnavailableApiVersionsAttribute` on any controller or action method.
+
 **Global registration**
 
+Also, You are able to register the `UnavailableApiVersionsAttribute` filter globally.
 
+```cs
+// Startup.ConfigureServices
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers(options =>
+    {
+        // HERE
+        options.Filters.Add(new UnavailableApiVersionsAttribute("1.0,1.1"));
+    });
+}
+```
 
 ## Swagger integration
 
