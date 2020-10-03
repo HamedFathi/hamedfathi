@@ -590,7 +590,7 @@ public void ConfigureServices(IServiceCollection services)
     services.AddControllers(options =>
     {
         // HERE
-        options.Filters.Add(new UnavailableApiVersionsAttribute("1.0,1.1"));
+        options.Filters.Add(new UnavailableApiVersionsAttribute("1.0,1.1") { IsADeprecatedVersionValid = false });
     });
 }
 ```
