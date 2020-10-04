@@ -391,6 +391,12 @@ Based on above sample the result will be:
 
 **HealthChecks**
 
+There are a lot of HealthChecks packages that you can find in above link.
+
+We introduce some of them.
+
+
+
 
 **HealthChecks UI**
 
@@ -461,7 +467,76 @@ public class Startup
 
 Now, Browse your UI via `http://localhost:PORT/healthchecks-ui`.
 
+The important part of configuration is `AddHealthCheckEndpoint`.
 
+## HealthChecks UI Settings
+
+Here are some important settings:
+
+**UI Polling interval**
+
+You can configure the polling interval in seconds for the UI inside the setup method. Default value is `10` seconds:
+
+```cs
+// Startup.ConfigureServices
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+    
+    services.AddHealthChecks();
+    services.AddHealthChecksUI(options =>
+             {
+                 options.AddHealthCheckEndpoint("endpoint1", "http://localhost:5000/health");
+                 
+                 // Configures the UI to poll for healthchecks updates every 5 seconds
+                 options.SetEvaluationTimeInSeconds(5); 
+             })
+            .AddInMemoryStorage();
+}
+```
+
+**UI API max active requests**
+
+You can configure max active requests to the HealthChecks UI backend api using the setup method. Default value is `3` active requests:
+
+```cs
+// Startup.ConfigureServices
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+    
+    services.AddHealthChecks();
+    services.AddHealthChecksUI(options =>
+             {
+                 options.AddHealthCheckEndpoint("endpoint1", "http://localhost:5000/health");
+                 options.SetEvaluationTimeInSeconds(5); 
+                 
+                 // Only one active request will be executed at a time. 
+                 // All the excedent requests will result in 429 (Too many requests)
+                 options.SetApiMaxActiveRequests(1); 
+             })
+            .AddInMemoryStorage();
+}
+```
+
+## HealthChecks UI JSON Settings
+
+It is possible for you to customize your settings in `appsettings.json`:
+
+```json
+"HealthChecksUI": {
+     "HealthChecks": [
+          {
+              "Name": "endpoint1",
+              "Uri": "http://localhost:5000/health"
+          }
+     ],
+     "EvaluationTimeOnSeconds": 10,
+     "MinimumSecondsBetweenFailureNotifications": 60
+}
+```
 
 
 ## Reference(s)
