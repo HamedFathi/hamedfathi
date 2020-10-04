@@ -394,13 +394,75 @@ Based on above sample the result will be:
 
 **HealthChecks UI**
 
-Install the below package
+The project `HealthChecks.UI` is a minimal UI interface that stores and shows the health checks results from the configured HealthChecks URIs, So:
+
+Install the below packages
 
 ```bash
 Install-Package AspNetCore.HealthChecks.UI -Version 3.1.3
 dotnet add package AspNetCore.HealthChecks.UI --version 3.1.3
 <PackageReference Include="AspNetCore.HealthChecks.UI" Version="3.1.3" />
+
+Install-Package AspNetCore.HealthChecks.UI.Client -Version 3.1.2
+dotnet add package AspNetCore.HealthChecks.UI.Client --version 3.1.2
+<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="3.1.2" />
+
+Install-Package AspNetCore.HealthChecks.UI.InMemory.Storage -Version 3.1.2
+dotnet add package AspNetCore.HealthChecks.UI.InMemory.Storage --version 3.1.2
+<PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="3.1.2" />
 ```
+
+To config the `HealthChecks.UI` you should do as following:
+
+```cs
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllers();
+        
+        // HERE
+        services.AddHealthChecks();
+        services.AddHealthChecksUI(options =>
+                 {
+                     options.AddHealthCheckEndpoint("endpoint1", "http://localhost:5000/health");
+                 })
+                .AddInMemoryStorage();
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+
+        // HERE
+        app.UseHealthChecksUI();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            
+            // HERE
+            endpoints.MapHealthChecks("/health", new HealthCheckOptions()
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+        });
+    }
+}
+```
+
+Now, Browse your UI via `http://localhost:PORT/healthchecks-ui`.
+
+
+
 
 ## Reference(s)
 
