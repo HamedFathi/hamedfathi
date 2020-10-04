@@ -143,6 +143,60 @@ public class Startup
 }
 ```
 
+`AddCheck` can also execute a lambda function. In the following example, the health check name is specified as `Example` and the check always returns a `healthy` state:
+
+```cs
+// Startup.ConfigureServices.cs
+
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllers();
+        
+        services.AddHealthChecks()
+            .AddCheck("Example", () =>
+                HealthCheckResult.Healthy("Example is OK!"), tags: new[] { "example" });
+    }
+}
+```
+
+**Health check with arguments**
+
+Call `AddTypeActivatedCheck` to pass arguments to a health check implementation. In the following example, `TestHealthCheckWithArgs` accepts an integer and a string for use when `CheckHealthAsync` is called:
+
+```cs
+public class TestHealthCheckWithArgs : IHealthCheck
+{
+    public TestHealthCheckWithArgs(int i, string s)
+    {
+        I = i;
+        S = s;
+    }
+
+    public int I { get; set; }
+
+    public string S { get; set; }
+
+    public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, 
+        CancellationToken cancellationToken = default)
+    {
+        ...
+    }
+}
+```
+
+`TestHealthCheckWithArgs` is registered by calling `AddTypeActivatedCheck` with the integer and string passed to the implementation:
+
+```cs
+services.AddHealthChecks()
+    .AddTypeActivatedCheck<TestHealthCheckWithArgs>(
+        "test", 
+        failureStatus: HealthStatus.Degraded, 
+        tags: new[] { "example" }, 
+        args: new object[] { 5, "string" });
+```
+
 **HealthStatus**
 
 Represents the reported status of a health check result.
@@ -153,7 +207,83 @@ Represents the reported status of a health check result.
 |Healthy|Indicates that the health check determined that the component was healthy.|
 |Unhealthy|It means that the component does not work at all. For example, A connection to the Redis cache could no be established. Restarting the instance could solve this issue.|
 
-## Customize Health check result
+## Health Checks Routing
+
+In `Startup.Configure`, call MapHealthChecks on the endpoint builder with the endpoint URL or relative path:
+
+```cs
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHealthChecks("/health");
+});
+```
+
+**Require host**
+
+Call `RequireHost` to specify one or more permitted hosts for the health check endpoint. Hosts should be Unicode rather than punycode and may include a port. If a collection isn't supplied, any host is accepted.
+
+```cs
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHealthChecks("/health").RequireHost("www.contoso.com:5001");
+});
+```
+
+**Require authorization**
+
+Call `RequireAuthorization` to run Authorization Middleware on the health check request endpoint. A `RequireAuthorization` overload accepts one or more authorization policies. If a policy isn't provided, the default authorization policy is used.
+
+```cs
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHealthChecks("/health").RequireAuthorization();
+});
+```
+
+## Filter health checks
+
+By default, Health Checks Middleware runs all registered health checks. To run a subset of health checks, provide a function that returns a boolean to the `Predicate` option. In the following example, the `Bar` health check is filtered out by its tag (`bar_tag`) in the function's conditional statement, where true is only returned if the health check's Tags property matches `foo_tag` or `baz_tag`:
+
+```cs
+services.AddHealthChecks()
+    .AddCheck("Foo", () =>
+        HealthCheckResult.Healthy("Foo is OK!"), tags: new[] { "foo_tag" })
+    .AddCheck("Bar", () =>
+        HealthCheckResult.Unhealthy("Bar is unhealthy!"), tags: new[] { "bar_tag" })
+    .AddCheck("Baz", () =>
+        HealthCheckResult.Healthy("Baz is OK!"), tags: new[] { "baz_tag" });
+```
+
+In `Startup.Configure`, the `Predicate` filters out the 'Bar' health check. Only Foo and Baz execute.:
+
+```cs
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHealthChecks("/health", new HealthCheckOptions()
+    {
+        // HERE
+        Predicate = (check) => check.Tags.Contains("foo_tag") ||
+            check.Tags.Contains("baz_tag")
+    });
+});
+```
+
+## Suppress cache headers
+
+
+`AllowCachingResponses` controls whether the Health Checks Middleware adds HTTP headers to a probe response to prevent response caching. If the value is `false` (default), the middleware sets or overrides the `Cache-Control`, `Expires`, and `Pragma` headers to prevent response caching. If the value is true, the middleware doesn't modify the cache headers of the response.
+
+```cs
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHealthChecks("/health", new HealthCheckOptions()
+    {
+        AllowCachingResponses = false
+    });
+});
+```
+
+## Customize output
 
 In order to generate a more readable response that makes sense, let's add a bunch of reponse classes.
 
@@ -264,6 +394,13 @@ Based on above sample the result will be:
 
 **HealthChecks UI**
 
+Install the below package
+
+```bash
+Install-Package AspNetCore.HealthChecks.UI -Version 3.1.3
+dotnet add package AspNetCore.HealthChecks.UI --version 3.1.3
+<PackageReference Include="AspNetCore.HealthChecks.UI" Version="3.1.3" />
+```
 
 ## Reference(s)
 
@@ -273,3 +410,4 @@ Most of the information in this article has gathered from various references.
 * https://www.codewithmukesh.com/blog/healthchecks-in-aspnet-core-explained/
 * https://blog.zhaytam.com/2020/04/30/health-checks-aspnetcore/
 * https://volosoft.com/blog/Using-Health-Checks-in-ASP.NET-Boilerplate
+* https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks
