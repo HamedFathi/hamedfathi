@@ -389,14 +389,64 @@ Based on above sample the result will be:
 
 [AspNetCore.Diagnostics.HealthChecks](https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks) is an enterprise HealthChecks for ASP.NET Core Diagnostics Package.
 
-**HealthChecks**
-
 There are a lot of HealthChecks packages that you can find in above link.
 
-We introduce some of them.
+**URIs**
 
+Install the below package
 
+```bash
+Install-Package AspNetCore.HealthChecks.Uris -Version 3.1.2
+dotnet add package AspNetCore.HealthChecks.Uris --version 3.1.2
+<PackageReference Include="AspNetCore.HealthChecks.Uris" Version="3.1.2" />
+```
 
+Register you site's URL via `AddUrlGroup`
+
+```cs
+// Startup.ConfigureServices
+
+using System;
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+    services.AddHealthChecks()
+            // HERE
+            .AddUrlGroup(new Uri("https://hamedfathi.me"), 
+                name: "Hamed Fathi's Blog", 
+                tags: new[] { "blog", "tutorial" }
+            );
+}
+```
+
+**System**
+
+Install the below package
+
+```bash
+Install-Package AspNetCore.HealthChecks.System -Version 3.1.2
+dotnet add package AspNetCore.HealthChecks.System --version 3.1.2
+<PackageReference Include="AspNetCore.HealthChecks.System" Version="3.1.2" />
+```
+
+Register it inside `ConfigureServices`
+
+```cs
+// Startup.ConfigureServices
+
+using System;
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+    services.AddHealthChecks()
+            // HERE
+            .AddDiskStorageHealthCheck(s => s.AddDrive("C:\\", 1024)) // 1024 MB (1 GB) free minimum
+            .AddProcessAllocatedMemoryHealthCheck(512) // 512 MB max allocated memory
+            .AddProcessHealthCheck("svchost", p => p.Length > 0) // The process is available
+}
+```
 
 **HealthChecks UI**
 
