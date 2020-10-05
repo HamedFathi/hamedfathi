@@ -77,8 +77,8 @@ Here is how the controller looks like.
 
 public class CacheRequest
 {
-    public string key { get; set; }
-    public string value { get; set; }
+    public string Key { get; set; }
+    public string Value { get; set; }
 }
 
 // CacheController.cs
@@ -109,7 +109,7 @@ public class CacheController : ControllerBase
             SlidingExpiration = TimeSpan.FromMinutes(2),
             Size = 1024,
         };
-        memoryCache.Set(data.key, data.value, cacheExpiryOptions);
+        memoryCache.Set(data.Key, data.Value, cacheExpiryOptions);
         return Ok();
     }
 }
@@ -178,7 +178,20 @@ Like in-memory cache, it can improve your application response time quite drastr
 
 * Since it is kept external, the response time may be a bit slower depending on the connection strength to the redis server.
 
-## How to add Distributed caching?
+## Distributed memory cache
+
+To keep in line with other distributed memory cache providers that follow `IDistributedCache` interface there is also implementation of memory cache that follows the same interface. `MemoryDistributedCache` class is wrapper around `IMemoryCache` and we can use it as any other distributed cache.
+
+**IDistributedCache interface**
+
+| Method(s) | Description |
+|-----------|-------------|
+|Get, GetAsync|Accepts a string key and retrieves a cached item as a `byte[]` array if found in the cache.|
+|Set, SetAsync|Adds an item (as `byte[]` array) to the cache using a string key.|
+|Refresh, RefreshAsync|Refreshes an item in the cache based on its key, resetting its sliding expiration timeout (if any).|
+|Remove, RemoveAsync|Removes a cache item based on its string key.|
+
+**How to add Distributed caching?**
 
 Add `AddDistributedMemoryCache` to your services as following
 
@@ -197,6 +210,82 @@ public class Startup
 }
 ```
 
+For example
+
+```cs
+// CacheRequest.cs
+
+public class CacheRequest
+{
+    public string Key { get; set; }
+    public byte[] Value { get; set; }
+}
+
+// CacheController.cs
+
+[Route("api/[controller]")]
+[ApiController]
+public class CacheController : ControllerBase
+{
+    private readonly IDistributedCache _distributedCache;
+    public CacheController(IDistributedCache distributedCache /* HERE */)
+    {
+        this._distributedCache = distributedCache;
+    }
+    [HttpGet("{key}")]
+    public IActionResult GetCache(string key)
+    {
+       var value = _distributedCache.Get(key);
+        // ...
+        return Ok(/* Your object */);
+    }
+    [HttpPost]
+    public IActionResult SetCache(CacheRequest data)
+    {
+        _distributedCache.Set(data.Key, data.Value);
+        // ...
+        return Ok(/* Your object */);
+    }
+}
+```
+
+There are some useful extension methods to convert your object to byte array and vice versa.
+
+```cs
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
+public static class ByteArrayExtensions
+{
+    public static byte[] ToByteArray<T>(this T obj)
+    {
+        if (obj == null)
+            return null;
+        BinaryFormatter bf = new BinaryFormatter();
+        using (MemoryStream ms = new MemoryStream())
+        {
+            bf.Serialize(ms, obj);
+            return ms.ToArray();
+        }
+    }
+
+    public static T FromByteArray<T>(this byte[] data)
+    {
+        if (data == null)
+            return default(T);
+        BinaryFormatter bf = new BinaryFormatter();
+        using (MemoryStream ms = new MemoryStream(data))
+        {
+            object obj = bf.Deserialize(ms);
+            return (T)obj;
+        }
+    }
+}
+```
+
+## In-Memory cache or Distributed memory cache?
+
+Using `In-Memory` cache is the option for systems running on single box. Also in development environments we could prefer In-Memory based cache to keep external services away when building the system. I think that going with `IDistributedCache` is better idea as there is no need for changes in controllers and other parts of application when distributed cache provider is changed. In cloud and multi-box environments some implementation of distributed cache is a must as local caches on web server are not synchronized.
 
 ## Reference(s)
 
@@ -205,3 +294,4 @@ Most of the information in this article has gathered from various references.
 * https://www.codewithmukesh.com/blog/in-memory-caching-in-aspnet-core/
 * https://www.codewithmukesh.com/blog/redis-caching-in-aspnet-core/
 * https://docs.microsoft.com/en-us/aspnet/core/performance/caching/distributed
+* https://gunnarpeipman.com/aspnet-core-memory-cache/
