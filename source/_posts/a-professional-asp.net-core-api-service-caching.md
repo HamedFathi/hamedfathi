@@ -330,13 +330,14 @@ public class Startup
         });
     }
 }
+```
 
-// appsettings.json
+And inside `appsettings.json`
 
+```json
 {
   "DistCache_ConnectionString": "Server=.;Database=DistCache;User Id=sa;Password=1234567;"
 }
-
 ```
 
 ## Distributed Redis Cache
