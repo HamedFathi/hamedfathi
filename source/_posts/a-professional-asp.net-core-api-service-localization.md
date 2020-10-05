@@ -64,7 +64,6 @@ There are three methods used to configure localization in ASP.NET Core. These in
 
 ## Define the Allowed Cultures
 
-
 ```cs
 // Startup.cs
 
@@ -153,7 +152,9 @@ In the sample project, the `ConfigureServices` method sets the `ResourcesPath` t
 In our sample, `WebApplicationSample` is the assembly name so we should create our resources inside `Resources` folder with this way.
 
 **[NamespaceWithoutAssemblyName].[ControllerName].[Culture].resx**
+
 Or
+
 **[NamespaceWithoutAssemblyName]/[ControllerName].[Culture].resx**
 
 ## How to use resource files?
@@ -246,8 +247,7 @@ public void ConfigureServices(IServiceCollection services)
     // services.AddLocalization(opt => opt.ResourcesPath = "Resources");
 
     // HERE
-    var directory = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
-    services.AddJsonLocalization(opt => opt.ResourcesPath = directory);
+    services.AddJsonLocalization(opt => opt.ResourcesPath = "Resources");
 }
 ```
 
@@ -321,6 +321,127 @@ Install-Package Microsoft.AspNetCore.Mvc.DataAnnotations -Version 2.2.0
 dotnet add package Microsoft.AspNetCore.Mvc.DataAnnotations --version 2.2.0
 <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
 ```
+
+You can use DataAnnotation and Localization together. Update your `ConfigureServices` as following:
+
+```cs
+// Startup.ConfigureServices
+
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // Be Careful, You must register 'AddLocalization' before 'AddDataAnnotationsLocalization' like below.
+        services.AddLocalization(opt => opt.ResourcesPath = "Resources");
+        services.AddControllers()
+                // HERE
+                .AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                        factory.Create(typeof(DataAnnotationValidation));
+                })
+        ;
+    }
+}
+```
+
+Based on above configuration, you must add below files in `Resources` folder.
+
+DataAnnotationValidation.en-GB.resx
+
+| Key             | Value     |
+|-----------------|-----------|
+| Name | '{0}' ist erforderlich |
+
+DataAnnotationValidation.de-DE.resx
+
+| Key             | Value     |
+|-----------------|-----------|
+| Name | '{0}' ist erforderlich |
+
+We want to validate `Person` class.
+
+```cs
+// Person.cs
+
+public class Person
+{
+    // The string of 'ErrorMessage' is the key.
+    [Required(ErrorMessage = "Name")]
+    public string Name { get; set; }
+    public string FamilyName { get; set; }
+    public string Address { get; set; }
+    public string EmailAddress { get; set; }
+    public int Age { get; set; }
+}
+```
+
+
+```cs
+[ApiController]
+[Route("[controller]")]
+public class WeatherForecastController : ControllerBase
+{
+    private readonly IStringLocalizer<WeatherForecastController> _localizer;
+    public WeatherForecastController(IStringLocalizer<WeatherForecastController> localizer)
+    {
+        _localizer = localizer;
+    }
+
+    // http://localhost:PORT/weatherforecast
+    // http://localhost:PORT/weatherforecast?culture=en-GB
+    // http://localhost:PORT/weatherforecast?culture=de-DE
+    [HttpPost]
+    public IActionResult Post([FromBody] Person person)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        else
+        {
+            return Ok();
+        }
+    }
+}
+```
+
+And the result will be
+
+```json
+{
+    "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+    "title": "One or more validation errors occurred.",
+    "status": 400,
+    "traceId": "|82e992e6-411f3f305ff4df95.",
+    "errors": {
+        "Name": [
+            "'Name' is required"
+        ]
+    }
+}
+
+{
+    "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+    "title": "One or more validation errors occurred.",
+    "status": 400,
+    "traceId": "|82e992e5-411f3f305ff4df95.",
+    "errors": {
+        "Name": [
+            "'Name' ist erforderlich"
+        ]
+    }
+}
+```
+
+
+
+
+
+
+
+
+## DataAnnotation & JSON Localization
 
 ?
 
