@@ -287,6 +287,55 @@ public static class ByteArrayExtensions
 
 Using `In-Memory` cache is the option for systems running on single box. Also in development environments we could prefer In-Memory based cache to keep external services away when building the system. I think that going with `IDistributedCache` is better idea as there is no need for changes in controllers and other parts of application when distributed cache provider is changed. In cloud and multi-box environments some implementation of distributed cache is a must as local caches on web server are not synchronized.
 
+So, The Distributed Memory Cache is a useful implementation:
+
+* In development and testing scenarios.
+* When a single server is used in production and memory consumption isn't an issue. Implementing the Distributed Memory Cache abstracts cached data storage. It allows for implementing a true distributed caching solution in the future if multiple nodes or fault tolerance become necessary.
+
+## Distributed SQL Server Cache
+
+The Distributed SQL Server Cache implementation (`AddDistributedSqlServerCache`) allows the distributed cache to use a SQL Server database as its backing store. To create a SQL Server cached item table in a SQL Server instance, you can use the `sql-cache` tool. The tool creates a table with the name and schema that you specify.
+
+Create a table in SQL Server by running the `sql-cache create` command. Provide the SQL Server instance (`Data Source`), database (`Initial Catalog`), schema (for example, `dbo`), and table name (for example, `TestCache`):
+
+```bash
+dotnet tool install --global dotnet-sql-cache --version 3.1.8
+
+dotnet sql-cache create "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DistCache;Integrated Security=True;" dbo TestCache
+```
+
+A message is logged to indicate that the tool was successful:
+
+```
+Table and index were created successfully.
+```
+
+The sample app implements `SqlServerCache` in a non-Development environment in `Startup.ConfigureServices`:
+
+```cs
+// Startup.ConfigureServices
+
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllers();
+        
+        // HERE
+        services.AddDistributedSqlServerCache(options =>
+        {
+            options.ConnectionString = Configuration["DistCache_ConnectionString"];
+            options.SchemaName = "dbo";
+            options.TableName = "TestCache";
+        });
+    }
+}
+```
+
+## Distributed Redis Cache
+
+?
+
 ## Reference(s)
 
 Most of the information in this article has gathered from various references.
