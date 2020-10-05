@@ -27,7 +27,7 @@ ASP.NET Core has some great out-of-the-box support for various types of caching 
 * `In-Memory caching`: Where the data is cached within the server's memory.
 * `Distributed caching`: The data is stored external to the application in sources like Redis cache etc.
 
-## In-Memory Caching in ASP.NET Core
+## In-Memory Caching
 
 With ASP.NET Core, it is now possible to cache the data within the application. This is known as `In-Memory` Caching in ASP.NET Core. The Application stores the data on to the server's instance which in turn drastically improves the application's performance. This is probably the easiest way to implement caching in your application.
 
@@ -162,8 +162,46 @@ public class CustomerController : ControllerBase
 }
 ```
 
+## Distributed Caching
+
+ASP.NET Core supports not only in-memory application based cache, but also supports `Distribited Caching`. A distributed cache is something external to the application. It does not live within the application and need not be present in the infrastructure of the server machine as well. Distributed cache is a cache that can be shared by one or more applications/servers.
+Like in-memory cache, it can improve your application response time quite drastrically. However, the implementation of Distributed Cache is application specific. This means that there are multiple cache providers that support distributed caches.
+
+**Pros**
+
+* Data is consistent throughout multiple servers.
+* Multiple Applications / Servers can use one instance of Redis Server to cache data. This reduces the cost of maintanence in the longer run.
+* Cache would not be lost on server restart and application deployment as the cache lives external to the application.
+* It does not use local server’s resources.
+
+**Cons**
+
+* Since it is kept external, the response time may be a bit slower depending on the connection strength to the redis server.
+
+## How to add Distributed caching?
+
+Add `AddDistributedMemoryCache` to your services as following
+
+```cs
+// Startup.cs
+
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllers();
+        
+        // HERE
+        services.AddDistributedMemoryCache();
+    }
+}
+```
+
+
 ## Reference(s)
 
 Most of the information in this article has gathered from various references.
 
 * https://www.codewithmukesh.com/blog/in-memory-caching-in-aspnet-core/
+* https://www.codewithmukesh.com/blog/redis-caching-in-aspnet-core/
+* https://docs.microsoft.com/en-us/aspnet/core/performance/caching/distributed
