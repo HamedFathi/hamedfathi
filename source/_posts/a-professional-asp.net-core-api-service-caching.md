@@ -301,7 +301,7 @@ Create a table in SQL Server by running the `sql-cache create` command. Provide 
 ```bash
 dotnet tool install --global dotnet-sql-cache --version 3.1.8
 
-dotnet sql-cache create "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DistCache;Integrated Security=True;" dbo TestCache
+dotnet sql-cache create "Server=.;Database=DistCache;User Id=sa;Password=1234567;" dbo TestCache
 ```
 
 A message is logged to indicate that the tool was successful:
@@ -330,6 +330,13 @@ public class Startup
         });
     }
 }
+
+// appsettings.json
+
+{
+  "DistCache_ConnectionString": "Server=.;Database=DistCache;User Id=sa;Password=1234567;"
+}
+
 ```
 
 ## Distributed Redis Cache
