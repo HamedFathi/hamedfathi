@@ -10,6 +10,8 @@ tags:
     - caching
     - inmemory
     - distributed
+    - redis
+    - sqlserver
 ---
  
 Caching is a technique of storing the frequently accessed/used data so that the future requests for those sets of data can be served much faster to the client.
@@ -172,7 +174,7 @@ Like in-memory cache, it can improve your application response time quite drastr
 * Data is consistent throughout multiple servers.
 * Multiple Applications / Servers can use one instance of Redis Server to cache data. This reduces the cost of maintanence in the longer run.
 * Cache would not be lost on server restart and application deployment as the cache lives external to the application.
-* It does not use local server’s resources.
+* It does not use local server's resources.
 
 **Cons**
 
@@ -252,6 +254,8 @@ public class CacheController : ControllerBase
 There are some useful extension methods to convert your object to byte array and vice versa.
 
 ```cs
+// ByteArrayExtensions.cs
+
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -296,7 +300,7 @@ So, The Distributed Memory Cache is a useful implementation:
 
 The Distributed SQL Server Cache implementation (`AddDistributedSqlServerCache`) allows the distributed cache to use a SQL Server database as its backing store. To create a SQL Server cached item table in a SQL Server instance, you can use the `sql-cache` tool. The tool creates a table with the name and schema that you specify.
 
-Create a table in SQL Server by running the `sql-cache create` command. Provide the SQL Server instance (`Data Source`), database (`Initial Catalog`), schema (for example, `dbo`), and table name (for example, `TestCache`):
+Create a table in SQL Server by running the `sql-cache create` command. Provide the SQL Server instance (`Server`), database (`Database`), schema (for example, `dbo`), and table name (for example, `TestCache`):
 
 ```bash
 dotnet tool install --global dotnet-sql-cache --version 3.1.8
@@ -342,7 +346,74 @@ And inside `appsettings.json`
 
 ## Distributed Redis Cache
 
-?
+`Redis` is an open source data store that is used as a database, cache / messaging broker. It supports quite a lot of data structures like string, hashes, lists,, queries and much more. It's a blazing fast key-value based database that is written in C. It's a NoSQL Database as well, which is awesome. For these purposes, it is being used at techgiants like Stackoverflow, Flickr, Github and so on.
+
+`Redis` is a great option for implementing highly available cache to reduce the data access latency and improve the application response time. As a result, we can reduce the load off our database to a very good extent.
+
+Install below package
+
+```cs
+Install-Package Microsoft.Extensions.Caching.StackExchangeRedis -Version 3.1.8
+dotnet add package Microsoft.Extensions.Caching.StackExchangeRedis --version 3.1.8
+<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.8" />
+```
+
+Register `Redis` as following:
+
+```cs
+// Startup.ConfigureServices
+
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllers();
+        
+        // HERE
+        services.AddStackExchangeRedisCache(options =>
+        {
+            // By default, Redis runs on the local 6379 port.
+            options.Configuration = "localhost:6379";
+        });
+    }
+}
+```
+
+You can use it inside controller
+
+```cs
+[ApiController]
+[Route("[controller]")]
+public class WeatherForecastController : ControllerBase
+{
+    private readonly IDistributedCache _distributedCache;
+
+    public WeatherForecastController(IDistributedCache distributedCache)
+    {
+        _distributedCache = distributedCache;
+        // SET
+        var options = new DistributedCacheEntryOptions()
+            .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
+            .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+        _distributedCache.Set("test", "Hello".ToByteArray(), options);
+    }
+
+    [HttpGet]
+    public string Get()
+    {
+        // GET
+        var value = _distributedCache.Get("test").FromByteArray<string>();
+        return value;
+    }
+}
+```
+
+**DistributedCacheEntryOptions**
+
+* `SetAbsoluteExpiration`: You can set the expiration time of the cache object.
+* `SetSlidingExpiration`: This is similar to the `Absolute Expiration`. It expires a cache object if it not being requested for a defined amount of time period.
+
+**Note**: The `Absolute Expiration` *should never be less* than the `Sliding Expiration`.
 
 ## Reference(s)
 
@@ -352,3 +423,4 @@ Most of the information in this article has gathered from various references.
 * https://www.codewithmukesh.com/blog/redis-caching-in-aspnet-core/
 * https://docs.microsoft.com/en-us/aspnet/core/performance/caching/distributed
 * https://gunnarpeipman.com/aspnet-core-memory-cache/
+* https://www.codewithmukesh.com/blog/redis-caching-in-aspnet-core/
