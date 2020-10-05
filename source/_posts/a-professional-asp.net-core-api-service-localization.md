@@ -376,6 +376,7 @@ public class Person
 }
 ```
 
+And you controller will be
 
 ```cs
 [ApiController]
@@ -406,7 +407,7 @@ public class WeatherForecastController : ControllerBase
 }
 ```
 
-And the result will be
+And the result is
 
 ```json
 {
@@ -434,16 +435,124 @@ And the result will be
 }
 ```
 
-
-
-
-
-
-
-
 ## DataAnnotation & JSON Localization
 
-?
+You can also use DataAnnotation and JSON Localization together. Update your `ConfigureServices` as following:
+
+```cs
+// Startup.ConfigureServices
+
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // Be Careful, You must register 'AddJsonLocalization' before 'AddDataAnnotationsLocalization' like below.
+        services.AddJsonLocalization(opt => opt.ResourcesPath = "Resources");
+        services.AddControllers()
+                // HERE
+                .AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                        factory.Create(typeof(DataAnnotationValidation));
+                })
+        ;
+    }
+}
+```
+
+Then write below `JSON` files in `Resources` folder.
+
+DataAnnotationValidation.en-GB.json
+
+```json
+{
+  "Name": "'{0}' is required"
+}
+```
+
+DataAnnotationValidation.de-DE.json
+
+```json
+{
+  "Name": "'{0}' ist erforderlich"
+}
+```
+
+We want to validate `Person` class.
+
+```cs
+// Person.cs
+
+public class Person
+{
+    // The string of 'ErrorMessage' is the key.
+    [Required(ErrorMessage = "Name")]
+    public string Name { get; set; }
+    public string FamilyName { get; set; }
+    public string Address { get; set; }
+    public string EmailAddress { get; set; }
+    public int Age { get; set; }
+}
+```
+
+And you controller will be
+
+```cs
+[ApiController]
+[Route("[controller]")]
+public class WeatherForecastController : ControllerBase
+{
+    private readonly IStringLocalizer<WeatherForecastController> _localizer;
+    public WeatherForecastController(IStringLocalizer<WeatherForecastController> localizer)
+    {
+        _localizer = localizer;
+    }
+
+    // http://localhost:PORT/weatherforecast
+    // http://localhost:PORT/weatherforecast?culture=en-GB
+    // http://localhost:PORT/weatherforecast?culture=de-DE
+    [HttpPost]
+    public IActionResult Post([FromBody] Person person)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        else
+        {
+            return Ok();
+        }
+    }
+}
+```
+
+And the result is
+
+```json
+{
+    "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+    "title": "One or more validation errors occurred.",
+    "status": 400,
+    "traceId": "|82e992e6-411f3f305ff4df95.",
+    "errors": {
+        "Name": [
+            "'Name' is required"
+        ]
+    }
+}
+
+{
+    "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+    "title": "One or more validation errors occurred.",
+    "status": 400,
+    "traceId": "|82e992e5-411f3f305ff4df95.",
+    "errors": {
+        "Name": [
+            "'Name' ist erforderlich"
+        ]
+    }
+}
+```
 
 ## FluentValidation & Localization
 
