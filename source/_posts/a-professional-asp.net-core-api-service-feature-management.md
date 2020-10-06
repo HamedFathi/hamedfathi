@@ -27,6 +27,138 @@ dotnet add package Microsoft.FeatureManagement.AspNetCore --version 2.2.0
 <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.2.0" />
 ```
 
+The .NET Core feature manager `IFeatureManager` gets feature flags from the framework's native configuration system. As a result, you can define your application's feature flags by using any configuration source that .NET Core supports, including the local appsettings.json file or environment variables. `IFeatureManager` relies on .NET Core dependency injection. You can register the feature management services by using standard conventions:
+
+```cs
+// Startup.ConfigureServices
+
+using Microsoft.FeatureManagement;
+
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddFeatureManagement();
+    }
+}
+```
+
+By default, the feature manager retrieves feature flags from the "FeatureManagement" section of the .NET Core configuration data (`appsettings.json`). 
+
+```json
+"FeatureManagement": {
+  "MoreResults": true
+}
+```
+
+The following example tells the feature manager to read from a different section called "MyFeatureFlags" instead:
+
+```cs
+// Startup.ConfigureServices
+
+using Microsoft.FeatureManagement;
+
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddFeatureManagement(options =>
+        {
+                options.UseConfiguration(Configuration.GetSection("MyFeatureFlags"));
+        });
+    }
+}
+```
+
+```json
+"MyFeatureFlags": {
+  "MoreResults": true
+}
+```
+
+## Adding simple feature flags
+
+The `IFeatureManager` service allows you to interrogate the feature management system to identify whether a feature flag is enabled or not. `IFeatureManager` exposes a single method, for checking whether a feature flag is enabled:
+
+```cs
+[ApiController]
+[Route("[controller]")]
+public class WeatherForecastController : ControllerBase
+{
+    private readonly IFeatureManager _featureManager;
+
+    private static readonly string[] Summaries = new[]
+    {
+        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    };
+
+    public WeatherForecastController(IFeatureManager featureManager /* HERE */)
+    {
+        _featureManager = featureManager;
+    }
+
+    [HttpGet]
+    public IEnumerable<WeatherForecast> Get()
+    {
+        var rng = new Random();
+        IEnumerable<int> range = null;
+        
+        //HERE
+        if (_featureManager.IsEnabledAsync("MoreResults").GetAwaiter().GetResult())
+        {
+            range = Enumerable.Range(1, 50);
+        }
+        else
+        {
+            range = Enumerable.Range(1, 5);
+        }
+        return range.Select(index => new WeatherForecast
+        {
+            Date = DateTime.Now.AddDays(index),
+            TemperatureC = rng.Next(-20, 55),
+            Summary = Summaries[rng.Next(Summaries.Length)]
+        })
+        .ToArray();
+    }
+}
+```
+
+## Avoid strings
+
+Feature flags are identified in code using magic-strings: "MoreResults" in the previous example. Instead of scattering these around your code, the official docs recommend creating a `FeatureFlags` `enum`, and calling `nameof()` to reference the values, e.g:
+
+```cs
+// Define your flags in an enum
+// Be careful not to refactor/rename any typos, as that will break configuration
+public enum FeatureFlags
+{
+    MoreResults
+}
+
+// Reference the feature flags using nameof()
+var isEnabled = await _featureManager.IsEnabledAsync(nameof(FeatureFlags.MoreResults));
+```
+
+**Static class**
+
+Using a static class and string constants, it reduces the verbosity at the call site.
+
+```cs
+// Using a static class separates the "name" of the feature flag
+// from its string value
+public static class FeatureFlags
+{
+    public const string MoreResults = "MoreResults";
+}
+
+// No need for nameof() at the call site
+var isEnabled = await _featureManager.IsEnabledAsync(FeatureFlags.MoreResults);
+```
+
+
+
+
+
 ## Reference(s)
 
 Most of the information in this article has gathered from various references.
