@@ -286,6 +286,174 @@ Next, you can use `<feature>` tag helper to wrap the UI elements you want to put
 
 We can use `negate` attribute and set it to true if you want to show the content between feature tag helper when the feature is disabled.
 
+## Dynamic Features
+
+We introduce feature filters, which are a much more powerful way of working with feature flags. These let you enable a feature based on arbitrary data. For example, you could enable a feature based on headers in an incoming request, based on the current time, or based on the current user's claims.
+
+```json
+{
+  "FeatureManagement": {
+    "Beta": false
+  }
+}
+```
+
+With this configuration, the Beta feature flag is always false for all users (until configuration changes). While this will be useful in some cases, you may often want to enable features for only some of your users, or only some of the time.
+
+`Microsoft.FeatureManagement` introduces an interface `IFeatureFilter` which can be used to decide whether a feature is enabled or not based on any logic you require.
+
+**Enabling a feature flag based on the current time with TimeWindowFilter**
+
+The `TimeWindowFilter` does as its name suggests - it enables a feature for a given time window. You provide the start and ending DateTime, and any calls to `IFeatureManager.IsEnabledAsync()` for the feature will be true only between those times.
+
+Add the feature management services in `Startup.ConfigureServices`, by calling `AddFeatureManagement()`, which returns an IFeatureManagementBuilder. You can enable the time window filter by calling `AddFeatureFilter<>()` on the builder:
+
+```cs
+// Startup.ConfigureServices
+
+using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.FeatureFilters;
+
+public class Startup 
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddFeatureManagement()
+            .AddFeatureFilter<TimeWindowFilter>(); // HERE
+    }
+}
+```
+
+This adds the `IFeatureFilter` to your app, but you need to configure it using the configuration system. Each `IFeatureFilter` can have an associated "settings" object, depending on the implementation. For the `TimeWindowFilter`, this looks like:
+
+```cs
+// TimeWindowSettings.cs
+
+So let's consider a scenario: I want to enable a custom Christmas banner which goes live on boxing day at 2am UTC, and ends three days later at 1am UTC.
+
+
+public class TimeWindowSettings
+{
+    public DateTimeOffset? Start { get; set; }
+    public DateTimeOffset? End { get; set; }
+}
+```
+
+So let's consider a scenario: I want to enable a custom Christmas banner which goes live on boxing day at 2am UTC, and ends three days later at 1am UTC.
+
+We'll start by creating a feature flag for it in code called `ChristmasBanner`
+
+```cs
+public static class FeatureFlags
+{
+    public const string ChristmasBanner = "ChristmasBanner";
+}
+```
+
+Now we'll add the configuration. As before, we nest the configuration under the `FeatureManagement` key and provide the name of the feature. However, instead of using a Boolean for the feature, we use `EnabledFor`, and specify an array of feature filters.
+
+```json
+"FeatureManagement": {
+  "ChristmasBanner": {
+    "EnabledFor": [
+      {
+        "Name": "Microsoft.TimeWindow",
+        "Parameters": {
+          "Start": "26 Dec 2019 02:00:00 +00:00",
+          "End": "29 Dec 2019 01:00:00 +00:00"
+        }
+      }
+    ]
+  }
+}
+```
+
+It's important you get the configuration correct here. The general pattern is identical for all feature filters:
+
+* The feature name ("ChristmasBanner") should be the key of an object:
+* This object should contains a single property, `EnabledFor`, which is an array of objects.
+* Each of the objects in the array represents an `IFeatureFilter`. For each filter
+    * Provide the `Name` of the filter ("Microsoft.TimeWindow" for the `TimeWindowFilter`)
+    * Optionally provide a `Parameters` object, which is bound to the settings object of the feature filter (`TimeWindowSettings` in this case).
+* If any of the feature filters in the array are satisfied for a given request, the feature is enabled. It is only disabled if all `IFeatureFilters` indicate it should be disabled.
+
+With this configuration, the `ChristmasBanner` feature flag will return false until `DateTime.UtcNow` falls between the provided dates:
+
+```cs
+// WeatherForecastController.cs
+
+using Microsoft.FeatureManagement;
+
+[ApiController]
+[Route("[controller]")]
+public class WeatherForecastController : ControllerBase
+{
+    private readonly IFeatureManager _featureManager;
+    public WeatherForecastController(IFeatureManager featureManager)
+    {
+        _featureManager = featureManager;
+        // only returns true during provided time window
+        var showBanner = _featureManager.IsEnabled(FeatureFlags.ChristmasBanner);
+    }
+}
+```
+
+The real benefit to using `IFeatureFilters` is that you get dynamic behaviour, but you can still control it from configuration.
+
+**Note**: that TimeWindowSettings has nullable values for Start and End, to give you open-ended time windows e.g. always enable until a given date, or only enable from a given date.
+
+**Rolling features out slowly with PercentageFilter**
+
+The `PercentageFilter` also behaves as you might expect - it only enables a feature for x percent of requests, where x is controlled via settings. Enabling the `PercentageFilter` follows the same procedure as for `TimeWindowFilter`.
+
+```cs
+// Startup.ConfigureServices
+
+using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.FeatureFilters;
+
+public class Startup 
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddFeatureManagement()
+            .AddFeatureFilter<PercentageFilter>(); // HERE
+    }
+}
+```
+
+Create a feature flag:
+
+```cs
+public static class FeatureFlags
+{
+    public const string FancyFonts = "FancyFonts";
+}
+```
+
+Configure the feature in configuration:
+
+```json
+"FeatureManagement": {
+  "FancyFonts": {
+    "EnabledFor": [
+      {
+        "Name": "Microsoft.Percentage",
+        "Parameters": {
+          "Value": 10
+        }
+      }
+    ]
+  }
+}
+```
+
+The `PercentageSettings` object consists of a single int, which is the percentage of the time the flag should be enabled. In the example above, the flag will be enabled for 10% of calls to `IFeatureManager.IsEnabled(FeatureFlags.FancyFonts)``.
+
+## Creating a custom IFeatureFilter
+
+
+
 ## Reference(s)
 
 Most of the information in this article has gathered from various references.
