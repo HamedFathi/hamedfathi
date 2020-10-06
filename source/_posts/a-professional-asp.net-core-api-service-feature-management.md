@@ -155,6 +155,44 @@ public static class FeatureFlags
 var isEnabled = await _featureManager.IsEnabledAsync(FeatureFlags.MoreResults);
 ```
 
+## FeatureGate
+
+We can block access to entire controllers or action methods using the `FeatureGate` action filter.
+
+```cs
+// BetaController.cs
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement.Mvc;
+
+// HERE
+[FeatureGate("Beta")] // Beta feature flag must be enabled
+public class BetaController : Controller
+{
+    public IActionResult Index()
+    {
+        return View();
+    }
+}
+```
+
+If you try to navigate to this page (`/Beta`) when the feature is `enabled`, you'll see the View rendered. However, if the Beta feature flag is `disabled`, you'll get a `404` when trying to view the page:
+
+The `[FeatureGate]` attribute takes an array of feature flags, in its constructor. If any of those features are enabled, the controller is enabled.
+
+```cs
+[FeatureGate("Beta", "Alpha")]
+public class BetaController : Controller
+{
+    public IActionResult Index()
+    {
+        return View();
+    }
+}
+```
+
+## Custom handling of missing actions
+
 
 
 
