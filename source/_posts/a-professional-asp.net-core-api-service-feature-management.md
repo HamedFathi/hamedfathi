@@ -6,9 +6,9 @@ tags:
     - dotnet
     - aspnetcore
     - webapi
-    - di
-    - ioc
-    - dryioc
+    - featuremanagement
+    - feature
+    - featureflag
 ---
  
 The .NET Core `Feature Management` libraries provide idiomatic support for implementing feature flags in a .NET or ASP.NET Core application. These libraries allow you to declaratively add feature flags to your code so that you don't have to write all the `if` statements for them manually.
