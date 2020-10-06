@@ -39,3 +39,4 @@ Most of the information in this article has gathered from various references.
 * https://andrewlock.net/creating-dynamic-feature-flags-with-feature-filters-adding-feature-flags-to-an-asp-net-core-app-part-3/
 * https://andrewlock.net/creating-a-custom-feature-filter-adding-feature-flags-to-an-asp-net-core-app-part-4/
 * https://andrewlock.net/keeping-consistent-feature-flags-across-requests-adding-feature-flags-to-an-asp-net-core-app-part-5/
+* https://kasunkodagoda.com/2020/01/16/implementing-feature-flags-for-asp-net-core-applications-using-microsoft-featuremanagement-library/
