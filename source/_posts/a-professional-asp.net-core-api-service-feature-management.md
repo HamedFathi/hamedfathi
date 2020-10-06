@@ -103,7 +103,7 @@ public class WeatherForecastController : ControllerBase
         var rng = new Random();
         IEnumerable<int> range = null;
         
-        //HERE
+        // HERE
         if (_featureManager.IsEnabledAsync("MoreResults").GetAwaiter().GetResult())
         {
             range = Enumerable.Range(1, 50);
@@ -178,7 +178,7 @@ public class BetaController : Controller
 
 If you try to navigate to this page (`/Beta`) when the feature is `enabled`, you'll see the View rendered. However, if the Beta feature flag is `disabled`, you'll get a `404` when trying to view the page:
 
-The `[FeatureGate]` attribute takes an array of feature flags, in its constructor. If any of those features are enabled, the controller is enabled.
+The `[FeatureGate]` attribute takes an array of feature flags, in its constructor. If `any` of those features are enabled, the controller is enabled.
 
 ```cs
 [FeatureGate("Beta", "Alpha")]
@@ -193,9 +193,98 @@ public class BetaController : Controller
 
 ## Custom handling of missing actions
 
+If an action is removed due to a feature being disabled, the default is to generate a 404 response. That may be fine for some applications, especially if you're using error handling middleware to customise error responses to avoid ugly "raw" 404.
 
+However, it's also possible that you may want to generate a different response in this situation. Maybe you want to redirect users to a "stable" page, return a "join the waiting list" view, or simply return a different response, like a 403 Forbidden.
 
+You can achieve any of these approaches by creating a service that implements the `IDisabledFeaturesHandler` interface. Implementers are invoked as part of the action filter pipeline, when an action method is "removed" due to a feature being disabled. In the example below, I show how to generate a 403 Forbidden response, but you have access to the whole `ActionExecutingContext` in the method, so you can do anything you can in a standard action filter:
 
+```cs
+using Microsoft.FeatureManagement.Mvc;
+
+public class RedirectDisabledFeatureHandler : IDisabledFeaturesHandler
+{
+    public Task HandleDisabledFeatures(IEnumerable<string> features, ActionExecutingContext context)
+    {
+        context.Result = new ForbidResult(); // generate a 403
+        return Task.CompletedTask;
+    }
+}
+```
+
+To register the handler, update your call to `AddFeatureManagement()`:
+
+```cs
+// Startup.ConfigureServices
+
+using Microsoft.FeatureManagement;
+
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddFeatureManagement()
+            .UseDisabledFeaturesHandler(new RedirectDisabledFeatureHandler()); /* HERE */
+    }
+}
+```
+
+With the handler registered, if you now try to access a disabled feature, a 403 response is generated, which is intercepted by the error handling middleware, and you're redirected to the "Access Denied" page for the app:
+
+## Razor
+
+You can use feature flags inside your Views.
+
+**Dependency injection**
+
+ You can `inject` the `IFeatureManager` service into views using dependency injection. You could use the `@inject` directive, and check for the feature manually:
+ 
+ ```xml
+ <!-- Inject the service using DI  -->
+@inject  Microsoft.FeatureManagement.IFeatureManager _featureManager; 
+
+<nav>
+    <ul>
+        <!-- Check if the feature is enabled  -->
+        @if (await _featureManager.IsEnabledAsync(FeatureFlags.PromotionDiscounts))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-controller="PromotionDiscount" asp-action="Index">Discount</a>
+            </li>
+        }
+    </ul>
+</nav>
+```
+
+**Using Tag Helper**
+
+If you have any UI elements you want to hide under feature flags you can use the tag helper provided in `Microsoft.FeatureManagement.AspNetCore` library to do that. 
+
+First, you need to add the tag helper to the `_ViewImports.cshtml` so your views can access it.
+
+```cs
+@addTagHelper *, Microsoft.FeatureManagement.AspNetCore
+```
+
+Next, you can use `<feature>` tag helper to wrap the UI elements you want to put behind a feature flag.
+
+```xml
+@model HomeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <feature name="@Features.PromotionDiscounts" negate="true"><h1 class="display-4">Enjoy the latest music from your favorite artist</h1></feature>
+    <feature name="@Features.PromotionDiscounts"><h1 class="display-4">Enjoy 25% off for selected albums from your favorite artist</h1></feature>
+    
+    <feature name="@Features.UserSuggestions">
+        <partial name="_UserSuggestionsPartial" model="@Model.Suggestions" />
+    </feature>
+</div>
+```
+
+We can use `negate` attribute and set it to true if you want to show the content between feature tag helper when the feature is disabled.
 
 ## Reference(s)
 
