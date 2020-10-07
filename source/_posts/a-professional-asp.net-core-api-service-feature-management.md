@@ -329,9 +329,6 @@ This adds the `IFeatureFilter` to your app, but you need to configure it using t
 ```cs
 // TimeWindowSettings.cs
 
-So let's consider a scenario: I want to enable a custom Christmas banner which goes live on boxing day at 2am UTC, and ends three days later at 1am UTC.
-
-
 public class TimeWindowSettings
 {
     public DateTimeOffset? Start { get; set; }
@@ -393,7 +390,7 @@ public class WeatherForecastController : ControllerBase
     {
         _featureManager = featureManager;
         // only returns true during provided time window
-        var showBanner = _featureManager.IsEnabled(FeatureFlags.ChristmasBanner);
+        var showBanner = await  _featureManager.IsEnabledAsync(FeatureFlags.ChristmasBanner);
     }
 }
 ```
@@ -448,11 +445,199 @@ Configure the feature in configuration:
 }
 ```
 
-The `PercentageSettings` object consists of a single int, which is the percentage of the time the flag should be enabled. In the example above, the flag will be enabled for 10% of calls to `IFeatureManager.IsEnabled(FeatureFlags.FancyFonts)``.
+The `PercentageSettings` object consists of a single int, which is the percentage of the time the flag should be enabled. In the example above, the flag will be enabled for 10% of calls to `IFeatureManager.IsEnabledAsync(FeatureFlags.FancyFonts)`.
 
 ## Creating a custom IFeatureFilter
 
+The example in this post looks for a Claim in the currently logged-in user's `ClaimsPrincipal` and enables a feature flag if it's present. You could use this filter to enable a feature for a subset of your users.
 
+Creating a custom feature filter requires two things:
+
+* Create a class that derives from `IFeatureFilter`.
+* Optionally create a settings class to control your feature filter.
+
+**Creating the filter settings class**
+
+For this example, we want to enable a feature for only those users that have a certain set of claims. For simplicity, I'm only going to require the presence of a claim type and ignore the claim's value, but extending the example in this post should be simple enough. The settings object contains an array of claim types:
+
+```cs
+public class ClaimsFilterSettings
+{
+    public string[] RequiredClaims { get; set; }
+}
+```
+
+**Implementing IFeatureFilter**
+
+To create a feature filter, you must implement the `IFeatureFilter` interface, which consists of a single method:
+
+```cs
+public interface IFeatureFilter
+{
+    bool Evaluate(FeatureFilterEvaluationContext context);
+}
+```
+
+The `FeatureFilterEvaluationContext` argument passed in to the method contains the name of the feature requested, and an `IConfiguration` object that allows you to access the settings for the feature:
+
+```cs
+public class FeatureFilterEvaluationContext
+{
+    public string FeatureName { get; set; }
+    public IConfiguration Parameters { get; set; }
+}
+```
+
+It's worth noting that there's nothing specific to ASP.NET Core here - there's no `HttpContext`, and no `IServiceProvider`. Luckily, your class is pulled from the DI container, so you should be able to get everything you need in your feature filter's constructor.
+
+**Creating the custom feature filter**
+
+In order to implement our custom feature filter, we need to know who the current user is for the request. To do so, we need to access the `HttpContext`. The correct way to do that (when you don't have direct access to it as you do in MVC controllers etc) is to use the `IHttpContextAccessor`.
+
+The `ClaimsFeatureFilter` below takes an `IHttpContextAccessor` in its constructor and uses the exposed `HttpContext` to retrieve the current user from the request.
+
+```cs
+[FilterAlias("Claims")] // How we will refer to the filter in configuration
+public class ClaimsFeatureFilter : IFeatureFilter
+{
+    // Used to access HttpContext
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public ClaimsFeatureFilter(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    public bool Evaluate(FeatureFilterEvaluationContext context)
+    {
+        // Get the ClaimsFilterSettings from configuration
+        var settings = context.Parameters.Get<ClaimsFilterSettings>();
+
+        // Retrieve the current user (ClaimsPrincipal)
+        var user = _httpContextAccessor.HttpContext.User;
+
+        // Only enable the feature if the user has ALL the required claims
+        var isEnabled = settings.RequiredClaims
+            .All(claimType => user.HasClaim(claim => claim.Type == claimType));
+
+        return isEnabled;
+    }
+}
+```
+
+I named this feature filter "Claims" using the `[FilterAlias]` attribute. This is the string you need to add in configuration to enable the filter, as you'll see shortly. You can retrieve the `ClaimsFilterSettings` associated with a given instance of the custom feature filter by calling `context.Parameters.Get<>()`.
+
+The logic of the filter is relatively straightforward - if the `ClaimsPrincipal` for the request has all of the required claims, the associated feature is enabled, otherwise the feature is disabled.
+
+**Using the custom feature filter**
+
+To use the custom feature filter, you must explicitly register it with the feature management system in `Startup.ConfigureServices()`. We also need to make sure the `IHttpContextAccessor` is available in DI:
+
+```cs
+using Microsoft.FeatureManagement;
+
+public class Startup 
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // Add IHttpContextAccessor if it's not yet added
+        services.AddHttpContextAccessor();
+
+        services.AddFeatureManagement()
+            // HERE
+            .AddFeatureFilter<ClaimsFeatureFilter>(); // add our custom filter
+    }
+}
+```
+
+That's all the custom configuration needed to enable our `ClaimsFeatureFilter`. To actually use it in an app, we'll add a feature flag called "Beta":
+
+```cs
+public static class FeatureFlags
+{
+    public const string Beta = "Beta";
+}
+```
+
+and enable the filter in configuration using the format:
+
+```json
+"FeatureManagement": {
+  "Beta": {
+    "EnabledFor": [
+      {
+        "Name": "Claims",
+        "Parameters": {
+          "RequiredClaims": [ "Internal" ]
+        }
+      }
+    ]
+  }
+}
+```
+
+Notice that I've used the `[FilterAlias]` value of "Claims" as the filter's `Name`. The `Parameters` object corresponds to the `ClaimsFilterSettings` settings object. With this configuration, user's who have the "Internal" claim will have the Beta feature flag enabled - other user's will find it's disabled.
+
+**Testing the ClaimsFeatureFilter**
+
+To test out the feature filter, it's easiest to start with an ASP.NET Core app that has individual authentication enabled. For demonstration purposes, I updated the home page Index.cshtml to show a banner when the `Beta` feature flag is enabled using the FeatureTagHelper:
+
+```xml
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<!-- Only visible when Beta feature flag is enabled -->
+<feature name="@FeatureFlags.Beta">
+    <div class="alert alert-primary" role="alert">
+        Congratulations - You're in the Beta test!
+    </div>
+</feature>
+
+<!-- ... -->
+```
+
+## Limitations with the ClaimsFeatureFilter
+
+The custom feature filter `ClaimsFeatureFilter` described in this post is only intended as an example of a filter you could use. The reliance on `HttpContext` gives it a specific limitation: it can't be used outside the context of an HTTP request.
+
+Attempting to access HttpContext outside of an HTTP request can result in a NullReferenceException. You also need to be careful about using it in a background thread, as HttpContext is not thread safe.
+
+One of the slightly dangerous implications of this is that consumers of the feature flags don't necessarily know which features are safe to interrogate in which context. There's nothing in the following code that suggests it could throw when used on a background thread, or in a hosted service.
+
+```cs
+var isEnabled = await _featureManager.IsEnabledAsync(FeatureFlags.Beta); // may throw!
+```
+
+One basic option to avoid this situation is to use naming conventions for your feature flags. For example, you could use a convention where feature flags prefixed with "UI_" are only considered "safe" to access when withan an HTTP request context.
+
+```cs
+public static class FeatureFlags
+{
+    // These flags are safe to access in any context
+    public const string NewBranding = "NewBranding";
+    public const string AlternativeColours = "AlternativeColours";
+
+    // These flags are only safe to access from an HttpContext-safe request
+    public static class Ui
+    {
+      const string _prefix = "UI_";
+      public const string Beta = _prefix + "Beta";
+      public const string NewOnboardingExperiences = _prefix + "NewOnboardingExperiences";
+    }
+}
+```
+
+This at least gives an indication to the caller when the flag is used. Obviously it requires you configure the flags correctly, but it's a step in the right direction!
+
+```cs
+// Flags on the main FeatureFlags class are safe to use everywhere
+var isEnabled = await _featureManager.IsEnabledAsync(FeatureFlags.NewBranding); 
+
+// Flags on the nested Ui class are only safe when HttpContext is available
+var isEnabled = await _featureManager.IsEnabledAsync(FeatureFlags.Ui.Beta); 
+```
 
 ## Reference(s)
 
