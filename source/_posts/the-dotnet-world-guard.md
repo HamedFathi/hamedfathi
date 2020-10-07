@@ -9,7 +9,7 @@ tags:
  
 I want to introduce a high-performance, extensible argument validation library.
 
-`Guard` takes advantage of almost all the new features introduced in `C# 7.2`.
+`Guard` is a fluent argument validation library that is intuitive, fast and extensible. `Guard` takes advantage of almost all the new features introduced in `C# 7.2`.
 
 <!-- more -->
 
