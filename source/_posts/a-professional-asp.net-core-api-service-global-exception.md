@@ -1,12 +1,11 @@
 ---
 title: A Professional ASP.NET Core API Service - Global Exception Handling
 date: September 19 2020
-category: aspnetcore
+category: aspnetcoreapi
 tags:
     - dotnet
     - aspnetcore
     - webapi
-    - api
     - exception
     - middleware
 ---

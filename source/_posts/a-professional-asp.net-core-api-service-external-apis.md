@@ -1,7 +1,7 @@
 ---
 title: A Professional ASP.NET Core API Service - External APIs
 date: September 27 2020
-category: aspnetcore
+category: aspnetcoreapi
 tags:
     - dotnet
     - aspnetcore

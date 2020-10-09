@@ -1,12 +1,11 @@
 ---
 title: A Professional ASP.NET Core API Service - Paging
 date: October 3 2020
-category: aspnetcore
+category: aspnetcoreapi
 tags:
     - dotnet
     - aspnetcore
     - webapi
-    - api
     - paging
     - pagination
     - fakedata
