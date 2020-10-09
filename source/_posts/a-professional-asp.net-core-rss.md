@@ -8,7 +8,7 @@ tags:
     - rss
 ---
 
-`RSS feeds` provide an excellent mechanism for websites to publish their content for consumption by others.
+`RSS` feeds provide an excellent mechanism for websites to publish their content for consumption by others.
 
 <!-- more -->
 
