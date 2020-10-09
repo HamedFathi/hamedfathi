@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core API Service - Swagger
+title: A Professional ASP.NET Core API - Swagger
 date: September 19 2020
 category: aspnetcoreapi
 tags:

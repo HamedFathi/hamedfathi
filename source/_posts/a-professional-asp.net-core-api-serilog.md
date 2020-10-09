@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core API Service - Serilog
+title: A Professional ASP.NET Core API - Serilog
 date: September 28 2020
 category: aspnetcoreapi
 tags:

@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core API Service - Model Binding
+title: A Professional ASP.NET Core API - Model Binding
 date: October 9 2020
 category: aspnetcoreapi
 tags:

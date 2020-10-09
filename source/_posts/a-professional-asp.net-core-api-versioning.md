@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core API Service - Versioning
+title: A Professional ASP.NET Core API - Versioning
 date: September 21 2020
 category: aspnetcoreapi
 tags:

@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core API Service - DryIoc
+title: A Professional ASP.NET Core API - DryIoc
 date: September 22 2020
 category: aspnetcoreapi
 tags:

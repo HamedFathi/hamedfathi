@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core API Service - Feature Management
+title: A Professional ASP.NET Core API - Feature Management
 date: October 6 2020
 category: aspnetcoreapi
 tags:

@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core API Service - HealthCheck
+title: A Professional ASP.NET Core API - HealthCheck
 date: October 3 2020
 category: aspnetcoreapi
 tags:

@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core API Service - MiniProfiler 
+title: A Professional ASP.NET Core API - MiniProfiler 
 date: September 29 2020
 category: aspnetcoreapi
 tags:

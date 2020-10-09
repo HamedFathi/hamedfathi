@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core API Service - CORS
+title: A Professional ASP.NET Core API - CORS
 date: September 20 2020
 category: aspnetcoreapi
 tags:

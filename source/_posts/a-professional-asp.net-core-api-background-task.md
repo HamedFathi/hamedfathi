@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core API Service - Background Task
+title: A Professional ASP.NET Core API - Background Task
 date: September 22 2020
 category: aspnetcoreapi
 tags:

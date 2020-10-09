@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core API Service - Caching
+title: A Professional ASP.NET Core API - Caching
 date: October 5 2020
 category: aspnetcoreapi
 tags:
