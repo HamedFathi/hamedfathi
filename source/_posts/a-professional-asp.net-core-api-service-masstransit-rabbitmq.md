@@ -36,3 +36,4 @@ dotnet add package MassTransit.RabbitMQ --version 7.0.4
 Most of the information in this article has gathered from various references.
 
 * https://www.codewithmukesh.com/blog/rabbitmq-with-aspnet-core-microservice/
+* https://alvinvafana.blogspot.com/2019/10/messaging-through-service-bus-using.html
