@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core API Service - Middleware
+title: A Professional ASP.NET Core - Middleware
 date: October 9 2020
 category: aspnetcore
 tags:
