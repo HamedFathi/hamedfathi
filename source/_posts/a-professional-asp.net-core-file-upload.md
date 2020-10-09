@@ -5,10 +5,8 @@ category: aspnetcore
 tags:
     - dotnet
     - aspnetcore
-    - webapi
-    - model
-    - binding
-    - modelbinding
+    - file
+    - upload
 ---
 
 ASP.NET Core supports uploading one or more files using buffered model binding for smaller files and unbuffered streaming for larger files.
