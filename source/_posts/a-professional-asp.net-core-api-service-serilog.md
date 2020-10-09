@@ -419,3 +419,4 @@ Most of the information in this article has gathered from various references.
 * https://dejanstojanovic.net/aspnet/2018/october/extending-serilog-with-additional-values-to-log/
 * https://github.com/nblumhardt/serilog-timings
 * https://benfoster.io/blog/serilog-best-practices/
+* https://esg.dev/posts/serilog-dos-and-donts/
