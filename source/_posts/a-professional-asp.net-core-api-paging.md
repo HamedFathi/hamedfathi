@@ -403,6 +403,310 @@ public class WeatherForecastController : ControllerBase
 }
 ```
 
+You result will be like below
+
+```json
+// https://localhost:5001/weatherforecast?pageNumber=2&pageSize=10
+{
+  "pageNumber": 2,
+  "pageSize": 10,
+  "firstPage": "https://localhost:5001/weatherforecast?pageNumber=1&pageSize=10",
+  "lastPage": "https://localhost:5001/weatherforecast?pageNumber=20&pageSize=10",
+  "totalPages": 20,
+  "totalRecords": 200,
+  "nextPage": "https://localhost:5001/weatherforecast?pageNumber=3&pageSize=10",
+  "previousPage": "https://localhost:5001/weatherforecast?pageNumber=1&pageSize=10",
+  "data": [    
+    {
+      "id": "20f216f8-1c28-40e3-8687-30414e0b1e43",
+      "name": "Norris",
+      "familyName": "Gaylord",
+      "age": 93.91649,
+      "bithDate": "1983-08-19T20:29:12.2566788+04:30",
+      "phones": [
+        {
+          "code": "CG",
+          "number": "1-990-301-7170"
+        },
+        {
+          "code": "GF",
+          "number": "435-648-1211 x2527"
+        },
+        {
+          "code": "EE",
+          "number": "452-350-1534 x565"
+        },
+        {
+          "code": "HU",
+          "number": "454-359-3006"
+        },
+        {
+          "code": "UG",
+          "number": "848.828.2965"
+        },
+        {
+          "code": "AR",
+          "number": "(481) 493-4770"
+        },
+        {
+          "code": "WS",
+          "number": "764.491.4668"
+        },
+        {
+          "code": "FK",
+          "number": "(927) 724-4714 x1111"
+        },
+        {
+          "code": "AW",
+          "number": "348.380.0028 x0504"
+        },
+        {
+          "code": "KE",
+          "number": "(222) 317-4262 x221"
+        },
+        {
+          "code": "LA",
+          "number": "(864) 234-4896"
+        },
+        {
+          "code": "CY",
+          "number": "1-596-579-7108 x764"
+        },
+        {
+          "code": "RU",
+          "number": "378.786.5243"
+        },
+        {
+          "code": "ZM",
+          "number": "(233) 668-1087"
+        },
+        {
+          "code": "LK",
+          "number": "442.582.0962 x311"
+        }
+      ],
+      "addresses": [
+        {
+          "country": "San Marino",
+          "city": "Lake Shaniya",
+          "mainStreet": "4821 Federico Burg",
+          "info": "2724 Brakus Spurs, East Kenyattaport, French Guiana",
+          "no": "43796"
+        },
+        {
+          "country": "Cuba",
+          "city": "Lubowitzborough",
+          "mainStreet": "396 Murazik Roads",
+          "info": "268 Heathcote Extension, Toytown, Uruguay",
+          "no": "72283"
+        },
+        {
+          "country": "Lao People's Democratic Republic",
+          "city": "Dickinsonview",
+          "mainStreet": "7750 Dimitri Rapids",
+          "info": "360 David Run, Boyleborough, Marshall Islands",
+          "no": "22955"
+        },
+        {
+          "country": "Vietnam",
+          "city": "East Rosemary",
+          "mainStreet": "055 Paolo Glen",
+          "info": "71691 Hammes Locks, Port Mackenzieborough, Swaziland",
+          "no": "710"
+        },
+        {
+          "country": "China",
+          "city": "South Casandrafurt",
+          "mainStreet": "894 Stiedemann Via",
+          "info": "60676 Fay Isle, Juvenalbury, Namibia",
+          "no": "38640"
+        },
+        {
+          "country": "Lebanon",
+          "city": "Dorcasshire",
+          "mainStreet": "49750 Flatley Groves",
+          "info": "7761 Howell Springs, West Quintonside, Mexico",
+          "no": "4452"
+        },
+        {
+          "country": "Libyan Arab Jamahiriya",
+          "city": "Amiyashire",
+          "mainStreet": "112 Baumbach Field",
+          "info": "61227 Nils Flat, Lafayettefurt, Mexico",
+          "no": "0611"
+        },
+        {
+          "country": "Rwanda",
+          "city": "McCulloughhaven",
+          "mainStreet": "503 Anthony Extensions",
+          "info": "336 Kling Mission, East Parisshire, Uganda",
+          "no": "67206"
+        },
+        {
+          "country": "Zimbabwe",
+          "city": "North Garrisonton",
+          "mainStreet": "56022 Cecile Place",
+          "info": "52476 Wyman Branch, Sporerview, Sao Tome and Principe",
+          "no": "34449"
+        },
+        {
+          "country": "Nigeria",
+          "city": "North Isadore",
+          "mainStreet": "2893 Alvera Greens",
+          "info": "590 Rupert Avenue, Lake Alexys, China",
+          "no": "91788"
+        }
+      ]
+    },
+    {
+      "id": "da39bc7a-cdfa-49a6-8eda-2d8578a10a95",
+      "name": "Loyal",
+      "familyName": "Simonis",
+      "age": 13.926475,
+      "bithDate": "1999-04-08T18:35:10.3663495+04:30",
+      "phones": [
+        {
+          "code": "CL",
+          "number": "611-390-0679"
+        },
+        {
+          "code": "JM",
+          "number": "333-284-4157 x15776"
+        },
+        {
+          "code": "BH",
+          "number": "(775) 257-6981 x8944"
+        },
+        {
+          "code": "SA",
+          "number": "(925) 759-5904 x70541"
+        },
+        {
+          "code": "IN",
+          "number": "1-287-226-3739 x26113"
+        },
+        {
+          "code": "IN",
+          "number": "1-835-217-5850 x0543"
+        },
+        {
+          "code": "ZM",
+          "number": "239-517-9971 x933"
+        },
+        {
+          "code": "UG",
+          "number": "587.700.3823"
+        },
+        {
+          "code": "TM",
+          "number": "1-729-462-2169 x5501"
+        },
+        {
+          "code": "HN",
+          "number": "925.856.6956 x9365"
+        },
+        {
+          "code": "BO",
+          "number": "436.252.3008 x641"
+        },
+        {
+          "code": "GB",
+          "number": "(969) 740-3197 x2393"
+        },
+        {
+          "code": "SV",
+          "number": "(392) 998-7274 x247"
+        },
+        {
+          "code": "AI",
+          "number": "899.370.6658"
+        },
+        {
+          "code": "UM",
+          "number": "1-983-472-3551"
+        }
+      ],
+      "addresses": [
+        {
+          "country": "Anguilla",
+          "city": "Bradleyside",
+          "mainStreet": "81514 Nicklaus View",
+          "info": "031 Kohler Dam, South Dave, Heard Island and McDonald Islands",
+          "no": "2989"
+        },
+        {
+          "country": "Lesotho",
+          "city": "Lindaberg",
+          "mainStreet": "143 O'Connell Points",
+          "info": "862 Hoeger Lodge, North Sid, Algeria",
+          "no": "87646"
+        },
+        {
+          "country": "Singapore",
+          "city": "Lake Stephon",
+          "mainStreet": "85625 Kub Isle",
+          "info": "6441 Bruen Parkways, North Crystal, Togo",
+          "no": "8897"
+        },
+        {
+          "country": "Cayman Islands",
+          "city": "Lake Ethelland",
+          "mainStreet": "40312 Herzog Walks",
+          "info": "8711 Roberts Center, South Sophiaborough, Bosnia and Herzegovina",
+          "no": "969"
+        },
+        {
+          "country": "Singapore",
+          "city": "Alfordchester",
+          "mainStreet": "391 Corkery Junction",
+          "info": "4566 Erwin Greens, West Marshall, Pakistan",
+          "no": "3716"
+        },
+        {
+          "country": "United States of America",
+          "city": "West Kadin",
+          "mainStreet": "1807 Reinger Place",
+          "info": "265 Evalyn Flats, Klinghaven, Honduras",
+          "no": "389"
+        },
+        {
+          "country": "Cote d'Ivoire",
+          "city": "Kesslerberg",
+          "mainStreet": "6985 Lenore Isle",
+          "info": "50346 Parisian Viaduct, West Efrain, Ukraine",
+          "no": "1107"
+        },
+        {
+          "country": "Serbia",
+          "city": "South Velvashire",
+          "mainStreet": "573 Pfeffer Courts",
+          "info": "472 Brekke Knolls, Darronchester, Hong Kong",
+          "no": "70450"
+        },
+        {
+          "country": "Taiwan",
+          "city": "Kaleside",
+          "mainStreet": "94647 Murphy Vista",
+          "info": "8682 Stoltenberg Flats, Port Tianafurt, Bouvet Island (Bouvetoya)",
+          "no": "3502"
+        },
+        {
+          "country": "Cayman Islands",
+          "city": "South Demetrischester",
+          "mainStreet": "50811 Orn Shore",
+          "info": "1378 Lehner Rest, Lake Irma, Cook Islands",
+          "no": "0960"
+        }
+      ]
+    },
+	...
+  ],
+  "succeeded": true,
+  "errors": null,
+  "message": null
+}
+```
+
 ## Reference(s)
 
 Most of the information in this article has gathered from various references.
