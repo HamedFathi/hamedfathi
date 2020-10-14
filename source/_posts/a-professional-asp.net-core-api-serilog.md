@@ -410,6 +410,98 @@ using (Operation.At(LogEventLevel.Debug).Time("Preparing zip archive"))
 ```
 When a level is specified, both completion and abandonment events will use it. To configure a different abandonment level, pass the second optional parameter to the `At()` method.
 
+## Serilog & Kibana
+
+`Kibana` is an open source data visualization user interface for ElasticSearch. Think of ElasticSearch as the database and Kibana as the web user interface which you can use to build graphs and query data in ElasticSearch.
+
+**Installation**
+
+1. Get Elasticsearch
+2. Get Kibana
+3. Start Elasticsearch: `bin/elasticsearch`
+4. Start Kibana: `bin/kibana`
+5. Open Kibana: `http://localhost:5601`
+ 
+**ElasticSearch Sink**
+
+Install below package
+
+```bash
+Install-Package Serilog.Sinks.ElasticSearch -Version 8.4.1
+dotnet add package Serilog.Sinks.ElasticSearch --version 8.4.1
+<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.4.1" />
+```
+
+After installation, add the following code:
+
+```cs
+// Program.cs
+
+using Serilog.Formatting.Elasticsearch;
+using Serilog.Sinks.Elasticsearch;
+
+public static void Main(string[] args)
+{
+    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+    var config = BuildConfigurationRoot();
+    Log.Logger = new LoggerConfiguration()
+    
+        // HERE     
+        .WriteTo.Elasticsearch(ConfigureElasticSink(config, environment))
+        
+        .CreateLogger();
+    try
+    {
+        Log.Information("Starting up");
+        CreateHostBuilder(args).Build().Run();
+    }
+    catch (Exception ex)
+    {
+        Log.Fatal(ex, "Application start-up failed");
+    }
+    finally
+    {
+        Log.CloseAndFlush();
+    }
+}
+
+// HERE
+private static ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, string environment)
+{
+    return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]))
+    {
+        AutoRegisterTemplate = true,
+        AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
+        CustomFormatter = new ExceptionAsObjectJsonFormatter(renderMessage: true),
+        // Our ElasticSearch index: ASSEMBLYNAME-ENVIROMENT-YEAR-MONTH 
+        // This index must introduce to ElasticSearch/Kibana
+        IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
+    };
+}
+```
+
+And also in `appsettings.json`
+
+```cs
+"ElasticConfiguration": {
+  "Uri": "http://localhost:9200"
+},
+```
+
+**Define index to Kibana**
+
+If this is your first run you will see `Create index pattern` page so go to step 3 but if you had any index before, start form beggining:
+
+1. Run your application, Then browse the `Kibana` via `http://localhost:5601/app/home/`.
+2. Find `Connect to your Elasticsearch index` link and click on it.
+3. After that, Click on `Create index pattern` and introduce our index format like below
+```txt
+ASSEMBLYNAME-ENVIROMENT-* => myapp-development-*
+```
+4. Click on `Next step`
+5. Choose `@timestamp`, then click on `Create index pattern`
+6. Now, You can go to `Discover` page and find your logs!
+
 ## Reference(s)
 
 Most of the information in this article has gathered from various references.
@@ -420,3 +512,4 @@ Most of the information in this article has gathered from various references.
 * https://github.com/nblumhardt/serilog-timings
 * https://benfoster.io/blog/serilog-best-practices/
 * https://esg.dev/posts/serilog-dos-and-donts/
+* https://www.humankode.com/asp-net-core/logging-with-elasticsearch-kibana-asp-net-core-and-docker
