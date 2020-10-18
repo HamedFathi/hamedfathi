@@ -22,12 +22,14 @@ So, Create a model for your error details as below
 ```cs
 public class ExceptionResult
 {
-    public ExceptionResult(string exception, int statusCode)
+    public ExceptionResult(string exception, int statusCode, string requestId)
     {
         Exception = exception;
         StatusCode = statusCode;
+        RequestId = requestId;
     }
     public string Exception { get; set; }
+    public string RequestId { get; set; }
     public int StatusCode { get; set; }
 }
 ```
@@ -61,6 +63,7 @@ public class GlobalExceptionMiddleware
     {
         string message = null;
         HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError;
+        var requestId = Activity.Current?.Id ?? context.TraceIdentifier;
         try
         {
             await _next(context);
@@ -89,7 +92,7 @@ public class GlobalExceptionMiddleware
         {
             if (context.Response.HasStarted)
                 throw new InvalidOperationException("The response has already started");
-            var exceptionResult = new ExceptionResult(message, (int)httpStatusCode);
+            var exceptionResult = new ExceptionResult(message, (int)httpStatusCode, requestId);
             var result = JsonSerializer.Serialize(exceptionResult);
             context.Response.StatusCode = (int)httpStatusCode;
             context.Response.ContentType = "application/json";
