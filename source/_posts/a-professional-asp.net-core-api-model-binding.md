@@ -22,8 +22,7 @@ Controllers and Razor pages work with data that comes from HTTP requests. For ex
 
 ## Model Binding Sources
 
-By default, model binding gets data in the form of key-value pairs from the following sources in an HTTP
-request (in order):
+By default, model binding gets data in the form of key-value pairs from the following sources in an HTTP request (**in order**):
 
 * Form fields
 * The request body (For controllers that have the `[ApiController]` attribute.)
@@ -44,6 +43,12 @@ If the default source is not correct, use one of the following attributes to spe
 * `[FromBody]`: Gets values from the request body.
 * `[FromHeader]`: Gets values from HTTP headers.
 * `[FromServices]`: Gets values from DI.
+
+## Form fields
+
+
+
+
 
 ## Reference(s)
 
