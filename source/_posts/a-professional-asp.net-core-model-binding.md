@@ -159,12 +159,45 @@ There are three ways front of us:
 </form>
 ```
 
+**Route Tag Helper**
+
+```html
+@model ProductEditModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Index";
+}
+
+<h2>Product</h2>
+
+<form asp-route="MyCreateRoute" method="post">
+    <label for="Name">Name</label>
+    <input type="text" name="Name" />
+
+    <label for="Rate">Rate</label>
+    <input type="text" name="Rate" />
+
+    <label for="Rating">Rating</label>
+    <input type="text" name="Rating" />
+
+    <input type="submit" name="submit" />
+</form>
+```
+
+If you use above approach, you must set below attribute to your action:
+
+```cs
+[Route("/Home/Create", Name = "MyCreateRoute")]
+```
+
 **Action**
 
 The `Create` action method in the `HomeController`.
 
 ```cs
 [HttpPost]
+// Just for 'Route Tag Helper' approach
+// [Route("/Home/Create", Name = "MyCreateRoute")]
 public IActionResult Create(ProductEditModel model)
 {
     string message = "";
