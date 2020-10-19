@@ -102,9 +102,7 @@ A `form` is created to which contains three form fields. `Name`, `Rate` and `Rat
 </form>
 ```
 
-**Standard HTML Tag**
-
-Although, You can use below code:
+Although, You can use `standard HTML tag`
 
 ```html
 <form action="/Home/Create" method="post">
