@@ -78,7 +78,7 @@ A `ProductEditModel` object, which contains the details of the product that need
 
 public class ProductEditModel
 {
-  public int ID{ get; set; }
+  public int Id { get; set; }
   public string Name { get; set; }
   public decimal Rate { get; set; }
   public int Rating { get; set; }
@@ -223,6 +223,73 @@ public IActionResult Create(ProductEditModel model)
 Now, When you click on the `submit` button your form information will be sent to the `Create` action and binds to the `ProductEditModel` model based on its `public properties` and corresponding HTML `name` tags.
 
 ## Request body
+
+`Request Body` is the part of the HTTP Request where additional content can be sent to the server.
+
+You can use `Postman` to test this approach easily.
+
+![](/images/a-professional-asp.net-core-model-binding/postman.png)
+
+**Request body message**
+
+Our `ProductEditModel` model to create:
+
+```js
+{
+  "name": "hamed",
+  "rate": 20.0,
+  "rating": 100
+}
+```
+
+**MVC**
+
+If you are using a `MVC` application, you must add `[FromBody]` on your `model`.
+
+```cs
+[HttpPost]
+public IActionResult Create([FromBody] ProductEditModel model)
+{
+    string message = "";
+
+    if (ModelState.IsValid)
+    {
+        message = "product " + model.Name + " created successfully";
+    }
+    else
+    {
+        message = "Failed to create the product. Please try again";
+    }
+    return Content(message);
+}
+```
+
+**API**
+
+If you are using an `API` application, you must add `[ApiController]` on your `controller`.
+
+```cs
+[ApiController]
+public class HomeController : ControllerBase
+{
+    [HttpPost]
+    public IActionResult Create(ProductEditModel model)
+    {
+        string message = "";
+
+        if (ModelState.IsValid)
+        {
+            message = "product " + model.Name + " created successfully";
+        }
+        else
+        {
+            message = "Failed to create the product. Please try again";
+        }
+        return Content(message);
+    }
+}
+```
+
 
 ## Route data
 
