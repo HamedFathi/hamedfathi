@@ -65,6 +65,8 @@ You may wonder what will happen if ASP.NET Core framework does not find the valu
 
 A `ProductEditModel` object, which contains the details of the product that needs to be created or edited.
 
+**View model**
+
 ```cs
 // ProductEditModel.cs
 
@@ -156,6 +158,8 @@ There are three ways front of us:
     <input type="submit" name="submit" />
 </form>
 ```
+
+**Action**
 
 The `Create` action method in the `HomeController`.
 
