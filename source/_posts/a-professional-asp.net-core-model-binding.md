@@ -54,11 +54,11 @@ When the argument of the action method is a `complex type like a class object` t
 
 ## Default Binding Values
 
-You may wonder what will happen if ASP.NET Core framework does not find the values of the action method’s argument in any of the three locations – `Form data values`, `Routing variables` & `Query strings`. In that case it will provide the default values based on the type of the action method’s argument. These are:
+You may wonder what will happen if ASP.NET Core framework does not find the values of the action method's argument in any of the three locations – `Form data values`, `Routing variables` & `Query strings`. In that case it will provide the default values based on the type of the action method's argument. These are:
 
-* `0` for `int`,`float`,`decimal`,`double`,`byte`
-* `null` for `string`
-* `01-01-0001 00:00:00` for DateTime
+* `0` for `int`, `float`, `decimal`, `double`, `byte`.
+* `null` for `string`.
+* `01-01-0001 00:00:00` for `DateTime`.
 * `Nullable types` are `null`.
 
 ## Form fields
