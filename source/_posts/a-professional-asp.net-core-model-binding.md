@@ -57,41 +57,83 @@ When the argument of the action method is a `complex type like a class object` t
 You may wonder what will happen if ASP.NET Core framework does not find the values of the action method’s argument in any of the three locations – `Form data values`, `Routing variables` & `Query strings`. In that case it will provide the default values based on the type of the action method’s argument. These are:
 
 * `0` for `int`,`float`,`decimal`,`double`,`byte`
-* `""` for `string`
+* `null` for `string`
 * `01-01-0001 00:00:00` for DateTime
 * `Nullable types` are `null`.
 
 ## Form fields
 
+A `ProductEditModel` object, which contains the details of the product that needs to be created or edited.
+
+```cs
+// ProductEditModel.cs
+
+public class ProductEditModel
+{
+  public int ID{ get; set; }
+  public string Name { get; set; }
+  public decimal Rate { get; set; }
+  public int Rating { get; set; }
+}
+```
+
+A `form` is created to which contains three form fields. `Name`, `Rate` and `Rating`.
+
 ```html
-@model Employee
+@model ProductEditModel
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Create Employee";
+    ViewData["Title"] = "Index";
 }
-  
-<h2>Create Employee</h2>
-  
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Id"></label>
-        <input asp-for="Id" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="DOB"></label>
-        <input asp-for="DOB" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Role"></label>
-        <select asp-for="Role" class="form-control"
-                asp-items="@new SelectList(Enum.GetNames(typeof(Role)))"></select>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+
+<h2>Product</h2>
+
+<form asp-controller="Home" asp-action="Create" method="post">
+    <label for="Name">Name</label>
+    <input type="text" name="Name" />
+
+    <label for="Rate">Rate</label>
+    <input type="text" name="Rate" />
+
+    <label for="Rating">Rating</label>
+    <input type="text" name="Rating" />
+
+    <input type="submit" name="submit" />
 </form>
+```
+
+**Standard HTML Tag**
+
+Although, You can use below code:
+
+```html
+<form action="/Home/Create" method="post">
+```
+
+instead of `tag helpers`
+
+```html
+<form asp-controller="Home" asp-action="Create" method="post">
+```
+
+The `Create` action method in the `HomeController`.
+
+```cs
+[HttpPost]
+public IActionResult Create(ProductEditModel model)
+{
+    string message = "";
+ 
+    if (ModelState.IsValid)
+    {
+        message = "product " + model.Name + " created successfully" ;
+    }
+    else
+    {
+        message = "Failed to create the product. Please try again";
+    }
+    return Content(message);
+}
 ```
 
 ## Request body
@@ -107,3 +149,5 @@ You may wonder what will happen if ASP.NET Core framework does not find the valu
 Most of the information in this article has gathered from various references.
 
 * https://docs.microsoft.com/en-us/aspnet/core/mvc/models/model-binding
+* https://www.tektutorialshub.com/asp-net-core/asp-net-core-model-binding/
+* https://wakeupandcode.com/forms-and-fields-in-asp-net-core/
