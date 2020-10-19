@@ -79,6 +79,61 @@ public class ProductEditModel
 
 A `form` is created to which contains three form fields. `Name`, `Rate` and `Rating`.
 
+There are three ways front of us:
+
+**Standard HTML**
+
+```html
+@model ProductEditModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Index";
+}
+
+<h2>Product</h2>
+
+<form action="/Home/Create" method="post">
+    <label for="Name">Name</label>
+    <input type="text" name="Name" />
+
+    <label for="Rate">Rate</label>
+    <input type="text" name="Rate" />
+
+    <label for="Rating">Rating</label>
+    <input type="text" name="Rating" />
+
+    <input type="submit" name="submit" />
+</form>
+```
+
+**HTML Helper**
+
+```html
+@model ProductEditModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Index";
+}
+
+<h2>Product</h2>
+
+@using (Html.BeginForm("Create", "Home", FormMethod.Post))
+{
+    <label for="Name">Name</label>
+    <input type="text" name="Name" />
+
+    <label for="Rate">Rate</label>
+    <input type="text" name="Rate" />
+
+    <label for="Rating">Rating</label>
+    <input type="text" name="Rating" />
+
+    <input type="submit" name="submit" />
+}
+```
+
+**Tag Helper**
+
 ```html
 @model ProductEditModel
 @{
@@ -100,18 +155,6 @@ A `form` is created to which contains three form fields. `Name`, `Rate` and `Rat
 
     <input type="submit" name="submit" />
 </form>
-```
-
-Although, You can use `standard HTML tag`
-
-```html
-<form action="/Home/Create" method="post">
-```
-
-instead of `tag helpers`
-
-```html
-<form asp-controller="Home" asp-action="Create" method="post">
 ```
 
 The `Create` action method in the `HomeController`.
