@@ -24,25 +24,31 @@ Controllers and Razor pages work with data that comes from HTTP requests. For ex
 
 By default, model binding gets data in the form of key-value pairs from the following sources in an HTTP request (**in order**):
 
-* Form fields
-* The request body (For controllers that have the `[ApiController]` attribute.)
-* Route data
-* Query string parameters
-* Uploaded files
+| Order | Approach                                                        |
+|:-----:|-----------------------------------------------------------------|
+| 1     | Form fields                                                                   |
+| 2     | The request body (For `controllers` that have the `[ApiController]` attribute.) |
+| 3     | Route data                                                                    |
+| 4     |  Query string parameters                                                      |
+| 5     | Uploaded files                                                                |
+
+Therefore, model binding engine will try to use any of the above sources that are available in order, unless you refer to a specific source
 
 For each target parameter or property, the sources are scanned in the order indicated in the preceding list. There are a few exceptions:
 
 * Route data and query string values are used `only` for simple types.
 * Uploaded files are bound `only` to target types that implement `IFormFile` or `IEnumerable<IFormFile>`.
 
-If the default source is not correct, use one of the following attributes to specify the source:
+If the default source is not correct or is not what you want, use one of the following attributes to specify the source:
 
-* `[FromQuery]`: Gets values from the query string.
-* `[FromRoute]`: Gets values from route data.
-* `[FromForm]`: Gets values from posted form fields.
-* `[FromBody]`: Gets values from the request body.
-* `[FromHeader]`: Gets values from HTTP headers.
-* `[FromServices]`: Gets values from DI.
+| Attribute      | Description                          |
+|:--------------:|--------------------------------------|
+| [FromQuery]    | Gets values from the query string.   |
+| [FromRoute]    | Gets values from route data.         |
+| [FromForm]     | Gets values from posted form fields. |
+| [FromBody]     | Gets values from the request body.   |
+| [FromHeader]   | Gets values from HTTP headers.       |
+| [FromServices] | Gets values from DI.                 |
 
 ## Model Binding for Simple Types
 
@@ -223,6 +229,8 @@ Now, When you click on the `submit` button your form information will be sent to
 ## Query strings
 
 ## Uploaded files
+
+## Specific Source
 
 ## Reference(s)
 
