@@ -46,7 +46,7 @@ If the default source is not correct, use one of the following attributes to spe
 
 ## Model Binding for Simple Types
 
-When Binding Simple Types the framework convert the values into the types of action method's arguments. The Simple Types are – `string`, `int`, `bool`, `float`, `datetime`, `decimal`, etc.
+When Binding Simple Types the framework convert the values into the types of action method's arguments. The Simple Types are - `string`, `int`, `bool`, `float`, `datetime`, `decimal`, etc.
 
 ## Model Binding for Complex Types
 
@@ -176,6 +176,8 @@ public IActionResult Create(ProductEditModel model)
     return Content(message);
 }
 ```
+
+Now, When you click on the `submit` button your form information will be sent to the `Create` action and binds to the `ProductEditModel` model based on its `public properties` and corresponding HTML `name` tags.
 
 ## Request body
 
