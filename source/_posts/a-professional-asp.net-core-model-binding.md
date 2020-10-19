@@ -24,13 +24,13 @@ Controllers and Razor pages work with data that comes from HTTP requests. For ex
 
 By default, model binding gets data in the form of key-value pairs from the following sources in an HTTP request (**in order**):
 
-| Order | Approach                                                        |
-|:-----:|-----------------------------------------------------------------|
-| 1     | Form fields                                                                   |
+| Order | Approach                                                                        |
+|:-----:|---------------------------------------------------------------------------------|
+| 1     | Form fields                                                                     |
 | 2     | The request body (For `controllers` that have the `[ApiController]` attribute.) |
-| 3     | Route data                                                                    |
-| 4     | Query string parameters                                                      |
-| 5     | Uploaded files                                                                |
+| 3     | Route data                                                                      |
+| 4     | Query string parameters                                                         |
+| 5     | Uploaded files                                                                  |
 
 Therefore, model binding engine will try to use any of the above sources that are available in order, unless you refer to a specific source
 
@@ -44,7 +44,7 @@ If the default source is not correct or is not what you want, use one of the fol
 **Override binding source**
 
 | Attribute      | Description                                          |
-|:--------------:|------------------------------------------------------|
+|----------------|------------------------------------------------------|
 | [FromQuery]    | Gets values from the URL query string.               |
 | [FromRoute]    | Gets values from route data.                         |
 | [FromForm]     | Gets values from posted form fields. (via HTTP POST) |
@@ -55,14 +55,14 @@ If the default source is not correct or is not what you want, use one of the fol
 **Override binding behavior**
 
 | Attribute      | Description                             |
-|:--------------:|-----------------------------------------|
+|----------------|-----------------------------------------|
 | [BindRequired] | Add model state error if binding fails. |
 | [BindNever]    | Ignore the binding of parameter.        |
 
 **Supply custom binding**
 
 | Attribute     | Description                             |
-|:-------------:|-----------------------------------------|
+|---------------|-----------------------------------------|
 | [ModelBinder] | provide custom model binder.            |
 
 ## Model Binding for Simple Types
