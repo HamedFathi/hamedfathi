@@ -29,7 +29,7 @@ By default, model binding gets data in the form of key-value pairs from the foll
 | 1     | Form fields                                                                   |
 | 2     | The request body (For `controllers` that have the `[ApiController]` attribute.) |
 | 3     | Route data                                                                    |
-| 4     |  Query string parameters                                                      |
+| 4     | Query string parameters                                                      |
 | 5     | Uploaded files                                                                |
 
 Therefore, model binding engine will try to use any of the above sources that are available in order, unless you refer to a specific source
@@ -41,14 +41,29 @@ For each target parameter or property, the sources are scanned in the order indi
 
 If the default source is not correct or is not what you want, use one of the following attributes to specify the source:
 
-| Attribute      | Description                          |
-|:--------------:|--------------------------------------|
-| [FromQuery]    | Gets values from the query string.   |
-| [FromRoute]    | Gets values from route data.         |
-| [FromForm]     | Gets values from posted form fields. |
-| [FromBody]     | Gets values from the request body.   |
-| [FromHeader]   | Gets values from HTTP headers.       |
-| [FromServices] | Gets values from DI.                 |
+**Override binding source**
+
+| Attribute      | Description                                          |
+|:--------------:|------------------------------------------------------|
+| [FromQuery]    | Gets values from the URL query string.               |
+| [FromRoute]    | Gets values from route data.                         |
+| [FromForm]     | Gets values from posted form fields. (via HTTP POST) |
+| [FromBody]     | Gets values from the request body, based on configured formatter (e.g. JSON, XML). Only one action parameter can have this attribute.                |
+| [FromHeader]   | Gets values from HTTP headers.                       |
+| [FromServices] | Gets values from DI.                                 |
+
+**Override binding behavior**
+
+| Attribute      | Description                             |
+|:--------------:|-----------------------------------------|
+| [BindRequired] | Add model state error if binding fails. |
+| [BindNever]    | Ignore the binding of parameter.        |
+
+**Supply custom binding**
+
+| Attribute     | Description                             |
+|:-------------:|-----------------------------------------|
+| [ModelBinder] | provide custom model binder.            |
 
 ## Model Binding for Simple Types
 
@@ -234,7 +249,11 @@ You can use `Postman` to test this approach easily.
 
 Our `ProductEditModel` model to create:
 
+
 ```js
+// POST http://localhost:PORT/Home/Create
+// Body > raw
+
 {
   "name": "hamed",
   "rate": 20.0,
@@ -289,7 +308,6 @@ public class HomeController : ControllerBase
     }
 }
 ```
-
 
 ## Route data
 
