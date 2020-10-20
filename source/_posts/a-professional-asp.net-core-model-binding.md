@@ -77,10 +77,12 @@ When the argument of the action method is a `complex type like a class object` t
 
 You may wonder what will happen if ASP.NET Core framework does not find the values of the action method's argument in any of the three locations – `Form data values`, `Routing variables` & `Query strings`. In that case it will provide the default values based on the type of the action method's argument. These are:
 
+* For `value types`, the value will be `default(T)`
 * `0` for `int`, `float`, `decimal`, `double`, `byte`.
-* `null` for `string`.
 * `01-01-0001 00:00:00` for `DateTime`.
+* For `reference types`, the type is created using the `default constructor`.
 * `Nullable types` are `null`.
+* `null` for `string`.
 
 ## Form fields
 
@@ -311,7 +313,25 @@ public class HomeController : ControllerBase
 
 ## Route data
 
+`Route values` obtain from URL segments or through default values after
+matching a route.
+
+
+**Constraints**
+
+| Constraint              | Example              | Match examples                       | Description                                  |
+|-------------------------|----------------------|--------------------------------------|----------------------------------------------|
+| int                     | {count:int}          | 678, -890, 0                         | Matches any integer                          |
+| decimal                 | {rate:decimal}       | 12.3, 88, -5.005                     | Matches any decimal value                    |
+| Guid                    | {id:guid}            | 48ac5fbd-fd24-43b5-a742-6aab7fad67f9 | Matches any Guid                             |
+| min(value)              | {age:min(22)}        | 18, 20, 21                           | Matches integer values of 22 or greater      |
+| length(value)           | {name:length(7)}     | hamed, fathi, 12345                  | Matches string values with a length of 7     |
+| optional int            | {count:int?}         | 456, -222, 0, null                   | Optionally matches any integer               |
+| optional int max(value) | {count:int:max(15)?} | 7, -660, 0, null                     | Optionally matches any integer of 15 or less |
+
 ## Query strings
+
+Query string values Pass at the end of the URL, not used during routing.
 
 ## Uploaded files
 
