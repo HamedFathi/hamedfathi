@@ -327,7 +327,7 @@ api/{controller}/{action=index}/{id?}
 * `{action=index}` An optional route parameter with default value if not provided.
 * `{id?}`: An optional route parameter.
 
-**Note:** A `segment` is a small contiguous section of a URL. It’s separated from other URL segments by at least one character, often by the / character. e.g. `{id}` and `{dogsOnly}` in below example.
+**Note:** A `segment` is a small contiguous section of a URL. It’s separated from other URL segments by at least one character, often by the `/` character. e.g. `{id}` and `{dogsOnly}` in below example.
 
 Suppose you have the following action method:
 
