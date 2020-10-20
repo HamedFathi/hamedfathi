@@ -401,7 +401,7 @@ You can apply a large number of route constraints to route templates to ensure t
 
 ## Query strings
 
-Query string values Pass at the end of the URL, not used during routing.
+`Query string values` pass at the end of the URL, not used during routing.
 
 ## Uploaded files
 
