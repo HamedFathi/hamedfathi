@@ -1,7 +1,7 @@
 ---
 title: A Professional ASP.NET Core API - Versioning
 date: September 21 2020
-category: aspnetcoreapi
+category: aspnetcore-api
 tags:
     - dotnet
     - aspnetcore

@@ -1,7 +1,7 @@
 ---
 title: A Professional ASP.NET Core API - Rate Limit
 date: September 20 2020
-category: aspnetcoreapi
+category: aspnetcore-api
 tags:
     - dotnet
     - aspnetcore

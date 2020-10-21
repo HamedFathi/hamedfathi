@@ -1,7 +1,7 @@
 ---
 title: A Professional ASP.NET Core API - Feature Management
 date: October 6 2020
-category: aspnetcoreapi
+category: aspnetcore-api
 tags:
     - dotnet
     - aspnetcore

@@ -1,7 +1,7 @@
 ---
 title: A Professional ASP.NET Core API - Caching
 date: October 5 2020
-category: aspnetcoreapi
+category: aspnetcore-api
 tags:
     - dotnet
     - aspnetcore
