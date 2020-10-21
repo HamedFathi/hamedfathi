@@ -77,10 +77,12 @@ When the argument of the action method is a `complex type like a class object` t
 
 You may wonder what will happen if ASP.NET Core framework does not find the values of the action method's argument in any of the three locations – `Form data values`, `Routing variables` & `Query strings`. In that case it will provide the default values based on the type of the action method's argument. These are:
 
+* For `value types`, the value will be `default(T)`
 * `0` for `int`, `float`, `decimal`, `double`, `byte`.
-* `null` for `string`.
 * `01-01-0001 00:00:00` for `DateTime`.
+* For `reference types`, the type is created using the `default constructor`.
 * `Nullable types` are `null`.
+* `null` for `string`.
 
 ## Form fields
 
@@ -311,7 +313,95 @@ public class HomeController : ControllerBase
 
 ## Route data
 
+`Route values` obtain from `URL segments` or through default values after
+matching a route.
+
+**Using optional and default values**
+
+```html
+api/{controller}/{action=index}/{id?}
+```
+
+* `api`: A literal segment.
+* `{controller}`: A requierd route parameter.
+* `{action=index}` An optional route parameter with default value if not provided.
+* `{id?}`: An optional route parameter.
+
+**Note:** A `segment` is a small contiguous section of a URL. It’s separated from other URL segments by at least one character, often by the `/` character. e.g. `{id}` and `{dogsOnly}` in below example.
+
+Suppose you have the following action method:
+
+```cs
+[HttpGet("{id}/{dogsOnly}")] // Route
+public ActionResult<Pet> GetById(int id, bool dogsOnly) {}
+```
+
+And the app receives a request with this URL:
+
+```html
+http://example.com/api/pets/2/true
+```
+
+Model binding goes through the following steps after the routing system selects the action method:
+
+* Finds the first parameter of `GetByID`, an integer named id.
+* Looks through the available sources in the HTTP request and finds `id = "2"` in route data.
+* Converts the string "2" into integer 2.
+* Finds the second parameter of `GetByID`, an boolean named dogsOnly.
+* Looks through the available sources in the HTTP request and finds `dogsOnly = "true"` in route data.
+* Converts the string "true" into boolean true.
+
+**Complex types**
+
+You are able to write route binding for complex type as following:
+
+Create a model binding class
+
+```cs
+public class DetailsQuery
+{
+  [Required]
+  public int? ClockNumber { get; set; }
+  [Required]
+  public int? YearFrom { get; set; }
+  [Required]
+  public int? YearTo { get; set; }
+  [FromQuery] // From query string
+  public bool CheckHistoricalFlag { get; set; } = false;
+}
+```
+
+The action is
+
+```cs
+// http://localhost:PORT/api/employees/10/calendar/1966/2009?checkhistoricalflag=true
+
+[HttpGet("/api/employees/{clockNumber:int}/calendar/{yearFrom:int}/{yearTo:int}")]
+public ActionResult Get([FromRoute] DetailsQuery query)
+{
+  return Ok();
+}
+```
+
+As you can see the binding engine can map each of `DetailsQuery` properties from URL segments.
+
+**Constraints**
+
+You can apply a large number of route constraints to route templates to ensure that route values are convertible to appropriate types. 
+
+| Constraint              | Example              | Match examples                       | Description                                  |
+|-------------------------|----------------------|--------------------------------------|----------------------------------------------|
+| int                     | {count:int}          | 678, -890, 0                         | Matches any integer                          |
+| decimal                 | {rate:decimal}       | 12.3, 88, -5.005                     | Matches any decimal value                    |
+| Guid                    | {id:guid}            | 48ac5fbd-fd24-43b5-a742-6aab7fad67f9 | Matches any Guid                             |
+| min(value)              | {age:min(22)}        | 18, 20, 21                           | Matches integer values of 22 or greater      |
+| length(value)           | {name:length(7)}     | hamed, fathi, 12345                  | Matches string values with a length of 7     |
+| optional int            | {count:int?}         | 456, -222, 0, null                   | Optionally matches any integer               |
+| optional int max(value) | {count:int:max(15)?} | 7, -660, 0, null                     | Optionally matches any integer of 15 or less |
+
 ## Query strings
+
+`Query string values` pass at the end of the URL, not used during routing.
 
 ## Uploaded files
 
