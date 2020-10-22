@@ -12,7 +12,7 @@ tags:
 
 <!-- more -->
 
-Install the below packages
+Install the below package
 
 ```bash
 Install-Package System.ServiceModel.Syndication -Version 4.7.0
