@@ -511,7 +511,87 @@ selectedCourses[1].Key=2000&selectedCourses[1].Value=Economics
 
 ## Uploaded files
 
-## Specific Sources
+ASP.NET Core supports uploading files by exposing the `IFormFile` interface. You can use this interface as a method parameter to your action method and it will be populated with the details of the file upload:
+
+```cs
+public IActionResult UploadFile(IFormFile file) {}
+```
+
+You can also use an `IEnumerable<IFormFile>` if your action method accepts multiple files:
+
+```cs
+public IActionResult UploadFiles(IEnumerable<IFormFile> file) {}
+```
+
+The `IFormFile` object exposes several properties and utility methods for reading the contents of the uploaded file:
+
+```cs
+public interface IFormFile
+{
+    string ContentType { get; }
+    string ContentDisposition { get; }
+    IHeaderDictionary Headers { get; }
+    long Length { get; }
+    string Name { get; }
+    string FileName { get; }
+    Stream OpenReadStream();
+    void CopyTo(Stream target);
+    Task CopyToAsync(Stream target, CancellationToken cancellationToken = null);
+}
+```
+
+Now, Create a file input control
+
+```html
+<form method="post" enctype="multipart/form-data" asp-controller="FileUpload" asp-action="Index">
+    <div class="form-group">
+        <div class="col-md-10">
+            <p>Upload one or more files using this form:</p>
+            <input type="file" name="files" multiple />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" value="Upload" />
+        </div>
+    </div>
+</form>
+```
+
+When uploading files using model binding and the `IFormFile` interface, the action method can accept either a single `IFormFile` or an `IEnumerable<IFormFile>` representing multiple files. We can loop through one or more uploaded files, save them to the local file system and then use the files as per our application’s logic:
+
+```cs
+public class FileUploadController : Controller
+{
+    [HttpPost("FileUpload")]
+    public async Task<IActionResult> Index(List<IFormFile> files)
+    {
+        long size = files.Sum(f => f.Length);
+                        
+        var filePaths = new List<string>();
+        foreach (var formFile in files)
+        {
+            if (formFile.Length > 0)
+            {
+                // full path to file in temp location
+                var filePath = Path.GetTempFileName(); //we are using Temp file name just for the example. Add your own file path.
+                filePaths.Add(filePath);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await formFile.CopyToAsync(stream);
+                }
+            }
+        }
+
+        // process uploaded files
+        // Don't rely on or trust the FileName property without validation.
+        return Ok(new { count = files.Count, size, filePaths });
+    }
+}
+```
+
+## A Specific binding source
 
 ## Reference(s)
 
@@ -520,3 +600,5 @@ Most of the information in this article has gathered from various references.
 * https://docs.microsoft.com/en-us/aspnet/core/mvc/models/model-binding
 * https://www.tektutorialshub.com/asp-net-core/asp-net-core-model-binding/
 * https://wakeupandcode.com/forms-and-fields-in-asp-net-core/
+* https://www.manning.com/books/asp-net-core-in-action
+* https://code-maze.com/file-upload-aspnetcore-mvc/
