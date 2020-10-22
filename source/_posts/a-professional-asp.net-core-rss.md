@@ -34,7 +34,7 @@ public class RssPost
 
 ## Create the action
 
-Create the action that will respond to the request for our RSS Feed.
+Create the action that will respond to the request for our `RSS` Feed.
 
 ```cs
 using System.ServiceModel.Syndication;
