@@ -647,6 +647,50 @@ public class UserController
 }
 ```
 
+## Prefix
+
+Consider the following model
+
+```cs
+public class Instructor
+{
+    public int Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+}
+```
+
+**Parameter name**
+
+If the model to be bound is a `parameter` named `instructorToUpdate`:
+
+```cs
+public IActionResult OnPost(int? id, Instructor instructorToUpdate)
+```
+
+Model binding starts by looking through the sources for the key `instructorToUpdate.Id`. If that isn't found, it looks for `Id` without a prefix.
+
+**Property name**
+
+If the model to be bound is a `property` named `Instructor` of the `controller` or `PageModel` class:
+
+```cs
+[BindProperty]
+public Instructor Instructor { get; set; }
+```
+
+Model binding starts by looking through the sources for the key `Instructor.Id`. If that isn't found, it looks for `Id` without a prefix.
+
+**Custom prefix**
+
+If the model to be bound is a parameter named `instructorToUpdate` and a `Bind` attribute specifies Instructor as the prefix:
+
+```cs
+// http://localhost:PORT/Home/Query?id=1&instructor.id=2&instructor.firstname=hamed&instructor.lastname=fathi
+
+public IActionResult OnPost(int? id, [Bind(Prefix = "Instructor")] Instructor instructorToUpdate)
+```
+
 ## Targets
 
 Model binding tries to find values for the following kinds of targets:
