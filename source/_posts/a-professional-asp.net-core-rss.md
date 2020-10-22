@@ -20,7 +20,7 @@ dotnet add package System.ServiceModel.Syndication --version 4.7.0
 <PackageReference Include="System.ServiceModel.Syndication" Version="4.7.0" />
 ```
 
-## Create the Action
+## Create the action
 
 Create the action that will respond to the request for our RSS Feed.
 
@@ -68,7 +68,7 @@ public IActionResult Rss()
 }
 ```
 
-The only important note here is that I am setting a `ResponeCache` attribute on this method. I strongly recommend this as your RSS Feed generation is often something that will be going to the database etc. and feed-readers are notorious for multiple refreshes etc. By enabling ResponseCaching for your RSS action, you can reduce the load on your server.
+The only important note here is that I am setting a `ResponeCache` attribute on this method. I strongly recommend this as your `RSS` Feed generation is often something that will be going to the database etc. and feed-readers are notorious for multiple refreshes etc. By enabling ResponseCaching for your `RSS` action, you can reduce the load on your server.
 
 ## Reference(s)
 
