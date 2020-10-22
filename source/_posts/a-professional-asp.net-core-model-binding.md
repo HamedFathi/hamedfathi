@@ -474,7 +474,7 @@ Suppose the parameter to be bound is an array named `selectedCourses`:
 public IActionResult OnPost(int? id, int[] selectedCourses)
 ```
 
-Form or query string data can be in one of the following formats:
+Query string data can be in one of the following formats:
 
 ```html
 selectedCourses=1050&selectedCourses=2000 
