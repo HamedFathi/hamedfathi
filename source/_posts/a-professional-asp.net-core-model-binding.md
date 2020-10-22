@@ -746,6 +746,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CustomModelBindingSample.Data
 {
+    // Applying ModelBinder Attribute on Model
     [ModelBinder(BinderType = typeof(AuthorEntityBinder))]
     public class Author
     {
@@ -835,6 +836,7 @@ public IActionResult Get(Author author)
 The `ModelBinder` attribute can be used to apply the `AuthorEntityBinder` to parameters that don't use default conventions:
 
 ```cs
+// Applying ModelBinding Attribute on Action method
 [HttpGet("{id}")]
 public IActionResult GetById([ModelBinder(Name = "id")] Author author)
 {
