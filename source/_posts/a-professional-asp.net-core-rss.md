@@ -36,7 +36,7 @@ public IActionResult Rss()
 {
     var feed = new SyndicationFeed("Title", "Description", new Uri("SiteUrl"), "RSSUrl", DateTime.Now);
 
-    feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Mitchel Sellers");
+    feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} The Author");
     var items = new List<SyndicationItem>();
     var postings = _blogDataService.ListBlogForRss();
     foreach (var item in postings)
