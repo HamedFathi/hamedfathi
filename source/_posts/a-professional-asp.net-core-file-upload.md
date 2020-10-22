@@ -249,9 +249,11 @@ else
 }
 ```
 
-
+Now, Create `FileController`
 
 ```cs
+// Controllers/FileController.cs
+
 public class FileController : Controller
 {
     private readonly ApplicationDbContext context;
@@ -372,21 +374,6 @@ public class FileController : Controller
     }
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## Reference(s)
 
