@@ -94,8 +94,8 @@ public class ApplicationDbContext : DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     { }
-    public DbSet<FileOnFileSystemModel> FileOnFileSystemModel { get; set; }
-    public DbSet<FileOnDatabaseModel> FileOnDatabaseModel { get; set; }
+    public DbSet<FileOnDatabaseModel> FilesOnDatabase { get; set; }
+    public DbSet<FileOnFileSystemModel> FilesOnFileSystem { get; set; }
 }
 ```
 
@@ -119,7 +119,7 @@ public class Startup
 }
 ```
 
-Finally, let's do the required migrations and update our database. Just run the following commands on the `Package Manager Console`.
+Finally, let's do the required migrations and update our database. Just run the following commands on the `Package Manager Console` or other terminals.
 
 ```bash
 Add-Migration initial
@@ -146,6 +146,7 @@ public class FileUploadViewModel
     public List<FileOnDatabaseModel> FilesOnDatabase { get; set; }
 }
 ```
+![](/images/a-professional-asp.net-core-file-upload/upload.png)
 
 After that, Let's start modifying the View Page, `Views/File/Index.cshtml`.
 
@@ -155,6 +156,7 @@ After that, Let's start modifying the View Page, `Views/File/Index.cshtml`.
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <h4>Start Uploading Files Here</h4>
 <hr />
 @if (ViewBag.Message != null)
@@ -169,9 +171,207 @@ After that, Let's start modifying the View Page, `Views/File/Index.cshtml`.
     <button type="submit" class="btn btn-primary" asp-controller="File" asp-action="UploadToFileSystem">Upload to File System</button>
     <button class="btn btn-success" type="submit" asp-controller="File" asp-action="UploadToDatabase">Upload to Database</button>
 </form>
+<hr />
+<h4>Files on File System</h4>
+@if (Model.FilesOnFileSystem.Count == 0)
+{
+    <caption>No Records Found</caption>
+}
+else
+{
+    <caption>List of Files on File System</caption>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>File Type</th>
+                <th>Created On</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var file in Model.FilesOnFileSystem)
+            {
+                <tr>
+                    <th>@file.Id</th>
+                    <td>@file.Name</td>
+                    <td>@file.Description</td>
+                    <td>@file.FileType</td>
+                    <td>@file.CreatedOn</td>
+                    <td>
+                        <a type="button" class="btn btn-primary" asp-controller="File" asp-action="DownloadFileFromFileSystem" asp-route-id="@file.Id">Download</a>
+                        <a type="button" class="btn btn-danger" asp-controller="File" asp-action="DeleteFileFromFileSystem" asp-route-id="@file.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<hr />
+<h4>Files on Database</h4>
+@if (Model.FilesOnDatabase.Count == 0)
+{
+    <caption>No Records Found</caption>
+}
+else
+{
+    <caption>List of Files on Database</caption>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>File Type</th>
+                <th>Created On</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var file in Model.FilesOnDatabase)
+            {
+                <tr>
+                    <th>@file.Id</th>
+                    <td>@file.Name</td>
+                    <td>@file.Description</td>
+                    <td>@file.FileType</td>
+                    <td>@file.CreatedOn</td>
+                    <td>
+                        <a type="button" class="btn btn-primary" asp-controller="File" asp-action="DownloadFileFromDatabase" asp-route-id="@file.Id">Download</a>
+                        <a type="button" class="btn btn-danger" asp-controller="File" asp-action="DeleteFileFromDatabase" asp-route-id="@file.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 ```
 
 
+
+```cs
+public class FileController : Controller
+{
+    private readonly ApplicationDbContext context;
+    public FileController(ApplicationDbContext context)
+    {
+        this.context = context;
+    }
+    public async Task<IActionResult> Index()
+    {
+        var fileuploadViewModel = await LoadAllFiles();
+        ViewBag.Message = TempData["Message"];
+        return View(fileuploadViewModel);
+    }
+    [HttpPost]
+    public async Task<IActionResult> UploadToFileSystem(List<IFormFile> files, string description)
+    {
+        foreach (var file in files)
+        {
+            var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Files\\");
+            bool basePathExists = System.IO.Directory.Exists(basePath);
+            if (!basePathExists) Directory.CreateDirectory(basePath);
+            var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+            var filePath = Path.Combine(basePath, file.FileName);
+            var extension = Path.GetExtension(file.FileName);
+            if (!System.IO.File.Exists(filePath))
+            {
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                var fileModel = new FileOnFileSystemModel
+                {
+                    CreatedOn = DateTime.UtcNow,
+                    FileType = file.ContentType,
+                    Extension = extension,
+                    Name = fileName,
+                    Description = description,
+                    FilePath = filePath
+                };
+                await context.FilesOnFileSystem.AddAsync(fileModel);
+                await context.SaveChangesAsync();
+            }
+        }
+        TempData["Message"] = "File successfully uploaded to File System.";
+        return RedirectToAction("Index");
+    }
+    [HttpPost]
+    public async Task<IActionResult> UploadToDatabase(List<IFormFile> files, string description)
+    {
+        foreach (var file in files)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+            var extension = Path.GetExtension(file.FileName);
+            var fileModel = new FileOnDatabaseModel
+            {
+                CreatedOn = DateTime.UtcNow,
+                FileType = file.ContentType,
+                Extension = extension,
+                Name = fileName,
+                Description = description
+            };
+            using (var dataStream = new MemoryStream())
+            {
+                await file.CopyToAsync(dataStream);
+                fileModel.Data = dataStream.ToArray();
+            }
+            await context.FilesOnDatabase.AddAsync(fileModel);
+            await context.SaveChangesAsync();
+        }
+        TempData["Message"] = "File successfully uploaded to Database";
+        return RedirectToAction("Index");
+    }
+    private async Task<FileUploadViewModel> LoadAllFiles()
+    {
+        var viewModel = new FileUploadViewModel();
+        viewModel.FilesOnDatabase = await context.FilesOnDatabase.ToListAsync();
+        viewModel.FilesOnFileSystem = await context.FilesOnFileSystem.ToListAsync();
+        return viewModel;
+    }
+    public async Task<IActionResult> DownloadFileFromDatabase(int id)
+    {
+        var file = await context.FilesOnDatabase.Where(x => x.Id == id).FirstOrDefaultAsync();
+        if (file == null) return null;
+        return File(file.Data, file.FileType, file.Name + file.Extension);
+    }
+    public async Task<IActionResult> DownloadFileFromFileSystem(int id)
+    {
+        var file = await context.FilesOnFileSystem.Where(x => x.Id == id).FirstOrDefaultAsync();
+        if (file == null) return null;
+        var memory = new MemoryStream();
+        using (var stream = new FileStream(file.FilePath, FileMode.Open))
+        {
+            await stream.CopyToAsync(memory);
+        }
+        memory.Position = 0;
+        return File(memory, file.FileType, file.Name + file.Extension);
+    }
+    public async Task<IActionResult> DeleteFileFromFileSystem(int id)
+    {
+        var file = await context.FilesOnFileSystem.Where(x => x.Id == id).FirstOrDefaultAsync();
+        if (file == null) return null;
+        if (System.IO.File.Exists(file.FilePath))
+        {
+            System.IO.File.Delete(file.FilePath);
+        }
+        context.FilesOnFileSystem.Remove(file);
+        await context.SaveChangesAsync();
+        TempData["Message"] = $"Removed {file.Name + file.Extension} successfully from File System.";
+        return RedirectToAction("Index");
+    }
+    public async Task<IActionResult> DeleteFileFromDatabase(int id)
+    {
+        var file = await context.FilesOnDatabase.Where(x => x.Id == id).FirstOrDefaultAsync();
+        context.FilesOnDatabase.Remove(file);
+        await context.SaveChangesAsync();
+        TempData["Message"] = $"Removed {file.Name + file.Extension} successfully from Database.";
+        return RedirectToAction("Index");
+    }
+}
+```
 
 
 
