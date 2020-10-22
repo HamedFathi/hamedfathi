@@ -903,6 +903,149 @@ When evaluating model binders, the collection of providers is examined in order.
 
 ## Validation
 
+Data can come from many different sources in your web application—you could load it from files, read it from a database, or you could accept values that a user typed into a form in requests. Although you might be inclined to trust that the data already on your server is valid (though this is sometimes a dangerous assumption!), you definitely shouldn't trust the data sent as part of a request.
+
+**DataAnnotations**
+
+Validation attributes, or more precisely `DataAnnotations` attributes, allow you to specify rules that the properties in your model should conform to. They provide metadata about your model by describing the sort of data the model should contain, as opposed to the data itself.
+
+```cs
+Public class UserBindingModel
+{
+    [Required]
+    [StringLength(100)]
+    [Display(Name = "Your name")]
+    public string FirstName { get; set; }
+
+    [Required]
+    [StringLength(100)]
+    [Display(Name = "Last name")]
+    public string LastName { get; set; }
+
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; }
+
+    [Phone]
+    [Display(Name = "Phone number")]
+    public string PhoneNumber { get; set; }
+}
+```
+
+| Attribute                  | Description                                                                                             |
+|----------------------------|---------------------------------------------------------------------------------------------------------|
+| [CreditCard]               | Validates that a property has a valid credit card format.                                               |
+| [EmailAddress]             | Validates that a property has a valid email address format.                                             |
+| [StringLength(max)]        | Validates that a string has at most the max amount of characters.                                       |
+| [MinLength(min)]           | Validates that a collection has at least the min amount of items.                                       |
+| [Phone]                    | Validates that a property has a valid phone number format.                                         |                                      
+| [Range(min, max)]          | Validates that a property has a value between min and max.                                              |
+| [RegularExpression(regex)] | Validates that a property conforms to the regex regular expression pattern                              |
+| [Url]                      | Validates that a property has a valid URL format                                                        |
+| [Required]                 | Indicates the property that must be provided                                                            |
+| [Compare]                  | Allows you to confirm that two properties have the same value (for example, `Email` and `ConfirmEmail`) |
+
+**Custom DataAnnotations**
+
+Imagine we want to restrict the address field value of a student to limited number of words. For example we might say 50 words is more than enough for an address field. You might also think that this type of validation (limiting a string to a maximum number of words) 
+
+```cs
+using System.ComponentModel.DataAnnotations;
+
+public class MaxWordAttributes : ValidationAttribute
+{
+    private readonly int _maxWords;
+    public MaxWordAttributes(int maxWords)
+        : base("{0} has to many words.")
+    {
+        _maxWords = maxWords;
+    }
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    {
+        if (value == null) return ValidationResult.Success;
+        var textValue = value.ToString();
+        if (textValue.Split(' ').Length <= _maxWords) return ValidationResult.Success;
+        var errorMessage = FormatErrorMessage((validationContext.DisplayName));
+        return new ValidationResult(errorMessage);
+    }
+}
+```
+
+And use it 
+
+```cs
+[DataType(DataType.MultilineText)]  
+[MaxWordAttributes(50, ErrorMessage="There are too many words in {0}.")]  
+public string Address { get; set; }  
+```
+
+**Validating on the server**
+
+Validation of the binding model occurs before the action executes, but note that the action always executes, whether the validation failed or succeeded. It's the responsibility of the action method to handle the result of the validation
+
+The `ModelState` is a property of a `Controller` and represents a collection of name and value pairs that were submitted to the server during a `POST`. It also contains a collection of error messages for each value submitted, this object is a `ModelStateDictionary`. Despite its name, it doesn't actually know anything about any model classes, it only has names, values, and errors.
+
+ModelState has two purposes: to store the value submitted to the server, and to store the validation errors associated with those values.
+
+```cs
+if (!ModelState.IsValid)
+{
+    // Do something about it!
+    // Usually return the user to the same page
+    // while showing the errors.
+}
+```
+
+We have the `AddUserVM` view model:
+
+```cs
+public class AddUserVM
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string EmailAddress { get; set; }
+}
+```
+
+Also, we have the actions:
+
+```cs
+// Controllers/HomeController.cs
+
+[HttpPost]
+public ActionResult Add(AddUserVM model)
+{
+    if(!ModelState.IsValid)
+    {
+        return View(model);
+    }
+    return RedirectToAction("Index");
+}
+```
+
+**Custom Validation**
+
+But what if we needed to perform more complex validation than what is provided by attributes? Say we needed to validate that the first and last names are not identical, and display a particular error message when this happens.
+
+We can actually add errors to the model state via the `AddModelError` method on `ModelStateDictionary`:
+
+```cs
+[HttpPost]
+public ActionResult Add(AddUserVM model)
+{
+    if(model.FirstName == model.LastName)
+    {
+        // HERE
+        ModelState.AddModelError("LastName", "The last name cannot be the same as the first name.");
+    }
+    if(!ModelState.IsValid)
+    {
+        return View(model);
+    }
+    return RedirectToAction("Index");
+}
+```
+
 ## Reference(s)
 
 Most of the information in this article has gathered from various references.
@@ -914,3 +1057,6 @@ Most of the information in this article has gathered from various references.
 * https://www.manning.com/books/asp-net-core-in-action
 * https://code-maze.com/file-upload-aspnetcore-mvc/
 * https://medium.com/better-programming/the-anatomy-of-an-http-request-728a469ecba9
+* https://blog.zhaytam.com/2019/04/13/asp-net-core-checking-modelstate-isvalid-is-boring/
+* https://exceptionnotfound.net/asp-net-mvc-demystified-modelstate
+* https://www.c-sharpcorner.com/article/custom-data-annotation-validation-in-mvc/
