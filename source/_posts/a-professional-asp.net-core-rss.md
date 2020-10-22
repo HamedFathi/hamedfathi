@@ -12,6 +12,64 @@ tags:
 
 <!-- more -->
 
+Install the below packages
+
+```bash
+Install-Package System.ServiceModel.Syndication -Version 4.7.0
+dotnet add package System.ServiceModel.Syndication --version 4.7.0
+<PackageReference Include="System.ServiceModel.Syndication" Version="4.7.0" />
+```
+
+## Create the Action
+
+Create the action that will respond to the request for our RSS Feed.
+
+```cs
+using System.ServiceModel.Syndication;
+using System.Xml;
+using System.IO;
+using System.Text;
+
+[ResponseCache(Duration = 1200)]
+[HttpGet]
+public IActionResult Rss()
+{
+    var feed = new SyndicationFeed("Title", "Description", new Uri("SiteUrl"), "RSSUrl", DateTime.Now);
+
+    feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Mitchel Sellers");
+    var items = new List<SyndicationItem>();
+    var postings = _blogDataService.ListBlogForRss();
+    foreach (var item in postings)
+    {
+        var postUrl = Url.Action("Article", "Blog", new { id = item.UrlSlug }, HttpContext.Request.Scheme);
+        var title = item.Title;
+        var description = item.Preview;                
+        items.Add(new SyndicationItem(title, description, new Uri(postUrl), item.UrlSlug, item.PostDate));
+    }
+
+    feed.Items = items;
+    var settings = new XmlWriterSettings
+    {
+        Encoding = Encoding.UTF8,
+        NewLineHandling = NewLineHandling.Entitize,
+        NewLineOnAttributes = true,
+        Indent = true
+    };
+    using (var stream = new MemoryStream())
+    {
+        using (var xmlWriter = XmlWriter.Create(stream, settings))
+        {
+            var rssFormatter = new Rss20FeedFormatter(feed, false);
+            rssFormatter.WriteTo(xmlWriter);
+            xmlWriter.Flush();
+        }
+        return File(stream.ToArray(), "application/rss+xml; charset=utf-8");
+    }
+}
+```
+
+The only important note here is that I am setting a `ResponeCache` attribute on this method. I strongly recommend this as your RSS Feed generation is often something that will be going to the database etc. and feed-readers are notorious for multiple refreshes etc. By enabling ResponseCaching for your RSS action, you can reduce the load on your server.
+
 ## Reference(s)
 
 Most of the information in this article has gathered from various references.
