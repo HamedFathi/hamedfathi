@@ -375,6 +375,8 @@ public class FileController : Controller
 }
 ```
 
+![](/images/a-professional-asp.net-core-file-upload/final.png)
+
 ## Reference(s)
 
 Most of the information in this article has gathered from various references.
