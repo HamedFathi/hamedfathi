@@ -39,7 +39,7 @@ For each target parameter or property, the sources are scanned in the order indi
 * Route data and query string values are used `only` for simple types.
 * Uploaded files are bound `only` to target types that implement `IFormFile` or `IEnumerable<IFormFile>`.
 
-If the default source is not correct or is not what you want, use one of the following attributes to specify the source:
+If the default source is not sufficient or is not what you want, use one of the following attributes to specify the source:
 
 **Override binding source**
 
@@ -592,6 +592,40 @@ public class FileUploadController : Controller
 ```
 
 ## A Specific binding source
+
+By default the ASP.NET Core model binder will attempt to bind all action method parameters from different binding sources.
+
+Occasionally, you may find it necessary to specifically declare which binding source to bind to, but in other cases, these sources won't be sufficient. The most common scenarios are when you want to bind a method parameter to a request header value, or when the body of a request contains JSON-formatted data that you want to bind to a parameter. In these cases, you can decorate your action method parameters (or binding model class properties) with attributes that say where to bind from, as shown here
+
+```cs
+// GET: http://localhost:PORT/User/GetUserInfo/hamed?age=32
+
+public class UserController
+{
+    [Route("{controller}/{action}/{name}")]
+    public IActionResult GetUserInfo(
+    // This will be bound from an HTTP header in the request.
+    [FromHeader] string userId,
+
+    // This will be bound from route.
+    [FromRoute] string name,
+
+    // This will be bound from an query string.
+    [FromQuery] age,
+
+    // The list of photos will be bound to the body of the request, typically in JSON format.
+    [FromBody] List<Photo> photos,
+
+    // This will be bound from an DI container.
+    [FromServices] ILogger<UserController> logger
+    )
+    {
+        /* method implementation */
+    }
+}
+```
+
+## Validation
 
 ## Reference(s)
 
