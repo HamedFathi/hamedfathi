@@ -13,6 +13,8 @@ ASP.NET Core supports uploading one or more files using buffered model binding f
 
 <!-- more -->
 
+![](/images/a-professional-asp.net-core-file-upload/vs.png)
+
 ## File Model
 
 Create a new class, `Models/FileModel.cs`. This will be the base class.
