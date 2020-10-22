@@ -604,13 +604,14 @@ public class UserController
 {
     [Route("{controller}/{action}/{name}")]
     public IActionResult GetUserInfo(
+
     // This will be bound from an HTTP header in the request.
     [FromHeader] string userId,
 
-    // This will be bound from route.
+    // This will be bound from route. '{name}'
     [FromRoute] string name,
 
-    // This will be bound from an query string.
+    // This will be bound from an query string. 'age=32'
     [FromQuery] age,
 
     // The list of photos will be bound to the body of the request, typically in JSON format.
@@ -618,12 +619,19 @@ public class UserController
 
     // This will be bound from an DI container.
     [FromServices] ILogger<UserController> logger
+
     )
     {
         /* method implementation */
     }
 }
 ```
+
+**[BindRequired]**
+
+**[BindNever]**
+
+**[ModelBinder]**
 
 ## Validation
 
