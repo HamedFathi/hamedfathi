@@ -20,6 +20,23 @@ Controllers and Razor pages work with data that comes from HTTP requests. For ex
 
 <!-- more -->
 
+## HTTP Request
+
+HTTP is one of the many protocols (strategies of communication) used to transfer data from one machine to another across the internet. It is the protocol that browsers primarily use to communicate with websites.
+
+For instance, when you go to `www.wikipedia.org`, an HTTP request is created and transmitted to Wikipedia's servers, which in turn render and transmit an HTTP response back to the browser.
+The HTTP protocol is a "text-based protocol", which means that this strategy uses human-readable characters as its means of communication.
+
+An HTTP request defines the following:
+
+* **Method** (required) — (Example: GET)
+* **Host** (required) — (Example: `www.hamedfathi.me`)
+* **Path** (required) —(Example: /search)
+* **HTTP version** (required) — (Example: HTTP/2)
+* **Headers** (optional) — (Example: Content-Type: application/json)
+* **Query** String (optional) — (Example: ?q=test)
+* **Body** (optional) — (Example: {"q": "test"})
+
 ## Model Binding Sources
 
 By default, model binding gets data in the form of key-value pairs from the following sources in an HTTP request (**in order**):
@@ -608,16 +625,16 @@ public class UserController
     // This will be bound from an HTTP header in the request.
     [FromHeader] string userId,
 
-    // This will be bound from route. '{name}'
+    // This will be bound from the route. '{name}'
     [FromRoute] string name,
 
-    // This will be bound from an query string. 'age=32'
+    // This will be bound from the query string. 'age=32'
     [FromQuery] age,
 
     // The list of photos will be bound to the body of the request, typically in JSON format.
     [FromBody] List<Photo> photos,
 
-    // This will be bound from an DI container.
+    // This will be bound from the DI container.
     [FromServices] ILogger<UserController> logger
 
     )
@@ -644,3 +661,4 @@ Most of the information in this article has gathered from various references.
 * https://wakeupandcode.com/forms-and-fields-in-asp-net-core/
 * https://www.manning.com/books/asp-net-core-in-action
 * https://code-maze.com/file-upload-aspnetcore-mvc/
+* https://medium.com/better-programming/the-anatomy-of-an-http-request-728a469ecba9
