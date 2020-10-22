@@ -520,7 +520,7 @@ public IActionResult UploadFile(IFormFile file) {}
 You can also use an `IEnumerable<IFormFile>` if your action method accepts multiple files:
 
 ```cs
-public IActionResult UploadFiles(IEnumerable<IFormFile> file) {}
+public IActionResult UploadFiles(IEnumerable<IFormFile> files) {}
 ```
 
 The `IFormFile` object exposes several properties and utility methods for reading the contents of the uploaded file:
