@@ -71,10 +71,11 @@ If the default source is not sufficient or is not what you want, use one of the 
 
 **Override binding behavior**
 
-| Attribute      | Description                             |
-|----------------|-----------------------------------------|
-| [BindRequired] | Add model state error if binding fails. |
-| [BindNever]    | Ignore the binding of parameter.        |
+| Attribute      | Description                                                                |
+|----------------|----------------------------------------------------------------------------|
+| [Bind]         | Specifies which properties of a model should be included in model binding. |
+| [BindRequired] | Add model state error if binding fails.                                    |
+| [BindNever]    | Ignore the binding of parameter.                                           |
 
 **Supply custom binding**
 
@@ -97,9 +98,11 @@ You may wonder what will happen if ASP.NET Core framework does not find the valu
 * For `value types`, the value will be `default(T)`
 * `0` for `int`, `float`, `decimal`, `double`, `byte`.
 * `01-01-0001 00:00:00` for `DateTime`.
-* For `reference types`, the type is created using the `default constructor`.
+* Nullable simple types are set to `null`.
 * `Nullable types` are `null`.
 * `null` for `string`.
+* For `complex Types (reference types)`, model binding creates an instance by using the default constructor, without setting properties.
+* Arrays are set to `Array.Empty<T>()`, except that `byte[]` arrays are set to `null`.
 
 ## Form fields
 
@@ -644,11 +647,257 @@ public class UserController
 }
 ```
 
-**[BindRequired]**
+## Targets
 
-**[BindNever]**
+Model binding tries to find values for the following kinds of targets:
+
+* Parameters of the controller action method that a request is routed to.
+* Parameters of the Razor Pages handler method that a request is routed to.
+* Public properties of a controller or PageModel class, if specified by attributes.
+
+**[BindProperty] attribute**
+
+Can be applied to a public property of a `controller` or `PageModel` class to cause model binding to target that property:
+
+```cs
+public class EditModel : InstructorsPageModel
+{
+    [BindProperty]
+    public Instructor Instructor { get; set; }
+```
+
+**[BindProperties] attribute**
+
+Can be applied to a `controller` or `PageModel` class to tell model binding to target all public properties of the class:
+
+```cs
+[BindProperties(SupportsGet = true)]
+public class CreateModel : InstructorsPageModel
+{
+    public Instructor Instructor { get; set; }
+```
+
+## Attributes for complex type targets
+
+Several built-in attributes are available for controlling model binding of complex types:
+
+**[Bind] attribute**
+
+Can be applied to a class or a method parameter. Specifies which properties of a model should be included in model binding. [Bind] does **not** affect input formatters.
+
+In the following example, only the specified properties of the `Instructor` model are bound when any handler or action method is called:
+
+```cs
+[Bind("LastName,FirstMidName,HireDate")]
+public class Instructor
+```
+
+In the following example, only the specified properties of the `Instructor` model are bound when the `OnPost` method is called:
+
+```cs
+[HttpPost]
+public IActionResult OnPost([Bind("LastName,FirstMidName,HireDate")] Instructor instructor)
+```
+
+**[BindRequired] attribute**
+
+Can only be applied to model properties, not to method parameters. Causes model binding to add a model state error if binding cannot occur for a model's property. Here's an example:
+
+```cs
+public class InstructorWithCollection
+{
+    public int ID { get; set; }
+
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+    [Display(Name = "Hire Date")]
+    [BindRequired] // HERE
+    public DateTime HireDate { get; set; }
+```
+
+**[BindNever] attribute**
+
+Can only be applied to model properties, not to method parameters. Prevents model binding from setting a model's property. Here's an example:
+
+```cs
+public class InstructorWithDictionary
+{
+    [BindNever] // HERE
+    public int ID { get; set; }
+```
+
+## Custom Model Binding
+
+Model binding allows controller actions to work directly with model types (passed in as method arguments), rather than HTTP requests. Mapping between incoming request data and application models is handled by model binders. Developers can extend the built-in model binding functionality by implementing custom model binders (though typically, you don't need to write your own provider).
 
 **[ModelBinder]**
+
+In this section we'll implement a custom model binder that:
+
+* Converts incoming request data into strongly typed key arguments.
+* Uses Entity Framework Core to fetch the associated entity.
+* Passes the associated entity as an argument to the action method.
+
+The following sample uses the `ModelBinder` attribute on the `Author` model:
+
+```cs
+using CustomModelBindingSample.Binders;
+using Microsoft.AspNetCore.Mvc;
+
+namespace CustomModelBindingSample.Data
+{
+    [ModelBinder(BinderType = typeof(AuthorEntityBinder))]
+    public class Author
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string GitHub { get; set; }
+        public string Twitter { get; set; }
+        public string BlogUrl { get; set; }
+    }
+}
+```
+
+In the preceding code, the `ModelBinder` attribute specifies the type of `IModelBinder` that should be used to bind `Author` action parameters.
+
+The following `AuthorEntityBinder` class binds an `Author` parameter by fetching the entity from a data source using Entity Framework Core and an `authorId`:
+
+```cs
+public class AuthorEntityBinder : IModelBinder
+{
+    private readonly AuthorContext _context;
+
+    public AuthorEntityBinder(AuthorContext context)
+    {
+        _context = context;
+    }
+
+    public Task BindModelAsync(ModelBindingContext bindingContext)
+    {
+        if (bindingContext == null)
+        {
+            throw new ArgumentNullException(nameof(bindingContext));
+        }
+
+        var modelName = bindingContext.ModelName;
+
+        // Try to fetch the value of the argument by name
+        var valueProviderResult = bindingContext.ValueProvider.GetValue(modelName);
+
+        if (valueProviderResult == ValueProviderResult.None)
+        {
+            return Task.CompletedTask;
+        }
+
+        bindingContext.ModelState.SetModelValue(modelName, valueProviderResult);
+
+        var value = valueProviderResult.FirstValue;
+
+        // Check if the argument value is null or empty
+        if (string.IsNullOrEmpty(value))
+        {
+            return Task.CompletedTask;
+        }
+
+        if (!int.TryParse(value, out var id))
+        {
+            // Non-integer arguments result in model state errors
+            bindingContext.ModelState.TryAddModelError(
+                modelName, "Author Id must be an integer.");
+
+            return Task.CompletedTask;
+        }
+
+        // Model will be null if not found, including for
+        // out of range id values (0, -3, etc.)
+        var model = _context.Authors.Find(id);
+        bindingContext.Result = ModelBindingResult.Success(model);
+        return Task.CompletedTask;
+    }
+}
+```
+
+The following code shows how to use the `AuthorEntityBinder` in an action method:
+
+```cs
+[HttpGet("get/{authorId}")]
+public IActionResult Get(Author author)
+{
+    if (author == null)
+    {
+        return NotFound();
+    }
+
+    return Ok(author);
+}
+```
+
+The `ModelBinder` attribute can be used to apply the `AuthorEntityBinder` to parameters that don't use default conventions:
+
+```cs
+[HttpGet("{id}")]
+public IActionResult GetById([ModelBinder(Name = "id")] Author author)
+{
+    if (author == null)
+    {
+        return NotFound();
+    }
+
+    return Ok(author);
+}
+```
+
+In this example, since the name of the argument isn't the default `authorId`, it's specified on the parameter using the `ModelBinder` attribute. Both the controller and action method are simplified compared to looking up the entity in the action method. The logic to fetch the author using Entity Framework Core is moved to the model binder. This can be a considerable simplification when you have several methods that bind to the `Author` model.
+
+You can apply the `ModelBinder` attribute to individual model properties (such as on a viewmodel) or to action method parameters to specify a certain model binder or model name for just that type or action.
+
+**Implementing a ModelBinderProvider**
+
+Instead of applying an attribute, you can implement `IModelBinderProvider`. This is how the built-in framework binders are implemented. When you specify the type your binder operates on, you specify the type of argument it produces, **not** the input your binder accepts. The following binder provider works with the `AuthorEntityBinder`. When it's added to MVC's collection of providers, you don't need to use the `ModelBinder` attribute on `Author` or `Author`-typed parameters.
+
+```cs
+using CustomModelBindingSample.Data;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using System;
+
+namespace CustomModelBindingSample.Binders
+{
+    public class AuthorEntityBinderProvider : IModelBinderProvider
+    {
+        public IModelBinder GetBinder(ModelBinderProviderContext context)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Metadata.ModelType == typeof(Author))
+            {
+                return new BinderTypeModelBinder(typeof(AuthorEntityBinder));
+            }
+
+            return null;
+        }
+    }
+}
+```
+
+To use a custom model binder provider, add it in `ConfigureServices`:
+
+```cs
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddDbContext<AuthorContext>(options => options.UseInMemoryDatabase("Authors"));
+
+    services.AddControllers(options =>
+    {
+        options.ModelBinderProviders.Insert(0, new AuthorEntityBinderProvider());
+    });
+}
+```
+
+When evaluating model binders, the collection of providers is examined in order. The first provider that returns a binder that matches the input model is used. Adding your provider to the end of the collection may thus result in a built-in model binder being called before your custom binder has a chance. In this example, the custom provider is added to the beginning of the collection to ensure it's always used for `Author` action arguments.
 
 ## Validation
 
@@ -657,6 +906,7 @@ public class UserController
 Most of the information in this article has gathered from various references.
 
 * https://docs.microsoft.com/en-us/aspnet/core/mvc/models/model-binding
+* https://docs.microsoft.com/en-us/aspnet/core/mvc/advanced/custom-model-binding
 * https://www.tektutorialshub.com/asp-net-core/asp-net-core-model-binding/
 * https://wakeupandcode.com/forms-and-fields-in-asp-net-core/
 * https://www.manning.com/books/asp-net-core-in-action
