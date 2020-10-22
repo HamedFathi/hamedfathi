@@ -20,6 +20,18 @@ dotnet add package System.ServiceModel.Syndication --version 4.7.0
 <PackageReference Include="System.ServiceModel.Syndication" Version="4.7.0" />
 ```
 
+## Create the model
+
+```cs
+public class RssPost
+{
+    public string Title { get; set; }
+    public string UrlSlug { get; set; }
+    public string Preview { get; set; }
+    public DateTime PostDate { get; set; }
+}
+```
+
 ## Create the action
 
 Create the action that will respond to the request for our RSS Feed.
@@ -34,11 +46,11 @@ using System.Text;
 [HttpGet]
 public IActionResult Rss()
 {
-    var feed = new SyndicationFeed("Title", "Description", new Uri("SiteUrl"), "RSSUrl", DateTime.Now);
+    var feed = new SyndicationFeed("Title", "Description", new Uri("https://hamedfathi.me"), "RSSUrl", DateTime.Now);
 
-    feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} The Author");
+    feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Hamed Fathi");
     var items = new List<SyndicationItem>();
-    var postings = _blogDataService.ListBlogForRss();
+    var postings = new List<RssPost>();
     foreach (var item in postings)
     {
         var postUrl = Url.Action("Article", "Blog", new { id = item.UrlSlug }, HttpContext.Request.Scheme);
