@@ -932,6 +932,8 @@ Public class UserBindingModel
 }
 ```
 
+Some of these attributes are:
+
 | Attribute                  | Description                                                                                             |
 |----------------------------|---------------------------------------------------------------------------------------------------------|
 | [CreditCard]               | Validates that a property has a valid credit card format.                                               |
@@ -944,6 +946,8 @@ Public class UserBindingModel
 | [Url]                      | Validates that a property has a valid URL format                                                        |
 | [Required]                 | Indicates the property that must be provided                                                            |
 | [Compare]                  | Allows you to confirm that two properties have the same value (for example, `Email` and `ConfirmEmail`) |
+| [DataType(enum)]           | This attribute is used to specify the datatype of the model - `CreditCard`, `Currency`, `Custom`, `Date`, `DateTime`, `Duration`, `EmailAddress`, `Html`, `ImageUrl`, `MultilineText`, `Password`, `PhoneNumber`, `PostalCode`, `Text`, `Time`, `Upload`, `Url` |
+
 
 **Custom DataAnnotations**
 
