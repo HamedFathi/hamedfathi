@@ -67,7 +67,7 @@ If the default source is not correct or is not what you want, use one of the fol
 
 ## Model Binding for Simple Types
 
-When Binding Simple Types the framework convert the values into the types of action method's arguments. The Simple Types are - `string`, `int`, `bool`, `float`, `datetime`, `decimal`, etc.
+When Binding Simple Types the framework convert the values into the types of action method's arguments. The Simple Types are: `Boolean`, `Byte`, `SByte`, `Char`, `DateTime`, `DateTimeOffset`, `Decimal`, `Double`, `Enum`, `Guid`, `Int16`, `Int32`, `Int64`, `Single`, `TimeSpan`, `UInt16`, `UInt32`, `UInt64`, `Uri`, `Version`.
 
 ## Model Binding for Complex Types
 
@@ -401,11 +401,117 @@ You can apply a large number of route constraints to route templates to ensure t
 
 ## Query strings
 
-`Query string values` pass at the end of the URL, not used during routing.
+URL's are made up of several parts, like protocol, hostname, path and so on. The query string is the part of the URL that comes `after a question-mark` character. So, in a URL like this:
+
+```html
+https://www.google.com/search?q=test&oq=hello
+```
+
+Everything after the `?` character is considered the query string. The query strings are separated by `&`. In this case, there are two parameters: One called `q` and one called `oq`. They have the values "test" and "hello". These would be relevant to the page displayed by the URL.
+
+So, `Query string values` pass at the end of the URL, not used during routing.
+
+**Simple type**
+
+Write an action
+
+```cs
+// HomeController.cs
+
+public class HomeController : Controller
+{
+    public IActionResult QueryS1(float a, string b, bool c)
+    {
+        // ...
+    }
+}
+```
+
+You can send your values to model binding engine via query string as following
+
+```html
+GET: http://localhost:PORT/Home/QueryS1?a=1.1&b=hamed&c=true
+```
+
+**Complex type**
+
+Create a view model
+
+```cs
+public class User
+{
+    public long Id { get; set; }
+    public string Name { get; set; }
+    public DateTime BirthDate { get; set; }
+}
+```
+
+Pass it to your action
+
+```cs
+// HomeController.cs
+
+public class HomeController : Controller
+{
+    public IActionResult QueryS2(User user)
+    {
+        // ...
+    }
+}
+```
+
+Call it by query strings
+
+```cs
+GET: http://localhost:PORT/Home/QueryS2?id=1&name=hamed&birthdate=1980-09-10
+```
+
+**Collections**
+
+Suppose the parameter to be bound is an array named `selectedCourses`:
+
+```cs
+public IActionResult OnPost(int? id, int[] selectedCourses)
+```
+
+Form or query string data can be in one of the following formats:
+
+```html
+selectedCourses=1050&selectedCourses=2000 
+
+selectedCourses[0]=1050&selectedCourses[1]=2000
+
+[0]=1050&[1]=2000
+
+selectedCourses[a]=1050&selectedCourses[b]=2000&selectedCourses.index=a&selectedCourses.index=b
+
+[a]=1050&[b]=2000&index=a&index=b
+```
+
+**Dictionaries**
+
+Suppose the target parameter is a `Dictionary<int, string>` named `selectedCourses`:
+
+```cs
+public IActionResult OnPost(int? id, Dictionary<int, string> selectedCourses)
+```
+
+Query string data can look like one of the following examples:
+
+```html
+selectedCourses[1050]=Chemistry&selectedCourses[2000]=Economics
+
+[1050]=Chemistry&selectedCourses[2000]=Economics
+
+selectedCourses[0].Key=1050&selectedCourses[0].Value=Chemistry&
+selectedCourses[1].Key=2000&selectedCourses[1].Value=Economics
+
+[0].Key=1050&[0].Value=Chemistry&[1].Key=2000&[1].Value=Economics
+```
 
 ## Uploaded files
 
-## Specific Source
+## Specific Sources
 
 ## Reference(s)
 
