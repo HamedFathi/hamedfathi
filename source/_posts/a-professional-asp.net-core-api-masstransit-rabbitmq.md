@@ -1,6 +1,6 @@
 ---
 title: A Professional ASP.NET Core API - MassTransit/RabbitMQ
-date: October 9 2020
+date: October 23 2020
 category: aspnetcore-api
 tags:
     - dotnet

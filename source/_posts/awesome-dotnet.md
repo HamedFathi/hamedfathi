@@ -1,6 +1,6 @@
 ---
 title: Awesome .NET!
-date: October 22 2020
+date: October 1 2020
 category: dotnet
 tags:
     - dotnet

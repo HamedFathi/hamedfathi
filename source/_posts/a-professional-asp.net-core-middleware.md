@@ -1,6 +1,6 @@
 ---
 title: A Professional ASP.NET Core - Middleware
-date: October 9 2020
+date: October 11 2020
 category: aspnetcore
 tags:
     - dotnet

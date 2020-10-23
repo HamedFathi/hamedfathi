@@ -1,6 +1,6 @@
 ---
 title: The .NET World - Guard
-date: October 7 2020
+date: October 2 2020
 category: dotnet
 tags:
     - dotnet

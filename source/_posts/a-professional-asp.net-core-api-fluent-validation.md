@@ -1,6 +1,6 @@
 ---
 title: A Professional ASP.NET Core API - FluentValidation
-date: September 28 2020
+date: September 29 2020
 category: aspnetcore-api
 tags:
     - dotnet

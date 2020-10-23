@@ -1,6 +1,6 @@
 ---
 title: A Professional ASP.NET Core API - Global Exception Handling
-date: September 19 2020
+date: September 18 2020
 category: aspnetcore-api
 tags:
     - dotnet

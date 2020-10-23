@@ -1,6 +1,6 @@
 ---
 title: A Professional ASP.NET Core API - Security Headers
-date: September 21 2020
+date: September 22 2020
 category: aspnetcore-api
 tags:
     - dotnet

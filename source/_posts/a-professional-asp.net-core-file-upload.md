@@ -1,6 +1,6 @@
 ---
 title: A Professional ASP.NET Core - File Upload
-date: October 9 2020
+date: October 12 2020
 category: aspnetcore
 tags:
     - dotnet

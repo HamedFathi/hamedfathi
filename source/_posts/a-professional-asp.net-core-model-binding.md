@@ -1,6 +1,6 @@
 ---
 title: A Professional ASP.NET Core - Model Binding
-date: October 9 2020
+date: October 10 2020
 category: aspnetcore
 tags:
     - dotnet

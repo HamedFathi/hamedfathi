@@ -1,6 +1,6 @@
 ---
 title: A Professional ASP.NET Core API - Paging
-date: October 3 2020
+date: October 4 2020
 category: aspnetcore-api
 tags:
     - dotnet
