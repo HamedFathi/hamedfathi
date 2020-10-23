@@ -160,26 +160,38 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
     if (env.IsDevelopment())
     {
+        // Displays detailed information about request exceptions.
         app.UseDeveloperExceptionPage();
     }
     else
     {
+        // Provide a path to the custom error page that will be displayed to the user.
         app.UseExceptionHandler("/Home/Error");
+        // Send HTTP Strict Transport Security Protocol (HSTS) headers to clients.
         app.UseHsts();
     }
+    // Redirect HTTP requests to HTTPS.
     app.UseHttpsRedirection();
+    // Enables static file serving for the current request path.
     app.UseStaticFiles();
+    // Enables cookie policy capabilities.
     app.UseCookiePolicy();
 
     // Matches request to an endpoint.
     app.UseRouting();
+    // Set culture information for requests based on information provided by the client.
     app.UseRequestLocalization();
+    // Applies a CORS policy to all the app's endpoints with the specified origins.
     app.UseCors();
 
+    // Authentication is concerned with determining 'who' made a request. 
     app.UseAuthentication();
+    // Authorization is concerned with 'what' a user is allowed to access.
     app.UseAuthorization();
  
+    // Enable session state for the application.
     app.UseSession();
+    // Determines when responses are cacheable, stores responses, and serves responses from cache.
     app.UseResponseCaching();
 
     // Execute the matched endpoint.
