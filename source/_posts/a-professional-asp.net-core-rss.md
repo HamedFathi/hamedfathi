@@ -112,11 +112,111 @@ The only important note here is that I am setting a `ResponeCache` attribute on 
 ![](/images/a-professional-asp.net-core-rss/rss.png)
 
 
-## Fetch RSS data from external sources
+## Fetch RSS feed
 
+You are able to loading and processing the feed.
+
+```cs
+using System.ServiceModel.Syndication;
+using System.Xml;
+
+public IEnumerable<SyndicationItem> GetFeedItems(string rssUrl)
+{
+    var reader = XmlReader.Create(rssUrl);
+    var feed = SyndicationFeed.Load(reader);
+    var posts = feed.Items;
+    return posts;
+}
+```
 
 ## RSS Middleware
 
+[Snickler.RSSCore](https://github.com/snickler/RSSCore) was created in order to provide a way to easily generate RSS feeds on the fly via an ASP.NET Core Middleware.
+
+Install the below package
+
+```bash
+Install-Package Snickler.RSSCore -Version 2.0.0
+dotnet add package Snickler.RSSCore --version 2.0.0
+<PackageReference Include="Snickler.RSSCore" Version="2.0.0" />
+```
+
+**Create an RSS Provider**
+
+Create a provider class that implements `IRSSProvider` and returns a list of `RSSItem` objects via the `RetrieveSyndicationItems` method.
+
+```cs
+public class SomeRSSProvider: IRSSProvider
+{
+    public Task<IList<RSSItem>> RetrieveSyndicationItems()
+    {
+        IList<RSSItem> syndicationList = new List<RSSItem>();
+        var synd1 = new RSSItem("Sample Title 1", "Sample Content 1")
+        {
+            PermaLink = new Uri("http://www.sampleaddress.com/sample-content-1"),
+            LinkUri = new Uri("http://www.sampleaddress.com/sample-content-1"),
+            LastUpdated = DateTime.Now,
+            PublishDate = DateTime.Now,
+            Categories = new List<string> { ".NET" },
+            Authors = new List<string> { "someuser@sampleaddress.com" }
+        };
+
+        syndicationList.Add(synd1);
+
+        return Task.FromResult(syndicationList);
+    }
+}
+```
+
+**RSS Feed Configuration**
+
+Add your provider to the service registration in `ConfigureServices` with the `AddRSSFeed` extension
+
+```cs
+public void ConfigureServices(IServiceCollection services)
+{
+	services.AddRSSFeed<SomeRSSProvider>();
+	services.AddMvc();
+}
+```
+
+Set the options for your RSS Feed in `Configure` with `UseRSSFeed`
+
+```cs
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+{
+    app.UseRssFeed("/feed", new RSSFeedOptions
+    {
+        Title = "Snickler's Super Awesome RSS Feed",
+        Copyright = "2018",
+        Description = "The Best and Most Awesome RSS Feed Content",
+        ManagingEditor = "managingeditor@someaddress.com",
+        Webmaster = "webmaster@someaddress.com",
+        Url = new Uri("http://someaddress.com")
+    });
+}
+```
+
+**Optional RSS Caching Configuration**
+
+By default, MemoryCache is used to cache the feed for 1 day. To be able to update the cache duration or cache key, add a new instance of the `MemoryCacheProvider` to the `Caching` property within the `RSSFeedOptions` class. 
+
+```cs
+app.UseRssFeed("/feed", new RSSFeedOptions
+{
+    Title = "Snickler's Super Awesome RSS Feed",
+    Copyright = "2018",
+    Description = "The Best and Most Awesome RSS Feed Content",
+    ManagingEditor = "managingeditor@someaddress.com",
+    Webmaster = "webmaster@someaddress.com",
+    Url = new Uri("http://someaddress.com"),
+    Caching = new MemoryCacheProvider 
+    {
+        CacheDuration = TimeSpan.FromDays(5),
+        CacheKey = "SomeSuperAwesomeCacheKey"
+    }
+});
+```
 
 ## Reference(s)
 
@@ -125,3 +225,4 @@ Most of the information in this article has gathered from various references.
 * https://mitchelsellers.com/blog/article/creating-an-rss-feed-in-asp-net-core-3-0
 * https://khalidabuhakmeh.com/reading-rss-feeds-with-dotnet-core
 * http://www.binaryintellect.net/articles/05fc3052-bf5c-4ab9-b8ab-a7fd6974b977.aspx
+* https://github.com/snickler/RSSCore
