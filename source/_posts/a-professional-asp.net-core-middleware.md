@@ -84,11 +84,72 @@ The `Endpoint` middleware in the preceding diagram executes the filter pipeline 
 
 ![](/images/a-professional-asp.net-core-middleware/endpoint.png)
 
-| Method | Description                                                          |
-|:------:|----------------------------------------------------------------------|
-| Run    | -                                                                    |
-| Map    | -                                                                    |
-| Use    | -                                                                    |
+## Methods at a glance
+
+**Run**
+
+Terminates chain. No other middleware method will run after this. Should be placed at the end of any pipeline.
+
+```cs
+app.Run(async context =>
+{
+    await context.Response.WriteAsync("Hello from " + _environment);
+});
+```
+
+**Use**
+
+Performs action before and after next delegate.
+
+```cs
+app.Use(async (context, next) =>
+{
+    //action before next delegate
+    await next.Invoke(); //call next middleware
+    //action after called middleware
+});
+```
+
+**MapWhen**
+
+Enables branching pipeline. Runs specified middleware if condition is met.
+
+```cs
+private static void HandleBranch(IApplicationBuilder app)
+{
+    app.Run(async context =>
+    {
+        await context.Response.WriteAsync("Condition is fulfilled");
+    });
+}
+
+public void ConfigureMapWhen(IApplicationBuilder app)
+{
+    app.MapWhen(context => {
+        return context.Request.Query.ContainsKey("somekey");
+    }, HandleBranch);
+}
+```
+
+**Map**
+
+Similar to `MapWhen`. Runs middleware if `path` requested by user equals path provided in parameter.
+
+```cs
+private static void HandleMapTest(IApplicationBuilder app)
+{
+    app.Run(async context =>
+    {
+        await context.Response.WriteAsync("Map Test Successful");
+    });
+}
+
+public void ConfigureMapping(IApplicationBuilder app)
+{
+    app.Map("/maptest", HandleMapTest);
+
+}
+```
 
 ## Common middlewares (in order)
 
@@ -109,7 +170,8 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     app.UseHttpsRedirection();
     app.UseStaticFiles();
     app.UseCookiePolicy();
- 
+
+    // Matches request to an endpoint.
     app.UseRouting();
     app.UseRequestLocalization();
     app.UseCors();
@@ -120,6 +182,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     app.UseSession();
     app.UseResponseCaching();
 
+    // Execute the matched endpoint.
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapControllerRoute(
@@ -159,3 +222,4 @@ Most of the information in this article has gathered from various references.
 * https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write
 * https://www.devtrends.co.uk/blog/conditional-middleware-based-on-request-in-asp.net-core
 * https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware
+* https://riptutorial.com/asp-net-core/example/20718/run--map--use
