@@ -86,6 +86,8 @@ The `Endpoint` middleware in the preceding diagram executes the filter pipeline 
 
 ## Common middlewares (in order)
 
+The following is a list of common middlewares in order:
+
 ```cs
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
