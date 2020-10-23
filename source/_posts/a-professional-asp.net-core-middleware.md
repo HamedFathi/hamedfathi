@@ -438,8 +438,8 @@ public class Startup
 {
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {
-        app.UseCustomMiddlewareWithOptionsMultiUse(new CustomMiddlewareOptions {DisplayBefore = true});
-        app.UseCustomMiddlewareWithOptionsMultiUse(new CustomMiddlewareOptions {DisplayAfter = false});
+        app.UseCustomMiddlewareWithOptionsMultiUse(new CustomMiddlewareOptions { DisplayBefore = true });
+        app.UseCustomMiddlewareWithOptionsMultiUse(new CustomMiddlewareOptions { DisplayAfter = false });
 
         app.Run(async (context) =>
         {
