@@ -81,7 +81,9 @@ public IActionResult Rss()
     var postings = GetBlogPosts();
     foreach (var item in postings)
     {
-        var postUrl = Url.Action("Article", "Blog", new { id = item.Url }, HttpContext.Request.Scheme);
+        // You can make the Url too
+        // var postUrl = Url.Action("Article", "Blog", new { id = item.Url }, HttpContext.Request.Scheme);
+        var postUrl = item.Url;
         var title = item.Title;
         var description = item.Description;
         items.Add(new SyndicationItem(title, description, new Uri(postUrl), item.Url, item.CreatedDate));
