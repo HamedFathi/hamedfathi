@@ -86,6 +86,8 @@ The `Endpoint` middleware in the preceding diagram executes the filter pipeline 
 
 ## Methods at a glance
 
+Request delegates are configured using various extension methods as following:
+
 **Run**
 
 Terminates chain. No other middleware method will run after this. Should be placed at the end of any pipeline.
@@ -95,6 +97,27 @@ app.Run(async context =>
 {
     await context.Response.WriteAsync("Hello from " + _environment);
 });
+```
+
+**UseWhen**
+
+Performs action before and after next delegate if condition is met.
+
+```cs
+private static void HandleBranch(IApplicationBuilder app)
+{
+    app.Run(async context =>
+    {
+        await context.Response.WriteAsync("Condition is fulfilled");
+    });
+}
+
+public void ConfigureUseWhen(IApplicationBuilder app)
+{
+    app.UseWhen(context => {
+        return context.Request.Query.ContainsKey("somekey");
+    }, HandleBranch);
+}
 ```
 
 **Use**
@@ -176,6 +199,8 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     app.UseStaticFiles();
     // Enables cookie policy capabilities.
     app.UseCookiePolicy();
+    // Enables dynamically compressing HTTP Responses.
+    app.UseResponseCompression();
 
     // Matches request to an endpoint.
     app.UseRouting();
@@ -204,25 +229,225 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 }
 ```
 
-## Define a basic custom middleware
-
-
-
-
-
-
 ## Componentising custom middleware
 
+In some scenarios you might want to write a custom middleware.
 
+Write below classes:
 
+```cs
+public class CustomMiddleware
+{
+    // A function that can process an HTTP request.
+    private readonly RequestDelegate _next;
 
+    public CustomMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
+    public Task Invoke(HttpContext httpContext)
+    {
+        await context.Response.WriteAsync("------- Before ------ \n\r");
+
+        // Call the next delegate/middleware in the pipeline.
+        return _next(httpContext);
+
+        await context.Response.WriteAsync("\n\r------- After ------");
+    }
+}
+
+public static class CustomMiddlewareExtensions
+{
+    public static IApplicationBuilder UseCustomMiddleware(this IApplicationBuilder builder)
+    {
+        return builder.UseMiddleware<CustomMiddleware>();
+    }
+}
+```
+
+The middleware class must include:
+
+* A public constructor with a parameter of type `RequestDelegate`.
+* A public method named `Invoke` or `InvokeAsync`. This method must:
+    * Return a `Task`.
+    * Accept a first parameter of type `HttpContext`.
+
+Additional parameters for the constructor and `Invoke` or `InvokeAsync` are populated by dependency injection (DI).
+
+Now, use it as following:
+
+```cs
+// Startup.cs
+
+public class Startup
+{
+    public void Configure(IApplicationBuilder app)
+    {
+        // HERE
+        app.UseCustomMiddleware();
+
+        app.Run(async (context) =>
+        {
+            await context.Response.WriteAsync("Hello World!");
+        });
+    }
+}
+```
 
 ## Adding custom options to middleware
 
+Writing a custom middleware is great but you will come to a point where it needs to be made configurable. 
 
+Let's define a configuration options class which defines some options which the middleware can use.
 
+```cs
+public class CustomMiddlewareOptions
+{
+    public bool DisplayBefore { get; set; } = true;
+    public bool DisplayAfter { get; set; } = true;
+}
+```
 
+Write extension methods to get options with `Action<CustomMiddlewareOptions>` as following:
 
+```cs
+public static class CustomMiddlewareWithOptionsExtensions
+{
+    public static IServiceCollection AddCustomMiddlewareWithOptions(this IServiceCollection service, Action<CustomMiddlewareOptions> options = default /* HERE */)
+    {
+        options = options ?? (opts => { });
+
+        service.Configure(options);
+        return service;
+    }
+
+    public static IApplicationBuilder UseCustomMiddlewareWithOptions(this IApplicationBuilder builder)
+    {
+        return builder.UseMiddleware<CustomMiddlewareWithOptions>();
+    }
+}
+```
+
+The middleware now can be added into the pipeline and be setup using a lambda expression. It can take the Options in through constructor through the DI mechanism. It comes from the `IOptions<T>` functionality.
+
+```cs
+using Microsoft.Extensions.Options;
+
+public class CustomMiddlewareWithOptions
+{
+    private readonly RequestDelegate _next;
+    private readonly CustomMiddlewareOptions _options;
+
+    public CustomMiddlewareWithOptions(RequestDelegate next, IOptions<CustomMiddlewareOptions> options /* HERE */)
+    {
+        _next = next;
+        _options = options.Value;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        if (_options.DisplayBefore)
+        {
+            await context.Response.WriteAsync("------- Before ------ \n\r");
+        }
+
+        await _next(context);
+
+        if (_options.DisplayAfter)
+        {
+            await context.Response.WriteAsync("\n\r------- After ------");
+        }
+    }
+}
+```
+
+Register and config it as below:
+
+```cs
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddCustomMiddlewareWithOptions(options => options.DisplayAfter = false);
+    }
+
+    public void Configure(IApplicationBuilder app)
+    {
+        app.UseCustomMiddlewareWithOptions();
+
+        app.Run(async (context) =>
+        {
+            await context.Response.WriteAsync("Hello World!");
+        });
+    }
+}
+```
+
+## Multiple configuration setup
+
+The other option is the multiple configuration setup option where you want to be able to use the same type of middleware more than once in your application pipeline but want to specify configuration per usage. For this option you specify that you require a configuration option instance directly and it's not hidden behind `IOptions<`>.
+
+```cs
+public class CustomMiddlewareWithOptionsMultiUse
+{
+    private readonly RequestDelegate _next;
+    private readonly CustomMiddlewareOptions _options;
+
+    public CustomMiddlewareWithOptionsMultiUse(RequestDelegate next, CustomMiddlewareOptions options)
+    {
+        _next = next;
+        _options = options;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        if (_options.DisplayBefore)
+        {
+            await context.Response.WriteAsync("------- Before ------ \n\r");
+        }
+
+        await _next(context);
+
+        if (_options.DisplayAfter)
+        {
+            await context.Response.WriteAsync("\n\r------- After ------");
+        }
+    }
+}
+```
+
+Adding this version into the middleware pipeline is much straight forward however using an extension method makes it cleaner from a consumers point of view.
+
+```cs
+public static class CustomMiddlewareWithOptionsMultiUseExtensions
+{
+    public static IApplicationBuilder UseCustomMiddlewareWithOptionsMultiUse(this IApplicationBuilder builder, CustomMiddlewareOptions options = default)
+    {
+        options = options ?? new CustomMiddlewareOptions();
+        return builder.UseMiddleware<CustomMiddlewareWithOptionsMultiUse>(options);
+    }
+}
+```
+
+Passing in the options instance into the UseMiddleware method call allows for the DI system inject it into the middleware constructor directly.
+
+Using this extension method we can then add in multiple instances into the pipeline with different configuration options specified.
+
+```cs
+public class Startup
+{
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    {
+        app.UseCustomMiddlewareWithOptionsMultiUse(new CustomMiddlewareOptions {DisplayBefore = true});
+        app.UseCustomMiddlewareWithOptionsMultiUse(new CustomMiddlewareOptions {DisplayAfter = false});
+
+        app.Run(async (context) =>
+        {
+            await context.Response.WriteAsync("Hello World!");
+        });
+    }
+}
+```
 
 ## Reference(s)
 
@@ -230,8 +455,6 @@ Most of the information in this article has gathered from various references.
 
 * https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware
 * https://adamstorr.azurewebsites.net/blog/aspnetcore-exploring-custom-middleware
-* https://www.stevejgordon.co.uk/how-is-the-asp-net-core-middleware-pipeline-built
 * https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write
 * https://www.devtrends.co.uk/blog/conditional-middleware-based-on-request-in-asp.net-core
-* https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware
 * https://riptutorial.com/asp-net-core/example/20718/run--map--use
