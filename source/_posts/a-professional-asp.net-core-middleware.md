@@ -385,7 +385,7 @@ public class Startup
 
 ## Multiple configuration setup
 
-The other option is the multiple configuration setup option where you want to be able to use the same type of middleware more than once in your application pipeline but want to specify configuration per usage. For this option you specify that you require a configuration option instance directly and it's not hidden behind `IOptions<`>.
+The other option is the multiple configuration setup option where you want to be able to use the same type of middleware more than once in your application pipeline but want to specify configuration per usage. For this option you specify that you require a configuration option instance directly and it's not hidden behind `IOptions<>`.
 
 ```cs
 public class CustomMiddlewareWithOptionsMultiUse
