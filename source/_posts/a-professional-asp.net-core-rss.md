@@ -26,7 +26,7 @@ dotnet add package System.ServiceModel.Syndication --version 4.7.0
 public class Post
 {
     public string Title { get; set; }
-    public string Url { get; set; }
+    public string UrlSlug { get; set; }
     public string Description { get; set; }
     public DateTime CreatedDate { get; set; }
 }
@@ -49,21 +49,21 @@ private IEnumerable<Post> GetBlogPosts()
     posts.Add(new Post()
     {
         Title = "A Professional ASP.NET Core - RSS",
-        Url = "https://hamedfathi.me/a-professional-asp.net-core-rss/",
+        UrlSlug = "https://hamedfathi.me/a-professional-asp.net-core-rss/",
         Description = "RSS feeds provide an excellent mechanism for websites to publish their content for consumption by others.",
         CreatedDate = new DateTime(2020, 10, 9)
     });
     posts.Add(new Post()
     {
         Title = "A Professional ASP.NET Core API - Caching",
-        Url = "https://hamedfathi.me/a-professional-asp.net-core-api-caching/",
+        UrlSlug = "https://hamedfathi.me/a-professional-asp.net-core-api-caching/",
         Description = "Caching is a technique of storing the frequently accessed/used data so that the future requests for those sets of data can be served much faster to the client..",
         CreatedDate = new DateTime(2020, 10, 5)
     });    
     posts.Add(new Post()
     {
         Title = "Using Tailwind CSS with Aurelia 2 and Webpack",
-        Url = "https://hamedfathi.me/aurelia-2-with-tailwindcss-and-webpack/",
+        UrlSlug = "https://hamedfathi.me/aurelia-2-with-tailwindcss-and-webpack/",
         Description = "Tailwind CSS is a highly customizable, low-level CSS framework that gives you all of the building blocks you need to build bespoke designs without any annoying opinionated styles you have to fight to override.",
         CreatedDate = new DateTime(2020, 7, 23)
     });
@@ -81,12 +81,10 @@ public IActionResult Rss()
     var postings = GetBlogPosts();
     foreach (var item in postings)
     {
-        // You can make the Url too
-        // var postUrl = Url.Action("Article", "Blog", new { id = item.Url }, HttpContext.Request.Scheme);
-        var postUrl = item.Url;
+        var postUrl = Url.Action("Article", "Blog", new { id = item.UrlSlug }, HttpContext.Request.Scheme);
         var title = item.Title;
         var description = item.Description;
-        items.Add(new SyndicationItem(title, description, new Uri(postUrl), item.Url, item.CreatedDate));
+        items.Add(new SyndicationItem(title, description, new Uri(postUrl), item.UrlSlug, item.CreatedDate));
     }
     feed.Items = items;
     var settings = new XmlWriterSettings
