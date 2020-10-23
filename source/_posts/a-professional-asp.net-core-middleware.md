@@ -47,43 +47,6 @@ public class Startup
 }
 ```
 
-## Common middlewares (in order)
-
-```cs
-public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-{
-    if (env.IsDevelopment())
-    {
-        app.UseDeveloperExceptionPage();
-    }
-    else
-    {
-        app.UseExceptionHandler("/Home/Error");
-        app.UseHsts();
-    }
-    app.UseHttpsRedirection();
-    app.UseStaticFiles();
-    app.UseCookiePolicy();
- 
-    app.UseRouting();
-    app.UseRequestLocalization();
-    app.UseCors();
-
-    app.UseAuthentication();
-    app.UseAuthorization();
- 
-    app.UseSession();
-    app.UseResponseCaching();
-
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
-    });
-}
-```
-
 Chain multiple request delegates together with `Use`. The next parameter represents the `next` delegate in the pipeline. You can short-circuit the pipeline by **not** calling the next parameter. You can typically perform actions both before and after the next delegate, as the following example demonstrates:
 
 ```cs
@@ -120,6 +83,43 @@ The following diagram shows the complete request processing pipeline for ASP.NET
 The `Endpoint` middleware in the preceding diagram executes the filter pipeline for the corresponding app type—MVC or Razor Pages.
 
 ![](/images/a-professional-asp.net-core-middleware/endpoint.png)
+
+## Common middlewares (in order)
+
+```cs
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+    else
+    {
+        app.UseExceptionHandler("/Home/Error");
+        app.UseHsts();
+    }
+    app.UseHttpsRedirection();
+    app.UseStaticFiles();
+    app.UseCookiePolicy();
+ 
+    app.UseRouting();
+    app.UseRequestLocalization();
+    app.UseCors();
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+ 
+    app.UseSession();
+    app.UseResponseCaching();
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
+    });
+}
+```
 
 ## Define a basic custom middleware
 
