@@ -84,6 +84,12 @@ The `Endpoint` middleware in the preceding diagram executes the filter pipeline 
 
 ![](/images/a-professional-asp.net-core-middleware/endpoint.png)
 
+| Method | Description                                                          |
+|:------:|----------------------------------------------------------------------|
+| Run    | -                                                                    |
+| Map    | -                                                                    |
+| Use    | -                                                                    |
+
 ## Common middlewares (in order)
 
 The following is a list of common middlewares in order:
