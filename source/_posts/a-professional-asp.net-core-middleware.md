@@ -38,6 +38,7 @@ public class Startup
 {
     public void Configure(IApplicationBuilder app)
     {
+        // HERE
         app.Run(async context =>
         {
             await context.Response.WriteAsync("Hello, World!");
@@ -82,6 +83,43 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     });
 }
 ```
+
+Chain multiple request delegates together with `Use`. The next parameter represents the `next` delegate in the pipeline. You can short-circuit the pipeline by **not** calling the next parameter. You can typically perform actions both before and after the next delegate, as the following example demonstrates:
+
+```cs
+public class Startup
+{
+    public void Configure(IApplicationBuilder app)
+    {
+        // HERE
+        app.Use(async (context, next) =>
+        {
+            // Do work that doesn't write to the Response.
+            await next.Invoke();
+            // Do logging or other work that doesn't write to the Response.
+        });
+
+        app.Run(async context =>
+        {
+            await context.Response.WriteAsync("Hello from 2nd delegate.");
+        });
+    }
+}
+```
+
+When a delegate doesn't pass a request to the `next` delegate, it's called `short-circuiting` the request pipeline. Short-circuiting is often desirable because it avoids unnecessary work. For example, Static File Middleware can act as a terminal middleware by processing a request for a static file and short-circuiting the rest of the pipeline. Middleware added to the pipeline before the middleware that terminates further processing still processes code after their `next.Invoke` statements. However, see the following warning about attempting to write to a response that has already been sent.
+
+`Run` delegates don't receive a next parameter. The first `Run` delegate is always terminal and terminates the pipeline. Run is a convention. Some middleware components may expose `Run[Middleware]` methods that run at the end of the pipeline:
+
+## Middleware order
+
+The following diagram shows the complete request processing pipeline for ASP.NET Core MVC and Razor Pages apps. You can see how, in a typical app, existing middlewares are ordered and where custom middlewares are added. You have full control over how to reorder existing middlewares or inject new custom middlewares as necessary for your scenarios.
+
+![](/images/a-professional-asp.net-core-middleware/order.png)
+
+The `Endpoint` middleware in the preceding diagram executes the filter pipeline for the corresponding app type—MVC or Razor Pages.
+
+![](/images/a-professional-asp.net-core-middleware/endpoint.png)
 
 ## Define a basic custom middleware
 
