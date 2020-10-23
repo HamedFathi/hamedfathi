@@ -8,9 +8,9 @@ tags:
     - webapi
     - masstransit
     - rabbitmq
-	- easynetq
-	- amqp
-	- queue
+    - easynetq
+    - amqp
+    - queue
     - messagebroker
 ---
  
