@@ -23,12 +23,12 @@ dotnet add package System.ServiceModel.Syndication --version 4.7.0
 ## Create the model
 
 ```cs
-public class RssPost
+public class Post
 {
     public string Title { get; set; }
-    public string UrlSlug { get; set; }
-    public string Preview { get; set; }
-    public DateTime PostDate { get; set; }
+    public string Url { get; set; }
+    public string Description { get; set; }
+    public DateTime CreatedDate { get; set; }
 }
 ```
 
@@ -42,23 +42,50 @@ using System.Xml;
 using System.IO;
 using System.Text;
 
+// Customize this method with your real data.
+private IEnumerable<Post> GetBlogPosts()
+{
+    var posts = new List<Post>();
+    posts.Add(new Post()
+    {
+        Title = "A Professional ASP.NET Core - RSS",
+        Url = "https://hamedfathi.me/a-professional-asp.net-core-rss/",
+        Description = "RSS feeds provide an excellent mechanism for websites to publish their content for consumption by others.",
+        CreatedDate = new DateTime(2020, 10, 9)
+    });
+    posts.Add(new Post()
+    {
+        Title = "A Professional ASP.NET Core API - Caching",
+        Url = "https://hamedfathi.me/a-professional-asp.net-core-api-caching/",
+        Description = "Caching is a technique of storing the frequently accessed/used data so that the future requests for those sets of data can be served much faster to the client..",
+        CreatedDate = new DateTime(2020, 10, 5)
+    });    
+    posts.Add(new Post()
+    {
+        Title = "Using Tailwind CSS with Aurelia 2 and Webpack",
+        Url = "https://hamedfathi.me/aurelia-2-with-tailwindcss-and-webpack/",
+        Description = "Tailwind CSS is a highly customizable, low-level CSS framework that gives you all of the building blocks you need to build bespoke designs without any annoying opinionated styles you have to fight to override.",
+        CreatedDate = new DateTime(2020, 7, 23)
+    });
+    return posts;
+}
+
+// http://localhost:PORT/rss.xml
 [ResponseCache(Duration = 1200)]
-[HttpGet]
+[HttpGet("/rss.xml")]
 public IActionResult Rss()
 {
     var feed = new SyndicationFeed("Title", "Description", new Uri("https://hamedfathi.me"), "RSSUrl", DateTime.Now);
-
     feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Hamed Fathi");
     var items = new List<SyndicationItem>();
-    var postings = new List<RssPost>();
+    var postings = GetBlogPosts();
     foreach (var item in postings)
     {
-        var postUrl = Url.Action("Article", "Blog", new { id = item.UrlSlug }, HttpContext.Request.Scheme);
+        var postUrl = Url.Action("Article", "Blog", new { id = item.Url }, HttpContext.Request.Scheme);
         var title = item.Title;
-        var description = item.Preview;                
-        items.Add(new SyndicationItem(title, description, new Uri(postUrl), item.UrlSlug, item.PostDate));
+        var description = item.Description;
+        items.Add(new SyndicationItem(title, description, new Uri(postUrl), item.Url, item.CreatedDate));
     }
-
     feed.Items = items;
     var settings = new XmlWriterSettings
     {
@@ -81,6 +108,15 @@ public IActionResult Rss()
 ```
 
 The only important note here is that I am setting a `ResponeCache` attribute on this method. I strongly recommend this as your `RSS` Feed generation is often something that will be going to the database etc. and feed-readers are notorious for multiple refreshes etc. By enabling ResponseCaching for your `RSS` action, you can reduce the load on your server.
+
+![](/images/a-professional-asp.net-core-rss/rss.png)
+
+
+## Fetch RSS data from external sources
+
+
+## RSS Middleware
+
 
 ## Reference(s)
 
