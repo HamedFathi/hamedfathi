@@ -110,5 +110,7 @@ dotnet add package MassTransit.RabbitMQ --version 7.0.4
 Most of the information in this article has gathered from various references.
 
 * https://www.cloudamqp.com/blog/2015-05-18-part1-rabbitmq-for-beginners-what-is-rabbitmq.html
+* https://www.cloudamqp.com/blog/2015-05-27-part3-rabbitmq-for-beginners_the-management-interface.html
+* https://www.cloudamqp.com/blog/2015-09-03-part4-rabbitmq-for-beginners-exchanges-routing-keys-bindings.html
 * https://www.codewithmukesh.com/blog/rabbitmq-with-aspnet-core-microservice/
 * https://alvinvafana.blogspot.com/2019/10/messaging-through-service-bus-using.html
