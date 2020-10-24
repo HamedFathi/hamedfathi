@@ -218,6 +218,25 @@ It's worth noting that in a header exchange, the actual order of the key-value p
 
 If no matching queue can be found for the message, the message is silently dropped. RabbitMQ provides an AMQP extension known as the "Dead Letter Exchange", which provides the functionality to capture messages that are not deliverable.
 
+## RabbitMQ Concepts as glance
+
+| Subject | Description |
+|---------|-------------|
+|Producer| Application that sends the messages.|
+|Consumer| Application that receives the messages.|
+|Queue| Buffer that stores messages.|
+|Message| Information that is sent from the producer to a consumer through RabbitMQ.|
+|Connection| A TCP connection between your application and the RabbitMQ broker.|
+|Channel| A virtual connection inside a connection. When publishing or consuming messages from a queue - it's all done over a channel.|
+|Exchange| Receives messages from producers and pushes them to queues depending on rules defined by the exchange type. To receive messages, a queue needs to be bound to at least one exchange.|
+|Binding| A binding is a link between a queue and an exchange.|
+|Routing key| A key that the exchange looks at to decide how to route the message to queues. Think of the routing key like an address for the message.|
+|AMQP| Advanced Message Queuing Protocol is the protocol used by RabbitMQ for messaging.|
+|Users| Users can be added from the management interface and every user can be assigned permissions such as rights to read, write and configure privileges. Users can also be assigned permissions to specific virtual hosts.
+|Vhost, virtual host| Virtual hosts provide a way to segregate applications using the same RabbitMQ instance. Different users can have different access privileges to different vhost and queues and exchanges can be created so they only exist in one vhost.
+|Cluster| A cluster consists of a set of connected computers that work together. If the RabbitMQ instance consisting of more than one node - it is called a RabbitMQ cluster. A cluster is a group of nodes i.e., a group of computers.
+|Node| A node is a single computer the RabbitMQ cluster.
+
 ## RabbitMQ installation (Windows)
 
 **Install Erlang/OTP**
@@ -267,6 +286,8 @@ Warning: PID file not written; -detached was passed.
 
 **Login to RabbitMQ Management Dashboard**
 
+RabbitMQ Management is a plugin that we enabled for RabbitMQ in previous section. It gives a single static HTML page that makes background queries to the HTTP API for RabbitMQ. Information from the management interface can be useful when you are debugging your applications or when you need an overview of the whole system. If you see that the number of unacked messages starts to get high, it could mean that your consumers are getting slow. If you need to check if an exchange is working, you can try to send a test message.
+
 By default the management plugin runs on `15672` HTTP port.
 
 From your browser go to `http://localhost:15672`
@@ -277,7 +298,7 @@ The default username and password for RabbitMQ management plugin is: `guest`
 
 ## RabbitMQ Management Dashboard
 
-
+The RabbitMQ Management is a user-friendly interface that let you monitor and handle your RabbitMQ server from a web browser. Among other things queues, connections, channels, exchanges, users and user permissions can be handled - created, deleted and listed in the browser. You can monitor message rates and send/receive messages manually.
 
 
 
