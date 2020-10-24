@@ -273,6 +273,8 @@ From your browser go to `http://localhost:15672`
 
 The default username and password for RabbitMQ management plugin is: `guest`
 
+![](/images/a-professional-asp.net-core-api-rabbitmq/dashboard.png)
+
 ## RabbitMQ Management Dashboard
 
 
