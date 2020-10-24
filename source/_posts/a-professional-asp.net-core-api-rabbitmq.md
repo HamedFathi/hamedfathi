@@ -235,7 +235,7 @@ If no matching queue can be found for the message, the message is silently dropp
 |Users| Users can be added from the management interface and every user can be assigned permissions such as rights to read, write and configure privileges. Users can also be assigned permissions to specific virtual hosts.
 |Vhost, virtual host| Virtual hosts provide a way to segregate applications using the same RabbitMQ instance. Different users can have different access privileges to different vhost and queues and exchanges can be created so they only exist in one vhost.
 |Cluster| A cluster consists of a set of connected computers that work together. If the RabbitMQ instance consisting of more than one node - it is called a RabbitMQ cluster. A cluster is a group of nodes i.e., a group of computers.
-|Node| A node is a single computer the RabbitMQ cluster.
+|Node| A node is a single computer in the RabbitMQ cluster.
 
 ## RabbitMQ installation (Windows)
 
