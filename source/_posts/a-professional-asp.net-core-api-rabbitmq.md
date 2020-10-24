@@ -218,9 +218,9 @@ It's worth noting that in a header exchange, the actual order of the key-value p
 
 If no matching queue can be found for the message, the message is silently dropped. RabbitMQ provides an AMQP extension known as the "Dead Letter Exchange", which provides the functionality to capture messages that are not deliverable.
 
-## RabbitMQ Concepts as glance
+## RabbitMQ concepts at a glance
 
-| Subject | Description |
+| Concept | Description |
 |---------|-------------|
 |Producer| Application that sends the messages.|
 |Consumer| Application that receives the messages.|
