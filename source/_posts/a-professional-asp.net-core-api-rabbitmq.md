@@ -69,6 +69,69 @@ Messages are not published directly to a queue; instead, the producer sends mess
 
 * **Headers**: Headers exchanges use the message header attributes for routing.
 
+
+
+## RabbitMQ installation (Windows)
+
+**Install Erlang/OTP**
+
+`RabbitMQ` requires a 64-bit supported version of [Erlang](https://www.erlang.org/downloads) for Windows to be installed. 
+
+Set `ERLANG_HOME` to where you actually put your Erlang installation, e.g. `C:\Program Files\erl{version}` (full path). The RabbitMQ batch files expect to execute `%ERLANG_HOME%\bin\erl.exe`.
+
+Go to `Start > Settings > Control Panel > System > Advanced > Environment Variables`. Create the system environment variable `ERLANG_HOME` and set it to the full path of the directory which contains `bin\erl.exe`.
+
+**Install RabbitMQ Server**
+
+After making sure a supported Erlang version is installed, download [RabbitMQ server](https://github.com/rabbitmq/rabbitmq-server/releases).
+
+**Enable RabbitMQ Management Plugin**
+
+Go to the directory where the `RabbitMQ` is installed.
+
+Now, enable the `rabbitmq_management` plugin using the `rabbitmq-plugins` command as shown below.
+
+```bash
+sbin/rabbitmq-plugins enable rabbitmq_management
+```
+
+The `rabbitmq_management` plugin is a combination of the following plugins. All of the following plugins will be enabled when you execute the above command:
+
+* mochiweb
+* webmachine
+* rabbitmq_web_dispatch
+* amqp_client
+* rabbitmq_management_agent
+* rabbitmq_management
+
+After enabling the `rabbitmq_management` plugin you should restart the RabbitMQ server as shown below.
+
+```bash
+sbin/rabbitmqctl stop
+
+sbin/rabbitmq-server -detached
+```
+
+And we'll get an output like this:
+
+```
+Warning: PID file not written; -detached was passed.
+```
+
+**Login to RabbitMQ Management Dashboard**
+
+By default the management plugin runs on `15672` HTTP port.
+
+From your browser go to `http://localhost:15672`
+
+The default username and password for RabbitMQ management plugin is: `guest`
+
+## RabbitMQ Management Dashboard
+
+
+
+
+
 ## EasyNetQ
 
 A Nice .NET API for RabbitMQ.
@@ -114,3 +177,5 @@ Most of the information in this article has gathered from various references.
 * https://www.cloudamqp.com/blog/2015-09-03-part4-rabbitmq-for-beginners-exchanges-routing-keys-bindings.html
 * https://www.codewithmukesh.com/blog/rabbitmq-with-aspnet-core-microservice/
 * https://alvinvafana.blogspot.com/2019/10/messaging-through-service-bus-using.html
+* https://www.thegeekstuff.com/2013/10/enable-rabbitmq-management-plugin/
+* https://www.codementor.io/@bosunbolawa/how-to-enable-rabbitmq-management-interface-owc5lzg7f
