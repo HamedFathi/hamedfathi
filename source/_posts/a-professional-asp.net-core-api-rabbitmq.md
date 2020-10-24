@@ -177,5 +177,6 @@ Most of the information in this article has gathered from various references.
 * https://www.cloudamqp.com/blog/2015-09-03-part4-rabbitmq-for-beginners-exchanges-routing-keys-bindings.html
 * https://www.codewithmukesh.com/blog/rabbitmq-with-aspnet-core-microservice/
 * https://alvinvafana.blogspot.com/2019/10/messaging-through-service-bus-using.html
+* https://www.rabbitmq.com/install-windows-manual.html
 * https://www.thegeekstuff.com/2013/10/enable-rabbitmq-management-plugin/
 * https://www.codementor.io/@bosunbolawa/how-to-enable-rabbitmq-management-interface-owc5lzg7f
