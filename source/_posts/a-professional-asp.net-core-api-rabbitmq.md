@@ -454,22 +454,6 @@ Queue overview for example-queue when a message is published.
 
 A lot of things can be viewed and handled from the management interface and it will give you a good overview of your system. By looking into the management interface, you will get a good understanding about RabbitMQ and how everything is related.
 
-## EasyNetQ
-
-A Nice .NET API for RabbitMQ.
-
-Install the below packages
-
-```bash
-Install-Package EasyNetQ -Version 5.6.0
-dotnet add package EasyNetQ --version 5.6.0
-<PackageReference Include="EasyNetQ" Version="5.6.0" />
-
-Install-Package EasyNetQ.DI.Microsoft -Version 5.6.0
-dotnet add package EasyNetQ.DI.Microsoft --version 5.6.0
-<PackageReference Include="EasyNetQ.DI.Microsoft" Version="5.6.0" />
-```
-
 ## MassTransit
 
 A free, open-source distributed application framework for .NET.
@@ -477,17 +461,17 @@ A free, open-source distributed application framework for .NET.
 Install the below packages
 
 ```bash
-Install-Package MassTransit -Version 7.0.4
-dotnet add package MassTransit --version 7.0.4
-<PackageReference Include="MassTransit" Version="7.0.4" />
+Install-Package MassTransit -Version 7.0.6
+dotnet add package MassTransit --version 7.0.6
+<PackageReference Include="MassTransit" Version="7.0.6" />
 
-Install-Package MassTransit.AspNetCore -Version 7.0.4
-dotnet add package MassTransit.AspNetCore --version 7.0.4
-<PackageReference Include="MassTransit.AspNetCore" Version="7.0.4" />
+Install-Package MassTransit.AspNetCore -Version 7.0.6
+dotnet add package MassTransit.AspNetCore --version 7.0.6
+<PackageReference Include="MassTransit.AspNetCore" Version="7.0.6" />
 
-Install-Package MassTransit.RabbitMQ -Version 7.0.4
-dotnet add package MassTransit.RabbitMQ --version 7.0.4
-<PackageReference Include="MassTransit.RabbitMQ" Version="7.0.4" />
+Install-Package MassTransit.RabbitMQ -Version 7.0.6
+dotnet add package MassTransit.RabbitMQ --version 7.0.6
+<PackageReference Include="MassTransit.RabbitMQ" Version="7.0.6" />
 ```
 
 ## Reference(s)
@@ -502,3 +486,4 @@ Most of the information in this article has gathered from various references.
 * https://www.rabbitmq.com/install-windows-manual.html
 * https://www.thegeekstuff.com/2013/10/enable-rabbitmq-management-plugin/
 * https://www.codementor.io/@bosunbolawa/how-to-enable-rabbitmq-management-interface-owc5lzg7f
+* https://doumer.me/micro-services-communication-rabbitmq-and-asp-net-core/
