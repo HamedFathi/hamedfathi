@@ -300,7 +300,158 @@ The default username and password for RabbitMQ management plugin is: `guest`
 
 The RabbitMQ Management is a user-friendly interface that let you monitor and handle your RabbitMQ server from a web browser. Among other things queues, connections, channels, exchanges, users and user permissions can be handled - created, deleted and listed in the browser. You can monitor message rates and send/receive messages manually.
 
+## Overview tab
 
+The overview shows two charts, one for queued messages and one with the message rate. You can change the time interval shown in the chart by pressing the text (chart: last minute) above the charts. Information about all different statuses for messages can be found by pressing (?).
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/rabbitmq-mngmt-overview.png)
+
+**Queued messages**
+
+A chart of the total number of queued messages for all your queues. Ready show the number of messages that are available to be delivered. Unacked are the number of messages for which the server is waiting for acknowledgment.
+
+**Messages rate**
+
+A chart with the rate of how the messages are handled. Publish show the rate at which messages are entering the server and Confirm show a rate at which the server is confirming.
+
+**Global Count**
+
+The total number of connections, channels, exchanges, queues and consumers for ALL virtual hosts the current user has access to.
+
+Nodes
+Nodes show information about the different nodes in the RabbitMQ cluster (a cluster is a group of nodes i.e, a group of computers), or information about one single node if just one node is used. Here can information about server memory, number of erlang processes per node and other node-specific information be found. Info show i.e. further information about the node and enabled plugins.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/management-node.png)
+
+**Port and contexts**
+
+Listening ports for different protocols can be found here. More information about the protocols will be found in a later part of RabbitMQ for beginners.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/port-and-contexts.png)
+
+**Import export definitions**
+
+It is possible to import and export configuration definitions. When you download the definitions, you get a JSON representation of your broker (your RabbitMQ settings). This can be used to restore exchanges, queues, virtual hosts, policies, and users. This feature can be used as a backup. Every time you make a change in the config, you can keep the old settings just in case.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/import-export-definitions.png)
+
+## Connections and Channels tabs
+
+A connection is a TCP connection between your application and the RabbitMQ broker. A channel is a virtual connection inside a connection.
+
+RabbitMQ connections and channels can be in different **states**; starting, tuning, opening, running, flow, blocking, blocked, closing, closed. If a connection enters flow-control this often means that the client is being rate-limited in some way.
+
+**Connections**
+
+The connection tab shows the connections established to the RabbitMQ server. **vhost** shows in which vhost the connection operates, the **username** the user associated with the connection. **Channels** tell the number of channels using the connection. **SSL/TLS** indicate whether the connection is secured with SSL.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/connections.png)
+
+If you click on one of the connections, you get an overview of that specific connection. You can view channels in the connection and data rates. You can see client properties and you can close the connection.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/connection-info.png)
+
+**Channels**
+
+The channel tab show information about all current channels. The **vhost** shows in which vhost the channel operates, the **username** the user associated with the channel. The **mode** tells the channel guarantee mode. It can be in confirm or transactional mode. When a channel is in confirm mode, both the broker and the client count messages. The broker then confirms messages as it handles them. Confirm mode is activated once the confirm.select method is used on a channel.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/channels.png)
+
+If you click on one of the channels, you get a detailed overview of that specific channel. From here you can see the message rate on the number of logical consumers retrieving messages via the channel.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/channel-info.png)
+
+## Exchanges tab
+
+An exchange receives messages from producers and pushes them to queues. The exchange must know exactly what to do with a message it receives. All exchanges can be listed from the exchange tab. **Virtual host** shows the vhost for the exchange, **type** is the exchange type such as direct, topic, headers, fanout. **Features** show the parameters for the exchange (e.g. D stand for durable, and AD for auto-delete). Features and types can be specified when the exchange is created. In this list there are some amq.* exchanges and the default (unnamed) exchange. These are created by default.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/exchanges.png)
+
+By clicking on the exchange name, a detailed page about the exchange are shown. You can see and add bindings to the exchange. You can also publish a message to the exchange or delete the exchange.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/exchange-info.png)
+
+## Queues tab
+
+The queue tab show the queues for all or one selected vhost.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/queues.png)
+
+Queues have different parameters and arguments depending on how they were created. The features column show the parameters that belong to the queue. It could be features like Durable queue (which ensure that RabbitMQ will never lose the queue), Message TTL (which tells how long a message published to a queue can live before it is discarded), Auto expire (which tells how long a queue can be unused for before it is automatically deleted), Max length (which tells how many (ready) messages a queue can contain before it starts to drop them) and Max length bytes (which tells the total body size for ready messages a queue can contain before it starts to drop them).
+
+You can also create a queue from this view.
+
+If you press on any chosen queue from the list of queues, all information about the queue are shown like in the pictures that follow below.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/queues-2.png)
+
+The first two charts include the same information as the overview, but it just shows the number of queued messages and the message rates for that specific queue.
+
+**Consumers**
+
+Consumers show the consumers/channels that are connected to the queue.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/queues-7.png)
+
+**Bindings**
+
+A binding can be created between an exchange and a queue. All active bindings to the queue are shown under bindings. You can also create a new binding to a queue from here or unbind a queue from an exchange.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/queues-5.png)
+
+**Publish message**
+
+It is possible to manually publish a message to the queue from "publish message". The message will be published to the default exchange with the queue name as given routing key - meaning that the message will be sent to the queue. It is also possible to publish a message to an exchange from the exchange view.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/queues-4.png)
+
+**Get message**
+
+It is possible to manually inspect the message in the queue. "Get message" get the message to you and if you mark it as "requeue", RabbitMQ puts it back to the queue in the same order.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/queues-6.png)
+
+**Delete or Purge queue**
+
+A queue can be deleted by the delete button, and you can empty the queue by pressing purge.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/queues-3.png)
+
+## Admin tab
+
+From the Admin view, it is possible to add users and change user permissions. You can set up vhosts, policies, federation, and shovels.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/admin-add-user.png)
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/admin-add-vhost.png)
+
+## UI Example
+
+This example shows how you can create a queue "example-queue" and an exchange called example.exchange.
+
+Queue view: Add queue
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/add-queue.png)
+
+Exchange view: Add exchange
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/add-exchange.png)
+
+The exchange and the queue are connected by a binding called "pdfprocess". Messages published to the exchange with the routing key "pdfprocess" will end up in the queue.
+
+Press on the exchange or on the queue go to "Add binding from this exchange" or "Add binding to this queue".
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/add-binding.png)
+
+Publish a message to the exchange with the routing key "pdfprocess"
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/publish-message.png)
+
+Queue overview for example-queue when a message is published.
+
+![](/images/a-professional-asp.net-core-api-rabbitmq/publish.png)
+
+A lot of things can be viewed and handled from the management interface and it will give you a good overview of your system. By looking into the management interface, you will get a good understanding about RabbitMQ and how everything is related.
 
 ## EasyNetQ
 
