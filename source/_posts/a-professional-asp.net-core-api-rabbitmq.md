@@ -318,7 +318,8 @@ A chart with the rate of how the messages are handled. Publish show the rate at 
 
 The total number of connections, channels, exchanges, queues and consumers for ALL virtual hosts the current user has access to.
 
-Nodes
+**Nodes**
+
 Nodes show information about the different nodes in the RabbitMQ cluster (a cluster is a group of nodes i.e, a group of computers), or information about one single node if just one node is used. Here can information about server memory, number of erlang processes per node and other node-specific information be found. Info show i.e. further information about the node and enabled plugins.
 
 ![](/images/a-professional-asp.net-core-api-rabbitmq/management-node.png)
