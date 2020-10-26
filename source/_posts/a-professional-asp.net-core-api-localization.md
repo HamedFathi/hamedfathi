@@ -350,7 +350,7 @@ DataAnnotationValidation.en-GB.resx
 
 | Key             | Value     |
 |-----------------|-----------|
-| Name | '{0}' ist erforderlich |
+| Name | '{0}' is required |
 
 DataAnnotationValidation.de-DE.resx
 
