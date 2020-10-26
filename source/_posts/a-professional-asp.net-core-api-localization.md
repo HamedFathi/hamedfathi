@@ -436,7 +436,17 @@ And the result is
 
 ## DataAnnotation & JSON Localization
 
-You can also use DataAnnotation and JSON Localization together. Update your `ConfigureServices` as following:
+You can also use DataAnnotation and JSON Localization together. 
+
+Make an emptyu class as following
+
+```cs
+public class DataAnnotationValidation
+{
+}
+```
+
+Update your `ConfigureServices` as following:
 
 ```cs
 // Startup.ConfigureServices
