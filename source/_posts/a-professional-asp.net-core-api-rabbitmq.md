@@ -487,3 +487,4 @@ Most of the information in this article has gathered from various references.
 * https://www.thegeekstuff.com/2013/10/enable-rabbitmq-management-plugin/
 * https://www.codementor.io/@bosunbolawa/how-to-enable-rabbitmq-management-interface-owc5lzg7f
 * https://doumer.me/micro-services-communication-rabbitmq-and-asp-net-core/
+* https://www.tutlane.com/tutorial/rabbitmq
