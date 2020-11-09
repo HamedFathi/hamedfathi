@@ -1,4 +1,4 @@
-﻿---
+---
 title: Write a custom plugin with Aurelia 2 and Lerna
 date: November 09 2020
 category: aurelia
