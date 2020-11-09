@@ -9,7 +9,7 @@ tags:
     - bootstrap5
 ---
 
-In this article, We will be able to write a simple `Bootstrap v5` plugin for `Aurelia 2` and manage our packages via `Lerna` structure.
+In this article, We will be able to write a simple `Bootstrap 5` plugin for `Aurelia 2` and manage our packages via `Lerna`.
 
 <!-- more -->
 
