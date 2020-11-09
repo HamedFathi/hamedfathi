@@ -36,3 +36,87 @@ To achieve the ultimate goal of this article, we will create our project in the 
 I want the user to be able to customize their requirements while using this plugin so in the following we will examine how to add config to our plugin.
 
 ### Aurelia 1 vs Aurelia 2
+
+**Aurelia 1**
+
+```js
+// src/main(.js|.ts)
+
+export function configure(aurelia: Aurelia): void {
+
+aurelia.use.plugin(PLATFORM.moduleName('aurelia-toolbelt'));
+// OR
+// aurelia.use.plugin(PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/button'));
+
+  aurelia.start()
+         .then(() => aurelia.setRoot(PLATFORM.moduleName('app')));
+}
+```
+
+**Aurelia 2**
+
+```js
+// main.ts
+
+import Aurelia from 'aurelia';
+import { App } from './app';
+import * as atComponents from 'aurelia-toolbelt';
+
+Aurelia
+  .register(
+    atComponents // This globalizes all the exports of our registry.
+  )
+  .app(App)
+  .start();
+```
+
+### The structure
+
+* core
+* bootstrap-v5-core
+* bootstrap-v5
+* demo
+
+### Lerna configuration
+
+### Plugin configuration
+
+```js
+export enum Size {
+    ExtraSmall = 'xs',
+    Small = 'sm',
+    Medium = 'md',
+    Large = 'lg',
+    ExtraLarge = 'xl',
+}
+
+export interface IBootstrapV5Options {
+    enableRippleEffect?: boolean;
+    defaultSize?: Size;
+}
+
+const defaultOptions: IBootstrapV5Options = {
+    enableRippleEffect: false,
+    defaultSize: Size.Medium
+};
+
+export const IBootstrapV5Options = DI.createInterface<IBootstrapV5Options>('IBootstrapV5Options').noDefault();
+
+function createIBootstrapV5Configuration(optionsProvider: (options: IBootstrapV5Options) => void) {
+    return {
+        optionsProvider,
+        register(container: IContainer) {
+            optionsProvider(defaultOptions); // <-- this is your hook to add the customizations 
+            return container.register(Registration.instance(IBootstrapV5Options, defaultOptions))
+        },
+        customize(cb?: (options: IBootstrapV5Options) => void) { //<-- provide delgate to the users so that they can mutate the provided (via the cb arg) options object
+            return createIBootstrapV5Configuration(cb ?? optionsProvider);
+        },
+    };
+}
+
+// How to use?
+// container.register(BootstrapV5Configuration) or container.register(BootstrapV5Configuration.customize((options) => { options.enableRippleEffect = true; })).
+export const BootstrapV5Configuration = createIBootstrapV5Configuration(() => { /* This is noop, as by default you don't make any change to the default options. */ });
+
+```
