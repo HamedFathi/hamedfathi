@@ -157,8 +157,7 @@ Go to `package.json` and add the following dependencies:
 "dependencies": {	
     "aurelia": "dev",
     "bootstrap": "^5.0.0-alpha2",	
-    "@aurelia-toolbelt/bootstrap-v5-core": "0.1.0",
-    "@aurelia-toolbelt/core": "0.1.0"
+    "@aurelia-toolbelt/bootstrap-v5-core": "0.1.0"
 },
 ```
 
