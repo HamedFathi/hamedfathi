@@ -77,7 +77,73 @@ Aurelia
 * bootstrap-v5
 * demo
 
+
+
 ### Lerna configuration
+
+To config your monorepos, you should do as following:
+
+Install `Lerna` as a global tool.
+
+```bash
+npm i lerna -g
+```
+
+Go to a folder that you want to make project and run
+
+```bash
+lerna init
+```
+
+The result should contains 
+
+* `packages`: The folder you will create your repositories there.
+* `lerna.json`: Config your lerna in this file.
+* `package.json`: Config your node project in this file.
+
+Open your `packages` folder and install the projects inside it.
+
+```bash
+npx makes aurelia core -s typescript
+npx makes aurelia bootstrap-v5-core -s typescript
+npx makes aurelia bootstrap-v5 -s typescript
+npx makes aurelia demo -s typescript
+``` 
+
+To continue we need to config `Lerna`, Open your `lerna.json` and paste the followimg code:
+
+```json
+{
+  "version": "0.1.0",
+  "npmClient": "npm",
+  "command": {
+    "bootstrap": {
+      "hoist": "**"
+    }
+  },
+  "packages": ["packages/*"]
+}
+```
+
+
+
+
+
+```js
+// bootstrap-v5/package.json
+"dependencies": {	
+    "aurelia": "dev",
+    "bootstrap": "^5.0.0-alpha1",	
+    "@aurelia-toolbelt/bootstrap-v5-core": "0.1.0",
+    "@aurelia-toolbelt/core": "0.1.0"
+},
+
+// demo/package.json
+"dependencies": {	
+    "aurelia": "dev",	
+    "@aurelia-toolbelt/bootstrap-v5": "0.1.0",
+},
+```
 
 ### Plugin configuration
 
