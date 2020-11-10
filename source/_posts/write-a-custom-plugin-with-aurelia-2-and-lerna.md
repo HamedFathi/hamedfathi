@@ -10,7 +10,7 @@ tags:
     - monorepository
 ---
 
-In this article, We will be able to write a simple `Bootstrap 5` plugin for `Aurelia 2` and manage our packages via `Lerna`.
+In this article, We will be able to write a simple [Bootstrap 5](https://v5.getbootstrap.com/) plugin for `Aurelia 2` and manage our packages via [Lerna](https://lerna.js.org/).
 
 <!-- more -->
 
@@ -20,7 +20,7 @@ With help of my good friend, [Sayan](https://github.com/Sayan751), I want to dis
 
 > Bootstrap is the most popular CSS Framework for developing responsive and mobile-first websites.
 
-The main purpose of this article is to create a component of [Bootstrap 5](https://v5.getbootstrap.com/) as a plugin for Aurelia 2.
+The main purpose of this article is to create a component of `Bootstrap 5` as a plugin for Aurelia 2.
 
 ### What is Lerna?
 
