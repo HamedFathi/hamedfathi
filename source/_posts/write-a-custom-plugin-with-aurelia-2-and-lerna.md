@@ -73,11 +73,7 @@ Aurelia
 
 ### The structure
 
-We want to separate our plugin in four packages.
-
-* **core**
-
-This package will contain our independent and standalone functionalites.
+We want to separate our plugin in three packages.
 
 * **bootstrap-v5-core**
 
@@ -116,7 +112,6 @@ The result should contain
 Open your `packages` folder and install the projects inside it.
 
 ```bash
-npx makes aurelia core -s typescript
 npx makes aurelia bootstrap-v5-core -s typescript
 npx makes aurelia bootstrap-v5 -s typescript
 npx makes aurelia demo -s typescript
@@ -148,10 +143,6 @@ To continue we need to config `Lerna`, Open your `lerna.json` and paste the foll
 ## Dependencies
 
 As described in the structure section defined packages depend on each other. So, we link them together and add the other prerequisites for each.
-
-* **core**
-
-This package has no dependency.
 
 * **bootstrap-v5-core**
 
@@ -187,6 +178,12 @@ Go to `package.json` and add the following dependencies:
 
 **Note**: All created packages have `0.1.0` version so pay attention if the version changes, update it in other packages.
 
+Finally, run the blow command to install packages.
+
+```bash
+lerna bootstrap
+```
+
 ### Plugin configuration
 
 ```js
@@ -199,12 +196,10 @@ export enum Size {
 }
 
 export interface IBootstrapV5Options {
-    enableRippleEffect?: boolean;
     defaultSize?: Size;
 }
 
 const defaultOptions: IBootstrapV5Options = {
-    enableRippleEffect: false,
     defaultSize: Size.Medium
 };
 
@@ -228,3 +223,11 @@ function createIBootstrapV5Configuration(optionsProvider: (options: IBootstrapV5
 export const BootstrapV5Configuration = createIBootstrapV5Configuration(() => { /* This is noop, as by default you don't make any change to the default options. */ });
 
 ```
+
+### Plugin implementation
+
+
+
+### Plugin usage
+
+
