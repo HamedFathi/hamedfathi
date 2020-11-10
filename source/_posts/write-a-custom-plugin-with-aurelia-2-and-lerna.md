@@ -147,6 +147,7 @@ To continue we need to config `Lerna`, Open your `lerna.json` and paste the foll
 
 ## Dependencies
 
+As described in the structure section defined packages depend on each other. So, we link them together and add the other prerequisites for each.
 
 ```js
 // bootstrap-v5/package.json
