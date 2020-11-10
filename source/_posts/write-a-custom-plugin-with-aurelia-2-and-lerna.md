@@ -149,21 +149,43 @@ To continue we need to config `Lerna`, Open your `lerna.json` and paste the foll
 
 As described in the structure section defined packages depend on each other. So, we link them together and add the other prerequisites for each.
 
+* **core**
+
+This package has no dependency.
+
+* **bootstrap-v5-core**
+
+This package has no dependency.
+
+* **bootstrap-v5**
+
+Go to `package.json` and add the following dependencies:
+
 ```js
 // bootstrap-v5/package.json
 "dependencies": {	
     "aurelia": "dev",
-    "bootstrap": "^5.0.0-alpha1",	
+    "bootstrap": "^5.0.0-alpha2",	
     "@aurelia-toolbelt/bootstrap-v5-core": "0.1.0",
     "@aurelia-toolbelt/core": "0.1.0"
 },
+```
 
+* **demo**
+
+Go to `package.json` and add the following dependencies:
+
+```js
 // demo/package.json
 "dependencies": {	
     "aurelia": "dev",	
     "@aurelia-toolbelt/bootstrap-v5": "0.1.0",
 },
 ```
+
+**Note**: To refer to the `Lerna` packages you should use package name with an `@` at the start.
+
+**Note**: All created packages have `0.1.0` version so pay attention if the version changes, update it in other packages.
 
 ### Plugin configuration
 
