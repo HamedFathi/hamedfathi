@@ -7,6 +7,7 @@ tags:
     - plugin
     - lerna
     - bootstrap5
+    - monorepository
 ---
 
 In this article, We will be able to write a simple `Bootstrap 5` plugin for `Aurelia 2` and manage our packages via `Lerna`.
@@ -72,12 +73,23 @@ Aurelia
 
 ### The structure
 
-* core
-* bootstrap-v5-core
-* bootstrap-v5
-* demo
+We want to separate our plugin in four packages.
 
+* **core**
 
+This package will contain our independent and standalone functionalites.
+
+* **bootstrap-v5-core**
+
+We will add the Bootstrap 5 confiurations in this package.
+
+* **bootstrap-v5**
+
+Our Bootstrap 5 components will define in this package. `bootstrap-v5` depends on `core` and `bootstrap-v5-core` packages.
+
+* **demo**
+
+We will use our plugin in this package as a demo. `demo` depends on `bootstrap-v5`.
 
 ### Lerna configuration
 
@@ -95,11 +107,11 @@ Go to a folder that you want to make project and run
 lerna init
 ```
 
-The result should contains 
+The result should contain
 
 * `packages`: The folder you will create your repositories there.
-* `lerna.json`: Config your lerna in this file.
-* `package.json`: Config your node project in this file.
+* `lerna.json`: Lerna's configuration file.
+* `package.json`: Node's configuration file.
 
 Open your `packages` folder and install the projects inside it.
 
@@ -108,7 +120,7 @@ npx makes aurelia core -s typescript
 npx makes aurelia bootstrap-v5-core -s typescript
 npx makes aurelia bootstrap-v5 -s typescript
 npx makes aurelia demo -s typescript
-``` 
+```
 
 To continue we need to config `Lerna`, Open your `lerna.json` and paste the followimg code:
 
@@ -125,8 +137,15 @@ To continue we need to config `Lerna`, Open your `lerna.json` and paste the foll
 }
 ```
 
+**version**: the current version of the repository.
 
+**npmClient**: an option to specify a specific client to run commands with (this can also be specified on a per command basis). Change to "yarn" to run all commands with yarn. Defaults to "npm".
 
+**command.bootstrap.hoist**: Common dependencies will be installed only to the top-level `node_modules`, and omitted from individual package `node_modules`.
+
+**packages**: Array of globs to use as package locations.
+
+## Dependencies
 
 
 ```js
