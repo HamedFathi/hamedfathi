@@ -117,6 +117,8 @@ npx makes aurelia bootstrap-v5 -s typescript
 npx makes aurelia demo -s typescript
 ```
 
+After creating, delete all files inside `src` folders of `bootstrap-v5-core` and `bootstrap-v5`.
+
 To continue we need to config `Lerna`, Open your `lerna.json` and paste the followimg code:
 
 ```json
@@ -157,23 +159,21 @@ Go to `package.json` and add the following dependencies:
 "dependencies": {	
     "aurelia": "dev",
     "bootstrap": "^5.0.0-alpha2",	
-    "@aurelia-toolbelt/bootstrap-v5-core": "0.1.0"
+    "bootstrap-v5-core": "0.1.0"
 },
 ```
 
 * **demo**
 
-Go to `package.json` and add the following dependencies:
+Go to `package.json` and add the following dependencies
 
 ```js
 // demo/package.json
 "dependencies": {	
     "aurelia": "dev",	
-    "@aurelia-toolbelt/bootstrap-v5": "0.1.0",
+    "bootstrap-v5": "0.1.0",
 },
 ```
-
-**Note**: To refer to the `Lerna` packages you should use package name with an `@` at the start.
 
 **Note**: All created packages have `0.1.0` version so pay attention if the version changes, update it in other packages.
 
