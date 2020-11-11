@@ -14,7 +14,7 @@ In this article, We want to write a simple [Bootstrap 5](https://v5.getbootstrap
 
 <!-- more -->
 
-With help of bs good friend, [Sayan](https://github.com/Sayan751), I want to discuss about writing a custom plugin. At the end, you will have a good knowledge to write your own plugins, so stay tuned.
+With help of my friend, [Sayan](https://github.com/Sayan751), I want to discuss about writing a custom plugin. At the end, you will have a good knowledge to write your own plugins, so stay tuned.
 
 ### What is Bootstrap?
 
