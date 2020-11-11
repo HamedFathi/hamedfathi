@@ -197,35 +197,44 @@ export enum Size {
     ExtraLarge = 'xl',
 }
 
-// src/BootstrapV5Options.ts
+// src/IGlobalBootstrapV5Options.ts
 import { Size } from "./Size";
-export interface IBootstrapV5Options {
+export interface IGlobalBootstrapV5Options {
     defaultSize?: Size;
 }
-export const defaultOptions: IBootstrapV5Options = {
+export const defaultOptions: IGlobalBootstrapV5Options = {
     defaultSize: Size.Medium
 };
 
 // src/BootstrapV5Configuration.ts
 import { DI, IContainer, Registration } from "aurelia";
-import { IBootstrapV5Options, defaultOptions } from './BootstrapV5Options';
+import { IGlobalBootstrapV5Options, defaultOptions } from './IGlobalBootstrapV5Options';
 
-export const BootstrapV5Options = DI.createInterface<IBootstrapV5Options>('IBootstrapV5Options').noDefault();
+export const IBootstrapV5Options = DI.createInterface<IGlobalBootstrapV5Options>('IBootstrapV5Options').noDefault();
 
-function createIBootstrapV5Configuration(optionsProvider: (options: IBootstrapV5Options) => void) {
+function createIBootstrapV5Configuration(optionsProvider: (options: IGlobalBootstrapV5Options) => void) {
     return {
         optionsProvider,
         register(container: IContainer) {
             optionsProvider(defaultOptions);
-            return container.register(Registration.instance(BootstrapV5Options, defaultOptions))
+            return container.register(Registration.instance(IBootstrapV5Options, defaultOptions))
         },
-        customize(cb?: (options: IBootstrapV5Options) => void) {
+        customize(cb?: (options: IGlobalBootstrapV5Options) => void) {
             return createIBootstrapV5Configuration(cb ?? optionsProvider);
         },
     };
 }
 
-export const BootstrapV5Configuration = createIBootstrapV5Configuration(() => { });
+export const BootstrapV5Configuration = createIBootstrapV5Configuration(() => {});
+
+// src/index.ts
+export * from './BootstrapV5Configuration';
+export * from './IGlobalBootstrapV5Options';
+export * from './Size';
+
+// Create new 'index.ts' file inside 'bootstrap-v5-core' package.
+// index.ts
+export * from './src';
 ```
 
 ### Plugin implementation
@@ -248,6 +257,30 @@ Create `my-button.html` file.
 
 Create `my-button.ts` file.
 
+```js
+import { customElement, INode, containerless } from "aurelia";
+import template from "./my-button.html";
+import { IBootstrapV5Options, IGlobalBootstrapV5Options } from "bootstrap-v5-core";
+
+@customElement({ name: "my-button", template })
+@containerless()
+export class BootstrapButton {
+  private myButtonTemplate: Element;
+  constructor(
+    @INode private element: Element,
+    @IBootstrapV5Options private options: IGlobalBootstrapV5Options
+  ) {
+
+  }
+
+  afterAttach() {
+    if (this.options.defaultSize) {
+
+    }
+  }
+}
+```
+
 
 * **Button Index**
 
@@ -257,12 +290,20 @@ Create `src/button/index.ts` file.
 export * from './my-button';
 ```
 
-* **Global Index**
+* **Src Index**
 
 Create `src/index.ts` file.
 
 ```js
 export * from './button';
+```
+
+* **Global Index**
+
+Create new `index.ts` file inside `bootstrap-v5` package.
+
+```js
+export * from './src';
 ```
 
 * **Resource**
