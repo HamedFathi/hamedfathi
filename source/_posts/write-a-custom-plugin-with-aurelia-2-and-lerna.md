@@ -453,7 +453,7 @@ To run the `demo` easily, go to the root folder (where `lerna.json` is) and add 
 Then, call the command
 
 ```bash
-npm run start
+npm start
 ```
 
 ![](/images/write-a-custom-plugin-with-aurelia-2-and-lerna/demo.png)
