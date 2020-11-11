@@ -10,7 +10,7 @@ tags:
     - monorepository
 ---
 
-In this article, We will be able to write a simple [Bootstrap 5](https://v5.getbootstrap.com/) plugin for `Aurelia 2` and manage our packages via [Lerna](https://lerna.js.org/).
+In this article, We want to write a simple [Bootstrap 5](https://v5.getbootstrap.com/) plugin for `Aurelia 2` and manage our packages via [Lerna](https://lerna.js.org/).
 
 <!-- more -->
 
@@ -117,7 +117,7 @@ npx makes aurelia bootstrap-v5 -s typescript
 npx makes aurelia demo -s typescript
 ```
 
-After creating, delete all files inside `src` folders of `bootstrap-v5-core` and `bootstrap-v5`.
+After creating, delete all files inside `src` folders of `bootstrap-v5-core` and `bootstrap-v5`. We will add our files there.
 
 To continue we need to config `Lerna`, Open your `lerna.json` and paste the followimg code:
 
@@ -171,13 +171,13 @@ Go to `package.json` and add the following dependencies
 // demo/package.json
 "dependencies": {	
     "aurelia": "dev",	
-    "bootstrap-v5": "0.1.0",
+    "bootstrap-v5": "0.1.0"
 },
 ```
 
 **Note**: All created packages have `0.1.0` version so pay attention if the version changes, update it in other packages.
 
-Finally, run the blow command to install packages.
+Finally, run the below command inside your root folder (where `lerna.json` is) to install packages.
 
 ```bash
 lerna bootstrap
@@ -185,7 +185,10 @@ lerna bootstrap
 
 ### Plugin configuration
 
+Go to the `src` folder of `bootstrap-v5-core` package and create each of below files there.
+
 ```js
+// src/Size.ts
 export enum Size {
     ExtraSmall = 'xs',
     Small = 'sm',
@@ -194,33 +197,35 @@ export enum Size {
     ExtraLarge = 'xl',
 }
 
+// src/BootstrapV5Options.ts
+import { Size } from "./Size";
 export interface IBootstrapV5Options {
     defaultSize?: Size;
 }
-
-const defaultOptions: IBootstrapV5Options = {
+export const defaultOptions: IBootstrapV5Options = {
     defaultSize: Size.Medium
 };
 
-export const IBootstrapV5Options = DI.createInterface<IBootstrapV5Options>('IBootstrapV5Options').noDefault();
+// src/BootstrapV5Configuration.ts
+import { DI, IContainer, Registration } from "aurelia";
+import { IBootstrapV5Options, defaultOptions } from './BootstrapV5Options';
+
+export const BootstrapV5Options = DI.createInterface<IBootstrapV5Options>('IBootstrapV5Options').noDefault();
 
 function createIBootstrapV5Configuration(optionsProvider: (options: IBootstrapV5Options) => void) {
     return {
         optionsProvider,
         register(container: IContainer) {
-            optionsProvider(defaultOptions); // <-- this is your hook to add the customizations 
-            return container.register(Registration.instance(IBootstrapV5Options, defaultOptions))
+            optionsProvider(defaultOptions);
+            return container.register(Registration.instance(BootstrapV5Options, defaultOptions))
         },
-        customize(cb?: (options: IBootstrapV5Options) => void) { //<-- provide delgate to the users so that they can mutate the provided (via the cb arg) options object
+        customize(cb?: (options: IBootstrapV5Options) => void) {
             return createIBootstrapV5Configuration(cb ?? optionsProvider);
         },
     };
 }
 
-// How to use?
-// container.register(BootstrapV5Configuration) or container.register(BootstrapV5Configuration.customize((options) => { options.enableRippleEffect = true; })).
-export const BootstrapV5Configuration = createIBootstrapV5Configuration(() => { /* This is noop, as by default you don't make any change to the default options. */ });
-
+export const BootstrapV5Configuration = createIBootstrapV5Configuration(() => { });
 ```
 
 ### Plugin implementation
