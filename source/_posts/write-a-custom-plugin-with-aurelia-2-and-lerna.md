@@ -351,6 +351,10 @@ export class BootstrapButton {
 }
 ```
 
+As you can see we are able to access to plugin options easy via `ctor` (DI) and react appropriately to its values.
+
+In this example I get the size from the user and apply it to the button component.
+
 * **Button Index**
 
 Create `src/button/index.ts` file.
@@ -398,6 +402,35 @@ Aurelia
 
   .app(MyApp)
   .start();
+```
+
+Importing is available for whole components
+
+```js
+import * as BsComponents from 'bootstrap-v5';
+```
+
+Or just a component
+
+```js
+import { BootstrapButton } from 'bootstrap-v5';
+```
+
+To register your components you should add them to `register` method. 
+
+```js
+.register(BsComponents) // For whole components
+// Or
+.register(BootstrapButton) // For a component
+```
+
+Proudly, we support configuration so we should introduce it to `register` method too.
+
+```js
+ // With default options
+.register(BootstrapV5Configuration)
+// Or with a custom option
+.register(BootstrapV5Configuration.customize((options) => { options.defaultSize = Size.Small }))
 ```
 
 Now, You are able to use your `bs-button` inside `src/my-app.html`.
