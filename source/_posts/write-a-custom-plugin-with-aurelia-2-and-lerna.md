@@ -81,11 +81,11 @@ We want to separate our plugin in three packages.
 
 * **bootstrap-v5-core**
 
-We will add the Bootstrap 5 confiurations in this package.
+We will add the Bootstrap 5 configurations in this package.
 
 * **bootstrap-v5**
 
-Our Bootstrap 5 components will define in this package. `bootstrap-v5` depends on `core` and `bootstrap-v5-core` packages.
+Our Bootstrap 5 components will define in this package. `bootstrap-v5` depends `bootstrap-v5-core` packages.
 
 * **demo**
 
