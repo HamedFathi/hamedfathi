@@ -230,6 +230,62 @@ export const BootstrapV5Configuration = createIBootstrapV5Configuration(() => { 
 
 ### Plugin implementation
 
+Go to the `src` folder of `bootstrap-v5` package, create a `button` folder then create each of below files there.
+
+![](/images/write-a-custom-plugin-with-aurelia-2-and-lerna/button.png)
+
+* **View**
+
+Create `my-button.html` file.
+
+```html
+<button class="btn btn-primary" ref="myButtonTemplate">
+    Primary Button
+</button>
+```
+
+* **ViewModel**
+
+Create `my-button.ts` file.
+
+
+* **Button Index**
+
+Create `src/button/index.ts` file.
+
+```js
+export * from './my-button';
+```
+
+* **Global Index**
+
+Create `src/index.ts` file.
+
+```js
+export * from './button';
+```
+
+* **Resource**
+
+Create `resource.d.ts` file.
+
+```js
+declare module '*.html' {
+  import { IContainer } from '@aurelia/kernel';
+  import { IBindableDescription } from '@aurelia/runtime';
+  export const name: string;
+  export const template: string;
+  export default template;
+  export const dependencies: string[];
+  export const containerless: boolean | undefined;
+  export const bindables: Record<string, IBindableDescription>;
+  export const shadowOptions: { mode: 'open' | 'closed'} | undefined;
+  export function register(container: IContainer);
+}
+
+declare module '*.css';
+declare module '*.scss';
+```
 
 
 ### Plugin usage
