@@ -40,6 +40,8 @@ I want the user to be able to customize their requirements while using this plug
 
 **Aurelia 1**
 
+Writing a new Aurelia Plugin is not difficult but it requires a lot of work that you can read through [here](http://aurelia.io/docs/plugins/write-new-plugin). To be honest, it was not really straightforward!
+
 ```js
 // src/main(.js|.ts)
 
@@ -55,6 +57,8 @@ aurelia.use.plugin(PLATFORM.moduleName('bootstrap-v5'));
 ```
 
 **Aurelia 2**
+
+In version 2, everything is straightforward, just introduce the items you export to the `register` method. In fact, everything is possible by the `register` method so we will see how it works.
 
 ```js
 // main.ts
@@ -237,6 +241,36 @@ export * from './Size';
 // index.ts
 export * from './src';
 ```
+
+As I mentioned before, I want to write a configurable Bootstrap plugin so 
+
+**Size**
+
+I made a `Size` enum to handle all Bootstrap sizes. Next we can manage our components according to size value.
+
+**IGlobalBootstrapV5Options**
+
+You need to define your configs via an interface.
+
+**defaultOptions**
+
+This constant helps up to set our default configuration.
+
+**IBootstrapV5Options**
+
+We can define our `IGlobalBootstrapV5Options` to DI container.
+
+**createIBootstrapV5Configuration**
+
+This is the most important part of creating settings. 
+
+`register(container: IContainer)` helps us to introduce our default config to DI container.
+
+`customize(cb?: (options: IGlobalBootstrapV5Options) => void)` alse helps us to introduce our custom config to the DI container.
+
+**BootstrapV5Configuration**
+
+Finally, we should export our current configuration with default options.
 
 ### Plugin implementation
 
