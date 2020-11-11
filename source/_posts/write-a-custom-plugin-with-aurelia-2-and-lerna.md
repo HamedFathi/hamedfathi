@@ -14,7 +14,7 @@ In this article, We want to write a simple [Bootstrap 5](https://v5.getbootstrap
 
 <!-- more -->
 
-With help of my good friend, [Sayan](https://github.com/Sayan751), I want to discuss about writing a custom plugin. At the end, you will have a good knowledge to write your own plugins, so stay tuned.
+With help of bs good friend, [Sayan](https://github.com/Sayan751), I want to discuss about writing a custom plugin. At the end, you will have a good knowledge to write your own plugins, so stay tuned.
 
 ### What is Bootstrap?
 
@@ -85,7 +85,7 @@ Our Bootstrap 5 components will define in this package. `bootstrap-v5` depends o
 
 * **demo**
 
-We will use our plugin in this package as a demo. `demo` depends on `bootstrap-v5`.
+We will use our plugin in this package as a demo. `demo` depends on `bootstrap-v5-core` and `bootstrap-v5`.
 
 ### Lerna configuration
 
@@ -171,6 +171,7 @@ Go to `package.json` and add the following dependencies
 // demo/package.json
 "dependencies": {	
     "aurelia": "dev",	
+    "bootstrap-v5-core": "0.1.0",
     "bootstrap-v5": "0.1.0"
 },
 ```
@@ -245,27 +246,27 @@ Go to the `src` folder of `bootstrap-v5` package, create a `button` folder then 
 
 * **View**
 
-Create `my-button.html` file.
+Create `bs-button.html` file.
 
 ```html
-<button class="btn btn-primary" ref="myButtonTemplate">
+<button class="btn btn-primary" ref="bsButtonTemplate">
     Primary Button
 </button>
 ```
 
 * **ViewModel**
 
-Create `my-button.ts` file.
+Create `bs-button.ts` file.
 
 ```js
 import { customElement, INode, containerless } from "aurelia";
-import template from "./my-button.html";
+import template from "./bs-button.html";
 import { IBootstrapV5Options, IGlobalBootstrapV5Options } from "bootstrap-v5-core";
 
-@customElement({ name: "my-button", template })
+@customElement({ name: "bs-button", template })
 @containerless()
 export class BootstrapButton {
-  private myButtonTemplate: Element;
+  private bsButtonTemplate: Element;
   constructor(
     @INode private element: Element,
     @IBootstrapV5Options private options: IGlobalBootstrapV5Options
@@ -287,7 +288,7 @@ export class BootstrapButton {
 Create `src/button/index.ts` file.
 
 ```js
-export * from './my-button';
+export * from './bs-button';
 ```
 
 * **Src Index**
@@ -303,6 +304,7 @@ export * from './button';
 Create new `index.ts` file inside `bootstrap-v5` package.
 
 ```js
+import 'bootstrap/dist/css/bootstrap.min.css';
 export * from './src';
 ```
 
@@ -328,7 +330,52 @@ declare module '*.css';
 declare module '*.scss';
 ```
 
-
 ### Plugin usage
 
+Open `demo` package and go to the `src` and update `main.ts`.
 
+```js
+import Aurelia from 'aurelia';
+import JitHtmlBrowserConfiguration from "@aurelia/runtime-html";
+import { MyApp } from './my-app';
+
+import { BootstrapV5Configuration, Size } from 'bootstrap-v5-core';
+// import {BootstrapButton} from 'bootstrap-v5';
+import * as BsComponents from 'bootstrap-v5';
+
+Aurelia
+
+  //.register(BootstrapButton)
+  .register(BsComponents)
+
+  //.register(BootstrapV5Configuration, JitHtmlBrowserConfiguration)
+  .register(BootstrapV5Configuration.customize((options) => { options.defaultSize = Size.Small }), JitHtmlBrowserConfiguration)
+
+  .app(MyApp)
+  .start();
+```
+
+Now, You are able to use your `bs-button` inside `src/my-app.html`.
+
+```html
+<div class="message">${message}</div>
+<bs-button></bs-button>
+```
+
+To run the `demo` easily, go to the root folder (where `lerna.json` is) and add the following script
+
+```bash
+"scripts": {
+  "start": "lerna run start --stream --scope demo"
+}
+```
+
+call the command via
+
+```bash
+npm run start
+```
+
+![](/images/write-a-custom-plugin-with-aurelia-2-and-lerna/demo.png)
+
+Enjoy!
