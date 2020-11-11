@@ -440,7 +440,7 @@ Now, You are able to use your `bs-button` inside `src/my-app.html`.
 <bs-button></bs-button>
 ```
 
-To run the `demo` easily, go to the root folder (where `lerna.json` is) and add the following script
+To run the `demo` easily, go to the root folder (where `lerna.json` is) and add the following script to `package.json`.
 
 ```bash
 "scripts": {
@@ -448,7 +448,7 @@ To run the `demo` easily, go to the root folder (where `lerna.json` is) and add 
 }
 ```
 
-call the command via
+Then, call the command
 
 ```bash
 npm run start
