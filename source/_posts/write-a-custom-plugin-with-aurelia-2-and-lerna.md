@@ -244,6 +244,28 @@ Go to the `src` folder of `bootstrap-v5` package, create a `button` folder then 
 
 ![](/images/write-a-custom-plugin-with-aurelia-2-and-lerna/button.png)
 
+* **Resource**
+
+Create `resource.d.ts` file.
+
+```js
+declare module '*.html' {
+  import { IContainer } from '@aurelia/kernel';
+  import { IBindableDescription } from '@aurelia/runtime';
+  export const name: string;
+  export const template: string;
+  export default template;
+  export const dependencies: string[];
+  export const containerless: boolean | undefined;
+  export const bindables: Record<string, IBindableDescription>;
+  export const shadowOptions: { mode: 'open' | 'closed'} | undefined;
+  export function register(container: IContainer);
+}
+
+declare module '*.css';
+declare module '*.scss';
+```
+
 * **View**
 
 Create `bs-button.html` file.
@@ -261,27 +283,35 @@ Create `bs-button.ts` file.
 ```js
 import { customElement, INode, containerless } from "aurelia";
 import template from "./bs-button.html";
-import { IBootstrapV5Options, IGlobalBootstrapV5Options } from "bootstrap-v5-core";
+import { IBootstrapV5Options, IGlobalBootstrapV5Options, Size } from "bootstrap-v5-core";
 
 @customElement({ name: "bs-button", template })
-@containerless()
+@containerless
 export class BootstrapButton {
   private bsButtonTemplate: Element;
   constructor(
-    @INode private element: Element,
     @IBootstrapV5Options private options: IGlobalBootstrapV5Options
   ) {
-
   }
 
   afterAttach() {
     if (this.options.defaultSize) {
-
+      switch (this.options.defaultSize) {
+        case Size.ExtraSmall:
+        case Size.Small:
+          this.bsButtonTemplate.classList.add("btn-sm");
+          break;
+        case Size.Large:
+        case Size.ExtraLarge:
+          this.bsButtonTemplate.classList.add("btn-lg");
+          break;
+        default:
+          this.bsButtonTemplate.classList.remove("btn-sm", "btn-lg");
+      }
     }
   }
 }
 ```
-
 
 * **Button Index**
 
@@ -308,39 +338,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export * from './src';
 ```
 
-* **Resource**
-
-Create `resource.d.ts` file.
-
-```js
-declare module '*.html' {
-  import { IContainer } from '@aurelia/kernel';
-  import { IBindableDescription } from '@aurelia/runtime';
-  export const name: string;
-  export const template: string;
-  export default template;
-  export const dependencies: string[];
-  export const containerless: boolean | undefined;
-  export const bindables: Record<string, IBindableDescription>;
-  export const shadowOptions: { mode: 'open' | 'closed'} | undefined;
-  export function register(container: IContainer);
-}
-
-declare module '*.css';
-declare module '*.scss';
-```
-
 ### Plugin usage
 
 Open `demo` package and go to the `src` and update `main.ts`.
 
 ```js
 import Aurelia from 'aurelia';
-import JitHtmlBrowserConfiguration from "@aurelia/runtime-html";
 import { MyApp } from './my-app';
 
 import { BootstrapV5Configuration, Size } from 'bootstrap-v5-core';
-// import {BootstrapButton} from 'bootstrap-v5';
+// import { BootstrapButton } from 'bootstrap-v5';
 import * as BsComponents from 'bootstrap-v5';
 
 Aurelia
@@ -348,8 +355,8 @@ Aurelia
   //.register(BootstrapButton)
   .register(BsComponents)
 
-  //.register(BootstrapV5Configuration, JitHtmlBrowserConfiguration)
-  .register(BootstrapV5Configuration.customize((options) => { options.defaultSize = Size.Small }), JitHtmlBrowserConfiguration)
+  //.register(BootstrapV5Configuration)
+  .register(BootstrapV5Configuration.customize((options) => { options.defaultSize = Size.Small }))
 
   .app(MyApp)
   .start();
