@@ -45,9 +45,9 @@ I want the user to be able to customize their requirements while using this plug
 
 export function configure(aurelia: Aurelia): void {
 
-aurelia.use.plugin(PLATFORM.moduleName('aurelia-toolbelt'));
+aurelia.use.plugin(PLATFORM.moduleName('bootstrap-v5'));
 // OR
-// aurelia.use.plugin(PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/button'));
+// aurelia.use.plugin(PLATFORM.moduleName('bootstrap-v5/button'));
 
   aurelia.start()
          .then(() => aurelia.setRoot(PLATFORM.moduleName('app')));
@@ -61,11 +61,11 @@ aurelia.use.plugin(PLATFORM.moduleName('aurelia-toolbelt'));
 
 import Aurelia from 'aurelia';
 import { App } from './app';
-import * as atComponents from 'aurelia-toolbelt';
+import * as BsComponents from 'bootstrap-v5';
 
 Aurelia
   .register(
-    atComponents // This globalizes all the exports of our registry.
+    BsComponents // This globalizes all the exports.
   )
   .app(App)
   .start();
