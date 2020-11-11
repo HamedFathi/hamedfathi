@@ -192,8 +192,11 @@ lerna bootstrap
 
 Go to the `src` folder of `bootstrap-v5-core` package and create each of below files there.
 
+**Size**
+
+As I mentioned before, I want to write a configurable Bootstrap plugin so create `src/Size.ts` file.
+
 ```js
-// src/Size.ts
 export enum Size {
     ExtraSmall = 'xs',
     Small = 'sm',
@@ -201,8 +204,15 @@ export enum Size {
     Large = 'lg',
     ExtraLarge = 'xl',
 }
+```
 
-// src/IGlobalBootstrapV5Options.ts
+I made a `Size` enum to handle all Bootstrap sizes. Next we can manage our components according to size value.
+
+**Global Bootstrap 5 Options**
+
+Create `src/IGlobalBootstrapV5Options.ts` file.
+
+```js
 import { Size } from "./Size";
 export interface IGlobalBootstrapV5Options {
     defaultSize?: Size;
@@ -210,8 +220,15 @@ export interface IGlobalBootstrapV5Options {
 export const defaultOptions: IGlobalBootstrapV5Options = {
     defaultSize: Size.Medium
 };
+```
 
-// src/BootstrapV5Configuration.ts
+You need to define your configs via an interface With its default values as a constant.
+
+**DI**
+
+Create `src/BootstrapV5Configuration.ts` file.
+
+```js
 import { DI, IContainer, Registration } from "aurelia";
 import { IGlobalBootstrapV5Options, defaultOptions } from './IGlobalBootstrapV5Options';
 
@@ -231,46 +248,33 @@ function createIBootstrapV5Configuration(optionsProvider: (options: IGlobalBoots
 }
 
 export const BootstrapV5Configuration = createIBootstrapV5Configuration(() => {});
+```
 
-// src/index.ts
+We can define our `IGlobalBootstrapV5Options` to DI container so this happened via `IBootstrapV5Options` constant.
+
+`createIBootstrapV5Configuration` is the most important part of creating settings. 
+
+* `register(container: IContainer)` helps us to introduce our default config to DI container.
+
+* `customize(cb?: (options: IGlobalBootstrapV5Options) => void)` alse helps us to introduce our custom config to the DI container.
+
+Finally, we should export our current configuration with default options via `BootstrapV5Configuration`.
+
+**Exports**
+
+Create `src/index.ts` file.
+
+```js
 export * from './BootstrapV5Configuration';
 export * from './IGlobalBootstrapV5Options';
 export * from './Size';
-
-// Create new 'index.ts' file inside 'bootstrap-v5-core' package.
-// index.ts
-export * from './src';
 ```
 
-As I mentioned before, I want to write a configurable Bootstrap plugin so 
+Create new `index.ts` file inside `bootstrap-v5-core` package.
 
-**Size**
-
-I made a `Size` enum to handle all Bootstrap sizes. Next we can manage our components according to size value.
-
-**IGlobalBootstrapV5Options**
-
-You need to define your configs via an interface.
-
-**defaultOptions**
-
-This constant helps up to set our default configuration.
-
-**IBootstrapV5Options**
-
-We can define our `IGlobalBootstrapV5Options` to DI container.
-
-**createIBootstrapV5Configuration**
-
-This is the most important part of creating settings. 
-
-`register(container: IContainer)` helps us to introduce our default config to DI container.
-
-`customize(cb?: (options: IGlobalBootstrapV5Options) => void)` alse helps us to introduce our custom config to the DI container.
-
-**BootstrapV5Configuration**
-
-Finally, we should export our current configuration with default options.
+```js
+export * from './src';
+```
 
 ### Plugin implementation
 
