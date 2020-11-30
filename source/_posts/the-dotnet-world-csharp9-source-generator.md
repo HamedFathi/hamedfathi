@@ -30,7 +30,7 @@ A Source Generator is a .NET Standard 2.0 assembly that is loaded by the compile
 
 ## What are its prerequisites?
 
-* C# 9+
+* C# 9.0+
 * Microsoft Visual Studio 16.8.0+ or JetBrains Rider 2020.3.0+
 
 ## What are its limitations?
@@ -39,11 +39,21 @@ Source Generators **do not allow** you to **rewrite** user source code. You can 
 
 ## What is the scenario?
 
+The need to mock static methods in order to add a unit test is a very common problem. It’s often the case that these static methods are in third-party libraries. There are many utility libraries that are completely made up of static methods. While this makes them very easy to use, it makes them really difficult to test.
+
 So, The way to mock a static method is by creating a class that wraps the call, extracting an interface, and passing in the interface. Then from your unit tests you can create a mock of the interface and pass it in.
 
-## How is it implemented?
-
 **Solution structure**
+
+Make `MockableStaticGenerator` solution with these projects:
+
+* **MockableStaticGenerator**: classlib with netstandard2.0
+* **DapperSample**: classlib with netstandard2.0
+* **DapperSampleTest**: xUnit test project with net5.0
+
+![](/images/the-dotnet-world-csharp9-source-generator/solution.png)
+
+## How is it implemented?
 
 
 
