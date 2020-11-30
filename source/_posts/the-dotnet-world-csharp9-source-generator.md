@@ -1,5 +1,5 @@
 ---
-title: The .NET World - C# 9 Source generator
+title: The .NET World - C# 9 Source Generator
 date: November 29 2020
 category: dotnet
 tags:
