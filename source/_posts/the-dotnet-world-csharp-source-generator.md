@@ -548,10 +548,9 @@ Next I checked if there is no `SyntaxReceiver` just return without any generated
 
 The most important part is finding our `MockableStaticAttribute` text source from syntax tree.
 
+Now, Add `MockableStaticGenerator` project to `DapperSample` as a reference project but you should update `DapperSample.csproj` file as following. 
 
-
-
-```bash
+```xml
 <ItemGroup>
   <ProjectReference Include="..\MockableStaticGenerator\MockableStaticGenerator.csproj" 
                     OutputItemType="Analyzer"
@@ -559,6 +558,7 @@ The most important part is finding our `MockableStaticAttribute` text source fro
 </ItemGroup>
 ```  
 
+This is not a "normal" `ProjectReference`. It needs the additional 'OutputItemType' and 'ReferenceOutputAssmbly' attributes.
 
 ## Visual Studio does not detect my source generators, What should I do?
 
