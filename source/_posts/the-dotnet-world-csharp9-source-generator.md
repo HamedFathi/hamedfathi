@@ -36,7 +36,8 @@ A Source Generator is a .NET Standard 2.0 assembly that is loaded by the compile
 
 ## What are its limitations?
 
-Source Generators **do not allow** you to **rewrite** user source code. You can only augment a compilation by **adding** C# source files to it.
+* Source Generators **do not allow** you to **rewrite** user source code. You can only augment a compilation by **adding** C# source files to it.
+* Run **un-ordered**, each generator will see the same input compilation, with **no access** to files created by other source generators.
 
 ## What is the scenario?
 
@@ -356,6 +357,135 @@ If you think it's a good idea, stay tuned.
 
 ## How to write a source generator?
 
+First of all, go to your `MockableStaticGenerator` project. Create a `Extensions` folder.
+Add the following classes:
+
+```cs
+// Extensions/StringBuilderExtensions.cs
+namespace System.Text
+{
+    internal static class StringBuilderExtensions
+    {
+        internal static StringBuilder AppendIf(this StringBuilder @this, Func<string, bool> predicate, params string[] values)
+        {
+            foreach (var value in values)
+                if (predicate(value))
+                    @this.Append(value);
+            return @this;
+        }
+        internal static StringBuilder AppendLineIf(this StringBuilder @this, Func<string, bool> predicate, params string[] values)
+        {
+            foreach (var value in values)
+                if (predicate(value))
+                    @this.AppendLine(value);
+            return @this;
+        }
+
+        internal static StringBuilder AppendJoin(this StringBuilder @this, string separator, params string[] values)
+        {
+            @this.Append(string.Join(separator, values));
+            return @this;
+        }
+
+        internal static StringBuilder AppendLineJoin(this StringBuilder @this, string separator, params string[] values)
+        {
+            @this.AppendLine(string.Join(separator, values));
+            return @this;
+        }
+        internal static StringBuilder AppendFormat(this StringBuilder @this, string format, params object[] args)
+        {
+            @this.Append(string.Format(format, args));
+            return @this;
+        }
+        internal static StringBuilder AppendLineFormat(this StringBuilder @this, string format, params object[] args)
+        {
+            @this.AppendLine(string.Format(format, args));
+            return @this;
+        }
+        internal static string Substring(this StringBuilder @this, int startIndex)
+        {
+            return @this.ToString(startIndex, @this.Length - startIndex);
+        }
+        internal static string Substring(this StringBuilder @this, int startIndex, int length)
+        {
+            return @this.ToString(startIndex, length);
+        }
+    }
+}
+
+// Extensions/SourceGeneratorExtensions
+namespace Microsoft.CodeAnalysis
+{
+    internal static class SourceGeneratorExtensions
+    {
+        // ...
+    }        
+}
+```
+
+We use `StringBuilder` a lot so not bad to have some useful extension methods. 
+For creating our ultimate goal we need some useful extension methods to make source code sp I will add them to `SourceGeneratorExtensions` class.
+
+Now, Create `SyntaxReceiver` class as following
+
+```cs
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Collections.Generic;
+
+namespace MockableStaticGenerator
+{
+    internal class SyntaxReceiver : ISyntaxReceiver
+    {
+        internal List<ClassDeclarationSyntax> Classes { get; } = new List<ClassDeclarationSyntax>();
+
+        public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
+        {
+            if (syntaxNode is ClassDeclarationSyntax classDeclarationSyntax
+                && classDeclarationSyntax.AttributeLists.Count > 0)
+            {
+                Classes.Add(classDeclarationSyntax);
+            }
+        }
+    }
+}
+```
+
+The purpose of this class is to **identify** the nodes we need to process the current source and generate new code. Here we store all the received classes in the `Classes` property.
+
+Then, Create `MockableGenerator` class with below code.
+
+```cs
+using Microsoft.CodeAnalysis;
+
+namespace MockableStaticGenerator
+{
+    [Generator]
+    public class MockableGenerator : ISourceGenerator
+    {
+        public void Execute(GeneratorExecutionContext context)
+        {
+            
+        }
+
+        public void Initialize(GeneratorInitializationContext context)
+        {
+            context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
+        }
+    }
+}
+```
+
+As you can see, You should implement `ISourceGenerator` and add `[Generator]` attribute to your source generator class.
+
+There are two methods:
+
+| Name       | Description        |
+|------------|--------------------|
+| Initialize |                    |
+| Execute    |                    |
+
+
 ## How to debug it?
 
 To start debug you can add `System.Diagnostics.Debugger.Launch();` as following:
@@ -390,4 +520,4 @@ Some of the information in this article has gathered from various references.
 * https://makolyte.com/how-to-mock-static-methods/
 * https://devblogs.microsoft.com/dotnet/introducing-c-source-generators/
 * https://devblogs.microsoft.com/dotnet/new-c-source-generator-samples/
-
+* https://github.com/dotnet/roslyn/blob/master/docs/features/source-generators.cookbook.md
