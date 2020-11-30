@@ -47,9 +47,11 @@ So, The way to mock a static method is by creating a class that wraps the call, 
 
 Make `MockableStaticGenerator` solution with these projects:
 
-* **MockableStaticGenerator**: classlib with netstandard2.0
-* **DapperSample**: classlib with netstandard2.0
-* **DapperSampleTest**: xUnit test project with net5.0
+| Name                    | Template           | Target         |
+|-------------------------|--------------------|----------------|
+| MockableStaticGenerator | class library      | netstandard2.0 |
+| DapperSample            | class library      | netstandard2.0 |
+| DapperSampleTest        | xUnit test project | net5.0         |
 
 ![](/images/the-dotnet-world-csharp9-source-generator/solution.png)
 
