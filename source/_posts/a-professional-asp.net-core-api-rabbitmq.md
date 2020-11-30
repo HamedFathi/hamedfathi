@@ -454,6 +454,10 @@ Queue overview for example-queue when a message is published.
 
 A lot of things can be viewed and handled from the management interface and it will give you a good overview of your system. By looking into the management interface, you will get a good understanding about RabbitMQ and how everything is related.
 
+## EasyNetQ
+
+
+
 ## MassTransit
 
 A free, open-source distributed application framework for .NET.
