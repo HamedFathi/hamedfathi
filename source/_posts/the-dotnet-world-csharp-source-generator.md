@@ -556,13 +556,13 @@ Now, Add `MockableStaticGenerator` project to `DapperSample` as a reference proj
                     OutputItemType="Analyzer"
                     ReferenceOutputAssembly="false"/>
 </ItemGroup>
-```  
+```
 
 This is not a "normal" `ProjectReference`. It needs the additional 'OutputItemType' and 'ReferenceOutputAssmbly' attributes.
 
 ## Visual Studio does not detect my source generators, What should I do?
 
-Unfortunately, the current version of Visual Studio (16.8.2) has a lot of problems when you are using code generators, but you can try the following steps.
+Unfortunately, the current version of Visual Studio (16.8.2) has a lot of problems while you are using code generators, but you can try the following steps.
 
 0. Make sure you follow the steps above correctly.
 1. Use `dotnet clean`, Maybe you need to delete all `bin` and `obj` folders.
