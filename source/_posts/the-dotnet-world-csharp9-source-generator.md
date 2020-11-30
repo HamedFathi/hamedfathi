@@ -30,7 +30,7 @@ A Source Generator is a .NET Standard 2.0 assembly that is loaded by the compile
 
 ## What are its prerequisites?
 
-* C# 9.0+
+* C# 9.0+ (SDK 5.0.100+)
 * Microsoft Visual Studio 16.8.0+ or JetBrains Rider 2020.3.0+
 
 ## What are its limitations?
@@ -41,7 +41,28 @@ Source Generators **do not allow** you to **rewrite** user source code. You can 
 
 The need to mock static methods in order to add a unit test is a very common problem. It’s often the case that these static methods are in third-party libraries. There are many utility libraries that are completely made up of static methods. While this makes them very easy to use, it makes them really difficult to test.
 
-So, The way to mock a static method is by creating a class that wraps the call, extracting an interface, and passing in the interface. Then from your unit tests you can create a mock of the interface and pass it in.
+So, The way to mock a static method is by creating **a class that wraps the call**, **extracting an interface**, and **passing in the interface**. Then from your unit tests you can create a mock of the interface and pass it in.
+
+**What is Dapper?**
+
+> A simple object mapper for .Net.
+
+```cs
+public class Dog
+{
+    public int? Age { get; set; }
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public float? Weight { get; set; }
+
+    public int IgnoredProperty { get { return 1; } }
+}
+
+var guid = Guid.NewGuid();
+var dog = connection.Query<Dog>("select Age = @Age, Id = @Id", new { Age = (int?)null, Id = guid });
+```
+
+`Dapper` contains a lot of extension (static) methods so I'm going to look at how to mock its methods with the instruction above.
 
 **Solution structure**
 
@@ -54,6 +75,95 @@ Make `MockableStaticGenerator` solution with these projects:
 | DapperSampleTest        | xUnit test project | net5.0         |
 
 ![](/images/the-dotnet-world-csharp9-source-generator/solution.png)
+
+**MockableStaticGenerator**
+
+Open `MockableStaticGenerator` project and add the following configuration to `csproj` file.
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.0.1</Version>
+    <PackageId>MockableStaticGenerator</PackageId>
+    <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreAdditionalProjectSources>https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json ;$(RestoreAdditionalProjectSources)</RestoreAdditionalProjectSources>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.8.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>
+```
+
+**DapperSample**
+
+Install the below package
+
+```bash
+Install-Package Dapper -Version 2.0.78
+dotnet add package Dapper --version 2.0.78
+<PackageReference Include="Dapper" Version="2.0.78" />
+```
+
+Then, make each below file in the project.
+
+```cs
+// Student.cs
+using System;
+
+public class Student
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Family { get; set; }
+    public DateTime BirthDate { get; set; }
+}
+
+// IStudentRepository.cs
+using System.Collections.Generic;
+
+public interface IStudentRepository
+{
+    IEnumerable<Student> GetStudents();
+    void SaveStudent(Student student);
+}
+
+// StudentRepository.cs
+using Dapper;
+using System.Collections.Generic;
+using System.Data;
+
+public class StudentRepository : IStudentRepository
+{
+    private readonly IDbConnection _dbConnection;
+
+    public StudentRepository(IDbConnection dbConnection)
+    {
+        _dbConnection = dbConnection;
+    }
+
+    public IEnumerable<Student> GetStudents()
+    {
+        return _dbConnection.Query<Student>("SELECT * FROM STUDENT");
+    }
+
+    public void SaveStudent(Student student)
+    {
+        _dbConnection.Query("SELECT * FROM STUDENT");
+    }
+}
+```
 
 ## How is it implemented?
 
