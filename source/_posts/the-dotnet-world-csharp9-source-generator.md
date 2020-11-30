@@ -1,5 +1,5 @@
 ---
-title: The .NET World - C# 9 Source Generator
+title: The .NET World - C# Source Generator
 date: November 29 2020
 category: dotnet
 tags:
@@ -8,6 +8,7 @@ tags:
     - sourcegenerator
     - roslyn
     - csharp9
+    - csharp
 ---
 
 I want to talk about one of the most exciting new features in `C# 9`. A way to generate the source code you want and access it instantly in your editor. Stay tuned.
