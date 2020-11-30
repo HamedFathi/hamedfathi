@@ -1,5 +1,5 @@
 ---
-title: A Professional ASP.NET Core - Razor class library
+title: A Professional ASP.NET Core - Razor Class Library
 date: November 30 2020
 category: aspnetcore
 tags:
