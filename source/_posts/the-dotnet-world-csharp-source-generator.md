@@ -497,27 +497,27 @@ namespace MockableStaticGenerator
     internal class Constants
     {
         internal const string MockableStaticAttribute = @"
-        namespace System
-        {
-            [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-            public sealed class MockableStaticAttribute : Attribute
+            namespace System
             {
-                public MockableStaticAttribute()
+                [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+                public sealed class MockableStaticAttribute : Attribute
                 {
+                    public MockableStaticAttribute()
+                    {
+                    }
+                    public MockableStaticAttribute(Type type)
+                    {
+                    }
                 }
-                public MockableStaticAttribute(Type type)
-                {
-                }
-            }
-        }";
+            }";
     }
 }
 ```
 
 As I explained before, We need an attribute (`MockableStaticAttribute`) to annotate our classes. So, we will use above source code text in our source generator.  
 
-* [MockableStatic] useful for internal usage and current class.
-* [MockableStatic(typeof(Dapper.SqlMapper))] useful for external usage and make a wrapper for an external type.
+* `[MockableStatic]` useful for internal usage and current class.
+* `[MockableStatic(typeof(Dapper.SqlMapper))]` useful for external usage and make a wrapper for an external type.
 
 ![](/images/the-dotnet-world-csharp-source-generator/solution4.png)
 
