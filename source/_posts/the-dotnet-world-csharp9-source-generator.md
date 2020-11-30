@@ -316,13 +316,44 @@ Run the test, you will see the green result!
 
 **What is the new problem?**
 
-Everything is good but **very tough repetitive** work especially when you are using libraries like `Dapper` with a lot of extension (static) methods to use.
+Everything is good but **very tough repetitive** work especially when you are using external libraries like `Dapper` with a lot of extension (static) methods to use.
 
 What if this repetitive method was already prepared for all methods?
 
 ## How does a source generator help us solve this problem?
 
+So far, we have learned about the problem and how to deal with it. But now we want to use a source generator to reduce the set of these repetitive tasks to zero.
 
+What if I have both of the following possibilities?
+
+* Generate a wrapper class like above sample for `Math` class in background.
+
+```cs
+// Internal usage
+
+[MockableStatic]
+public class Math
+{
+    public static int Add(int a, int b) { return a + b; }
+    public static int Sub(int a, int b) { return a - b; }
+}
+```
+
+* Generate a wrapper class for `Dapper.SqlMapper` that exists in `Dapper` assembly in background.
+
+```cs
+// External usage
+
+[MockableStatic(typeof(Dapper.SqlMapper))]
+public class StudentRepositoryTest
+{
+    // ...
+}
+```
+
+If you think it's a good idea, stay tuned.
+
+## How to write a source generator?
 
 ## How to debug it?
 
