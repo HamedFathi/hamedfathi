@@ -31,11 +31,11 @@ A Source Generator is a .NET Standard 2.0 assembly that is loaded by the compile
 ## What are its prerequisites?
 
 * C# 9+
-* Microsoft Visual Studio 16.8+ or JetBrains Rider 2020.3.0+
+* Microsoft Visual Studio 16.8.0+ or JetBrains Rider 2020.3.0+
 
 ## What are its limitations?
 
-Source Generators **do not allow** you to rewrite user source code.
+Source Generators **do not allow** you to **rewrite** user source code. You can only augment a compilation by **adding** C# source files to it.
 
 ## What is the scenario?
 
