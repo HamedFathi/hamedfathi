@@ -521,6 +521,54 @@ As I explained before, We need an attribute (`MockableStaticAttribute`) to annot
 
 ![](/images/the-dotnet-world-csharp-source-generator/solution4.png)
 
+Let's go to the `Execute` method, Add below code to it
+
+```cs
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Text;
+using System.Text;
+
+public void Execute(GeneratorExecutionContext context)
+{
+    context.AddSource(nameof(Constants.MockableStaticAttribute), SourceText.From(Constants.MockableStaticAttribute, Encoding.UTF8));
+
+    if (!(context.SyntaxReceiver is SyntaxReceiver receiver))
+        return;
+
+    CSharpParseOptions options = (context.Compilation as CSharpCompilation).SyntaxTrees[0].Options as CSharpParseOptions;
+    Compilation compilation = context.Compilation.AddSyntaxTrees(CSharpSyntaxTree.ParseText(SourceText.From(Constants.MockableStaticAttribute, Encoding.UTF8), options));
+    INamedTypeSymbol attributeSymbol = compilation.GetTypeByMetadataName($"System.{nameof(Constants.MockableStaticAttribute)}");
+}
+```
+
+First we added our `MockableStaticAttribute` text source to the project.
+
+Next I checked if there is no `SyntaxReceiver` just return without any generated code.
+
+The most important part is finding our `MockableStaticAttribute` text source from syntax tree.
+
+
+
+
+```bash
+<ItemGroup>
+  <ProjectReference Include="..\MockableStaticGenerator\MockableStaticGenerator.csproj" 
+                    OutputItemType="Analyzer"
+                    ReferenceOutputAssembly="false"/>
+</ItemGroup>
+```  
+
+
+## Visual Studio does not detect my source generators, What should I do?
+
+Unfortunately, the current version of Visual Studio (16.8.2) has a lot of problems when you are using code generators, but you can try the following steps.
+
+0. Make sure you follow the steps above correctly.
+1. Use `dotnet clean`, Maybe you need to delete all `bin` and `obj` folders.
+2. After that, use `dotnet build` to make sure your source code has no error and the problem is caused by Visual Studio.
+3. Reset your Visual Studio.
+
 ## How to debug it?
 
 To start debug you can add `System.Diagnostics.Debugger.Launch();` as following:
@@ -534,6 +582,13 @@ public void Initialize(GeneratorInitializationContext context)
 ```
 
 Run the debugger and you will see it stops at `System.Diagnostics.Debugger.Launch()` line.
+
+![](/images/the-dotnet-world-csharp-source-generator/debugger1.png)
+
+![](/images/the-dotnet-world-csharp-source-generator/debugger2.png)
+
+![](/images/the-dotnet-world-csharp-source-generator/debugger3.png)
+
 
 ## How to work with files?
 
