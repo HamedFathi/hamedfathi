@@ -165,7 +165,7 @@ public class StudentRepository : IStudentRepository
 }
 ```
 
-## How is it implemented?
+## How does a source generator help us solve this problem?
 
 
 
