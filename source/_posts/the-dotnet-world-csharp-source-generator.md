@@ -25,7 +25,7 @@ When combined, these two things are what make Source Generators so useful. You c
 
 Source generators run as a phase of compilation visualized below:
 
-![](/images/the-dotnet-world-csharp9-source-generator/sg.png)
+![](/images/the-dotnet-world-csharp-source-generator/sg.png)
 
 A Source Generator is a .NET Standard 2.0 assembly that is loaded by the compiler along with any analyzers. It is usable in environments where .NET Standard components can be loaded and run.
 
@@ -78,7 +78,7 @@ Make `MockableStaticGenerator` solution with these projects:
 | DapperSample            | class library      | netstandard2.0 |
 | DapperSampleTest        | xUnit test project | net5.0         |
 
-![](/images/the-dotnet-world-csharp9-source-generator/solution.png)
+![](/images/the-dotnet-world-csharp-source-generator/solution.png)
 
 **MockableStaticGenerator**
 
@@ -195,12 +195,13 @@ namespace DapperSampleTest
             var mockConn = new Mock<IDbConnection>();
             var sut = new StudentRepository(mockConn.Object);
             var stu = sut.GetStudents();
+            Assert.NotNull(stu);
         }
     }
 }
 ```
 
-![](/images/the-dotnet-world-csharp9-source-generator/solution2.png)
+![](/images/the-dotnet-world-csharp-source-generator/solution2.png)
 
 **How is the test run and what happens next?**
 
@@ -314,7 +315,7 @@ namespace DapperSampleTest
 
 Run the test, you will see the green result!
 
-![](/images/the-dotnet-world-csharp9-source-generator/solution3.png)
+![](/images/the-dotnet-world-csharp-source-generator/solution3.png)
 
 **What is the new problem?**
 
@@ -480,11 +481,45 @@ As you can see, You should implement `ISourceGenerator` and add `[Generator]` at
 
 There are two methods:
 
-| Name       | Description        |
-|------------|--------------------|
-| Initialize |                    |
-| Execute    |                    |
+**Initialize(GeneratorInitializationContext context)**
 
+
+`context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());`
+
+**Execute(GeneratorExecutionContext context)**
+
+
+For next step, add `Constants` class as following to your project.
+
+```cs
+namespace MockableStaticGenerator
+{
+    internal class Constants
+    {
+        internal const string MockableStaticAttribute = @"
+        namespace System
+        {
+            [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+            public sealed class MockableStaticAttribute : Attribute
+            {
+                public MockableStaticAttribute()
+                {
+                }
+                public MockableStaticAttribute(Type type)
+                {
+                }
+            }
+        }";
+    }
+}
+```
+
+As I explained before, We need an attribute (`MockableStaticAttribute`) to annotate our classes. So, we will use above source code text in our source generator.  
+
+* [MockableStatic] useful for internal usage and current class.
+* [MockableStatic(typeof(Dapper.SqlMapper))] useful for external usage and make a wrapper for an external type.
+
+![](/images/the-dotnet-world-csharp-source-generator/solution4.png)
 
 ## How to debug it?
 
