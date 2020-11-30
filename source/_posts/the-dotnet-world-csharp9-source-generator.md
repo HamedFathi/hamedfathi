@@ -41,7 +41,9 @@ Source Generators **do not allow** you to **rewrite** user source code. You can 
 
 The need to mock static methods in order to add a unit test is a very common problem. It’s often the case that these static methods are in third-party libraries. There are many utility libraries that are completely made up of static methods. While this makes them very easy to use, it makes them really difficult to test.
 
-So, The way to mock a static method is by creating **a class that wraps the call**, **extracting an interface**, and **passing in the interface**. Then from your unit tests you can create a mock of the interface and pass it in.
+The way to mock a static method is by creating **a class that wraps the call**, **extracting an interface**, and **passing in the interface**. Then from your unit tests you can create a mock of the interface and pass it in.
+
+In the following, we describe this method.
 
 **What is Dapper?**
 
@@ -136,7 +138,6 @@ using System.Collections.Generic;
 public interface IStudentRepository
 {
     IEnumerable<Student> GetStudents();
-    void SaveStudent(Student student);
 }
 
 // StudentRepository.cs
@@ -157,13 +158,167 @@ public class StudentRepository : IStudentRepository
     {
         return _dbConnection.Query<Student>("SELECT * FROM STUDENT");
     }
+}
+```
 
-    public void SaveStudent(Student student)
+**DapperSampleTest**
+
+Install below package 
+
+```bash
+Install-Package Moq -Version 4.15.2
+dotnet add package Moq --version 4.15.2
+<PackageReference Include="Moq" Version="4.15.2" />
+```
+
+Then, add `DapperSample` project reference to this.
+
+Now, we are able to test our repository.
+
+```cs
+// StudentRepositoryTest.cs
+
+using DapperSample;
+using Moq;
+using System.Data;
+using Xunit;
+
+namespace DapperSampleTest
+{
+    public class StudentRepositoryTest
     {
-        _dbConnection.Query("SELECT * FROM STUDENT");
+        [Fact]
+        public void STUDENT_REPOSITORY_TEST()
+        {
+            var mockConn = new Mock<IDbConnection>();
+            var sut = new StudentRepository(mockConn.Object);
+            var stu = sut.GetStudents();
+        }
     }
 }
 ```
+
+![](/images/the-dotnet-world-csharp9-source-generator/solution2.png)
+
+**How is the test run and what happens next?**
+
+Run the test then you will get a error like below
+
+```bash
+ DapperSampleTest.StudentRepositoryTest.STUDENT_REPOSITORY_TEST
+   Source: StudentRepositoryTest.cs line 11
+   Duration: 92 ms
+
+  Message: 
+    System.NullReferenceException : Object reference not set to an instance of an object.
+  Stack Trace: 
+    CommandDefinition.SetupCommand(IDbConnection cnn, Action`2 paramReader) line 113
+    SqlMapper.QueryImpl[T](IDbConnection cnn, CommandDefinition command, Type effectiveType)+MoveNext() line 1080
+    List`1.ctor(IEnumerable`1 collection)
+    Enumerable.ToList[TSource](IEnumerable`1 source)
+    SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType) line 725
+    StudentRepository.GetStudents() line 18
+    StudentRepositoryTest.STUDENT_REPOSITORY_TEST() line 15
+```
+
+You may have guessed why. Because  mock object of `IDbConnection` has no `Query` method in his interface. This is the problem.
+
+**How to fix it?**
+
+Do this step-by-step changes just like above instruction and add them to `DapperSample` project.
+
+1. Extracting an interface.
+
+```cs
+// IDapperSqlMapper.cs
+using System.Collections.Generic;
+using System.Data;
+
+public interface IDapperSqlMapper
+{
+    IEnumerable<T> Query<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null);
+}
+```
+
+The `Query` is the same as what `Dapper` has.
+
+2. A class that wraps the (static) call.
+
+```cs
+// DapperSqlMapper.cs
+using Dapper;
+using System.Collections.Generic;
+using System.Data;
+
+public class DapperSqlMapper : IDapperSqlMapper
+{
+    public IEnumerable<T> Query<T>(IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null)
+    {
+        // Dapper 'Query' method is here.
+        return cnn.Query<T>(sql, param, transaction, buffered, commandTimeout, commandType);
+    }
+}
+```
+
+3. Change your `StudentRepository` class.
+
+```cs
+// StudentRepository.cs
+using System.Collections.Generic;
+using System.Data;
+
+public class StudentRepository : IStudentRepository
+{
+    private readonly IDbConnection _dbConnection;
+    private readonly IDapperSqlMapper _dapperSqlMapper;
+
+    public StudentRepository(IDbConnection dbConnection, IDapperSqlMapper dapperSqlMapper)
+    {
+        _dbConnection = dbConnection;
+        _dapperSqlMapper = dapperSqlMapper;
+    }
+
+    public IEnumerable<Student> GetStudents()
+    {
+        return _dapperSqlMapper.Query<Student>(_dbConnection, "SELECT * FROM STUDENT");
+    }
+}
+```
+
+Now change your test in `DapperSampleTest` project as following.
+
+```cs
+using DapperSample;
+using Moq;
+using System.Data;
+using Xunit;
+
+namespace DapperSampleTest
+{
+    public class StudentRepositoryTest
+    {
+        [Fact]
+        public void STUDENT_REPOSITORY_TEST()
+        {
+            var mockConn = new Mock<IDbConnection>();
+            var mockDapper = new Mock<IDapperSqlMapper>();
+            var sut = new StudentRepository(mockConn.Object, mockDapper.Object);
+            var stu = sut.GetStudents();
+            Assert.NotNull(stu);
+        }
+    }
+}
+```
+
+Run the test, you will see the green result!
+
+![](/images/the-dotnet-world-csharp9-source-generator/solution3.png)
+
+**What is the new problem?**
+
+Everything is good but **very tough repetitive** work especially when you are using libraries like `Dapper` with a lot of extension (static) methods to use.
+
+What if this repetitive method was already prepared for all methods?
 
 ## How does a source generator help us solve this problem?
 
