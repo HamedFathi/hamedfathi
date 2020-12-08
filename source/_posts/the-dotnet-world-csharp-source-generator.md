@@ -662,7 +662,20 @@ internal static bool IsStatic(this MethodDeclarationSyntax methodDeclarationSynt
 
 (15) Simple class name.
 
-(16) Class name with namespace.
+(16) The Class name with namespace. To find the namespace we need a recursive extension method as following.
+
+```cs
+// SourceGeneratorExtensions.cs
+internal static string GetNamespace(this SyntaxNode syntaxNode)
+{
+    return syntaxNode.Parent switch
+    {
+        NamespaceDeclarationSyntax namespaceDeclarationSyntax => namespaceDeclarationSyntax.Name.ToString(),
+        null => string.Empty,
+        _ => GetNamespace(syntaxNode.Parent)
+    };
+}
+```
 
 (17) If it has inherited from a class or implemented interfaces, its information is available here.
 
@@ -687,7 +700,7 @@ internal static string GetTypeParameters(this ClassDeclarationSyntax classDeclar
 
 Now we can check it there.
 
-(21) If your class in generic, Has it any constraint clauses? With the following extension method we can find out.
+(21) If your class is generic, Has it any constraint clauses? With the following extension method we can find out.
 
 ```cs
 // SourceGeneratorExtensions.cs
@@ -730,7 +743,7 @@ The information it returns includes:
 
 (27) Just previous step we check the same condition for adding to our class string builder.
 
-(28) The method need `return` keyword or it returns nothing (void).
+(28) The method needs `return` keyword or it returns nothing (void).
 To find out we need another extension method.
 
 ```cs
@@ -826,7 +839,7 @@ else
     // 36
     var visitor = new MethodSymbolVisitor(ctor.ToDisplayString());
     visitor.Visit(assemblySymbol);
-    // ?
+    // 62
     sbInterface.AppendLine(_interfaces.Aggregate((a, b) => a + Environment.NewLine + b) + Environment.NewLine + "\t}");
     sbClass.AppendLine(_classes.Aggregate((a, b) => a + Environment.NewLine + b) + Environment.NewLine + "\t}");
 }
@@ -877,46 +890,65 @@ public class MethodSymbolVisitor : SymbolVisitor
     // 41
     public override void VisitMethod(IMethodSymbol symbol)
     {
+        // 42
         var cls = symbol.ReceiverType;
         var isClass = symbol.ReceiverType.TypeKind == TypeKind.Class;
         var isPublic = string.Equals(symbol.ReceiverType.DeclaredAccessibility.ToString().ToLowerInvariant(), "public", StringComparison.InvariantCultureIgnoreCase);
+        
+        // 43
         if (isClass && isPublic && symbol.IsStatic && symbol.MethodKind == MethodKind.Ordinary)
         {
+            // 44
             var className = cls.Name;
             var classNameWithNs = cls.ToDisplayString();
+            // 45
             if (classNameWithNs != _typeName) return;
-
+            // 46
             var wrapperClassName = !className.Contains('<') ? className + "Wrapper" : className.Replace("<", "Wrapper<");
+            // 47
             var classTypeParameters = ((INamedTypeSymbol)cls).GetTypeParameters();
+            // 48
             var wrapperInterfaceName = $"I{wrapperClassName}{classTypeParameters}";
+            // 49
             var constraintClauses = ((INamedTypeSymbol)cls).GetConstraintClauses();
+            // 50
             var baseList = ((INamedTypeSymbol)cls).GetBaseList(wrapperInterfaceName);
+            // 51
             var returnKeyword = symbol.ReturnsVoid ? "" : "return ";
+            // 52
             var methodSignature = symbol.GetSignatureText();
+            // 53
             var callableMethodSignature = symbol.GetCallableSignatureText();
+            // 54
             var obsoleteAttribute = symbol.GetAttributes().FirstOrDefault(x => x.ToString().StartsWith("System.ObsoleteAttribute("))?.ToString();
 
+            // 55
             var interfaceSource = $"\tpublic partial interface I{wrapperClassName}{classTypeParameters} {constraintClauses} {{";
             var classSource = $"\tpublic partial class {wrapperClassName}{classTypeParameters} {baseList} {constraintClauses} {{";
 
-
+            // 56
             if (!_interfaces.Contains(interfaceSource))
                 _interfaces.Add(interfaceSource);
 
+            // 57
             if (!_classes.Contains(classSource))
                 _classes.Add(classSource);
 
+            // 58
             if (!_interfaces.Contains(methodSignature))
             {
                 _interfaces.Add($"\t\t{methodSignature};");
             }
 
+            // 59
             if (!_classes.Contains(methodSignature))
             {
+                // 60
                 if (!string.IsNullOrEmpty(obsoleteAttribute))
                 {
                     _classes.Add($"\t\t[{obsoleteAttribute}]");
                 }
+                // 61
                 _classes.Add($"\t\tpublic {methodSignature} {{");
                 _classes.Add($"\t\t\t{returnKeyword}{classNameWithNs}.{callableMethodSignature};");
                 _classes.Add("\t\t}");
@@ -926,7 +958,262 @@ public class MethodSymbolVisitor : SymbolVisitor
 }
 ```
 
+(37) We need some lists to add our generated source codes.
 
+(38) Our nested `MethodSymbolVisitor` inherits from `SymbolVisitor`.
+
+(39) We should first visit `Namespace` and accepts its members to get to the details we want.
+
+(40) We need to go one step deeper to get to the methods so visit named types and its members.
+
+(41) Now it is the time to get any information we need from methods.
+
+(42) We need to check `ReceiverType`. It should be a `public class`.
+
+(43) If the `ReceiverType` is a `public class` and also the method symbol is an ordinary static method we should continue our journy.
+
+(44) We are able to get class name and its namespace.
+
+(45) If the current class is not same as what we are expecting so we need to skip the whole process.
+
+(46) Just like part one we add `Wrapper` at the end of our interface and class name.
+
+(47) (20) Your class may have type parameters (generic).
+
+Add below method to `SourceGeneratorExtensions` class.
+
+```cs
+internal static string GetTypeParameters(this INamedTypeSymbol namedTypeSymbol)
+{
+    return namedTypeSymbol.TypeParameters.Length == 0 ? ""
+        : $"<{namedTypeSymbol.TypeParameters.Select(x => x.Name).Aggregate((a, b) => $"{a}, {b}")}>";
+}
+```
+
+(48) We create the name and structure of the interface.
+
+(49) If your class is generic, Has it any constraint clauses? With the following extension method we can find out.
+
+```cs
+// SourceGeneratorExtensions.cs
+internal static string GetConstraintClauses(this INamedTypeSymbol namedTypeSymbol)
+{
+    if (namedTypeSymbol.TypeParameters.Length == 0) return "";
+    var result = new List<string>();
+    foreach (var item in namedTypeSymbol.TypeParameters)
+    {
+        var constraintType = item.ToDisplayString();
+        var constraintItems = item.ConstraintTypes.Select(x => x.ToDisplayString()).Aggregate((a, b) => $"{a}, {b}").Trim();
+        result.Add($"where {constraintType} : {constraintItems}".Trim());
+    }
+
+    return result.Aggregate((a, b) => $"{a} {b}").Trim();
+}
+```
+
+(50) If it has inherited from a class or implemented interfaces, information can be accessed through the following extension method.
+
+```cs
+// SourceGeneratorExtensions.cs
+
+internal static string GetBaseList(this INamedTypeSymbol namedTypeSymbol, params string[] others)
+{
+    var result = new List<string>();
+    if (namedTypeSymbol.BaseType != null && !string.Equals(namedTypeSymbol.BaseType.Name, "object", StringComparison.InvariantCultureIgnoreCase))
+        result.Add(namedTypeSymbol.BaseType.Name);
+    if (namedTypeSymbol.AllInterfaces.Length != 0)
+    {
+        foreach (var item in namedTypeSymbol.AllInterfaces)
+        {
+            result.Add(item.Name);
+        }
+    }
+    if (others != null && others.Length != 0)
+    {
+        foreach (var item in others)
+        {
+            if (!string.IsNullOrEmpty(item))
+                result.Add(item);
+        }
+    }
+    return result.Count == 0 ? "" : $": {result.Aggregate((a, b) => $"{a}, {b}")}".Trim();
+}
+```
+
+(51) The method needs `return` keyword or it returns nothing (void).
+
+(52) We should add our methods to interface so we need to know about its signature.
+
+So add the following extension method to your `SourceGeneratorExtensions` class.
+
+```cs
+internal static string GetSignatureText(this IMethodSymbol methodSymbol)
+{
+    var name = methodSymbol.Name;
+
+    var parametersText = methodSymbol.Parameters.Length == 0 ? "()"
+        : "(" + methodSymbol.Parameters.Select(x => getKind(x) + $" {x.Type} " + x.Name + getDefaultValue(x))
+                          .Aggregate((a, b) => a + ", " + b).Trim() + ")";
+
+    var returnType = methodSymbol.ReturnsVoid ? "void" : methodSymbol.ReturnType.ToDisplayString();
+    var typeParameters = methodSymbol.TypeParameters.Length == 0
+        ? ""
+        : "<" + methodSymbol.TypeParameters.Select(x => x.Name).Aggregate((a, b) => $"{a}, {b}").Trim() + ">";
+    var constraintClauses = methodSymbol.TypeParameters.Length == 0
+        ? ""
+        : methodSymbol.TypeParameters.Select(x => getConstraintClauses(x)).Aggregate((a, b) => $"{a} {b}")
+    ;
+
+    return $"{returnType} {name}{typeParameters}{parametersText} {constraintClauses}".Trim();
+}
+
+internal static string ToStringValue(this RefKind refKind)
+{
+    if (refKind == RefKind.RefReadOnly) return "ref readonly";
+    switch (refKind)
+    {
+        case RefKind.Ref:
+            return "ref";
+        case RefKind.Out:
+            return "out";
+        case RefKind.In:
+            return "in";
+        default:
+            return "";
+    }
+}
+        
+private static string getKind(IParameterSymbol parameterSymbol)
+{
+    return parameterSymbol.IsParams ? "params" : parameterSymbol.RefKind.ToStringValue();
+}
+
+private static string getDefaultValue(IParameterSymbol parameterSymbol)
+{
+    if (parameterSymbol.HasExplicitDefaultValue)
+    {
+        if (parameterSymbol.ExplicitDefaultValue == null)
+            return $" = null";
+        if (parameterSymbol.ExplicitDefaultValue is bool)
+            return $" = {parameterSymbol.ExplicitDefaultValue.ToString().ToLowerInvariant()}";
+        if (parameterSymbol.ExplicitDefaultValue is string)
+            return $" = \"{parameterSymbol.ExplicitDefaultValue}\"";
+        else
+            return $" = {parameterSymbol.ExplicitDefaultValue}";
+    }
+    return "";
+}
+
+private static string getConstraintClauses(ITypeParameterSymbol typeParameterSymbol)
+{
+    if (typeParameterSymbol.ConstraintTypes.Length > 0)
+    {
+        var constraintType = typeParameterSymbol.ToDisplayString();
+        var constraintItems = typeParameterSymbol.ConstraintTypes.Select(x => x.ToDisplayString()).Aggregate((a, b) => $"{a}, {b}").Trim();
+        return $"where {constraintType} : {constraintItems}".Trim();
+    }
+    return "";
+}
+```
+
+The information it returns includes: 
+* Return type.
+* Method name.
+* Type parameter(s), if it is generic.
+* Method parameter(s) (with type and name).
+* Constraint Clauses, if it is generic.
+
+(53) We need to know how call the main static method inside of a wrapper method so we should add another extension method.
+
+```cs
+// SourceGeneratorExtensions.cs
+internal static string GetCallableSignatureText(this IMethodSymbol methodSymbol)
+{
+    var name = methodSymbol.Name;
+
+    var parametersText = methodSymbol.Parameters.Length == 0 ? "()"
+        : "(" + methodSymbol.Parameters.Select(x => $"{getKind(x)} {x.Name}")
+                          .Aggregate((a, b) => $"{a}, {b}").Trim() + ")";
+    var typeParameters = methodSymbol.TypeParameters.Length == 0
+        ? ""
+        : "<" + methodSymbol.TypeParameters.Select(x => x.Name).Aggregate((a, b) => $"{a}, {b}").Trim() + ">";
+
+    return $"{name}{typeParameters}{parametersText}".Trim();
+}
+```
+
+The information it returns includes: 
+* Method name.
+* Type parameter(s), if it is generic.
+* Method parameter(s) (with name and without type).
+
+(54) Just like the part one, We should check the method has `ObsoleteAttribute` or not.
+
+(55) It's time to build the interface and the class.
+
+(56) If the generated source code does not include it, add the interface source.
+
+(57) If the generated source code does not include it, add the class source.
+
+(58) Add the method signature to the interface if does not exist.
+
+(59) Add the method signature to the class if does not exist.
+
+(60) If the method have an `ObsoleteAttribute` Add it on top of the generated wrapper method too.
+
+(61) With the whole information we have, we are able to complete the wrapper method.
+
+(62) Finally, we should complete our interface and class with final `}`.
+
+At the end of the `foreach` we have
+
+```cs
+foreach (var cls in receiver.Classes)
+{
+    // ...
+    // 63
+    var interfaceWrapper = sbInterface.ToString();
+    var classWrapper = sbClass.ToString();
+    // 64
+    sources.AppendLine(interfaceWrapper);
+    sources.AppendLine(classWrapper);
+}
+```
+
+(63) Convert our interface and class string builder to string.
+
+(64) And append them to `sources` variable which we created at the beginning of the source code.
+
+Finally, Our `Execute` method ends with
+
+```cs
+// 65
+var defaultUsings = new StringBuilder();
+defaultUsings.AppendLine("using System;");
+defaultUsings.AppendLine("using System.Collections.Generic;");
+defaultUsings.AppendLine("using System.Linq;");
+defaultUsings.AppendLine("using System.Text;");
+defaultUsings.AppendLine("using System.Threading.Tasks;");
+var usings = defaultUsings.ToString();
+// 66
+var src = sources.ToString();
+var @namespace = new StringBuilder();
+@namespace.AppendLine(usings);
+@namespace.AppendLine($"namespace {assemblyName}.MockableGenerated {{");
+@namespace.AppendLine(src);
+@namespace.Append("}");
+var result = @namespace.ToString();
+// 67
+context.AddSource($"{assemblyName}MockableGenerated", SourceText.From(result,Encoding.UTF8));
+```
+
+(65) We are able to add some default using statements.
+
+(66) To use the end result, we need a specific namespace to aggregate all the generated code. As you can see, the final code is accessible through the following namespace.
+
+`Assembly name` + `.MockableGenerated` => **Dapper.MockableGenerated**
+
+(67) Finally, we add all the generated source code to the current source so that the compiler knows about it.
 
 Now, It's time to add `MockableStaticGenerator` project to `DapperSample` as a reference project but you should update `DapperSample.csproj` file as following. 
 
