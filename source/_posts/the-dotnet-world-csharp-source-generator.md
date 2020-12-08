@@ -541,25 +541,306 @@ foreach (var cls in receiver.Classes)
     var sbInterface = new StringBuilder();
     // 12
     var sbClass = new StringBuilder();
-                
 ```
 
 (4) We need aggregate our sources.
+
 (5) We store assembly name.
+
 (6) Our `SyntaxReceiver` classes were stored in `receiver` variable now we need to use them one-by-one.
+
 (7) Access to current class symbol.
+
 (8) Check it has the same attribute as we want or not.
+
 (9) If not, so go to next item.
-(10) As I talked before we have two kind of generating code 
 
+(10) As I talked before, We are faced with two source generating models.
 
+I- Parameterless: It generates a wrapper for the annotated class.
 
+```cs
+[MockableStatic]
+public class Math { }
+```
 
+The source generator generates a wrapper for statics methods of `Math` class.
 
+II- With parameter: It gets `typeof` as a parameter.
 
+```cs
+[MockableStatic(typeof(Dapper.SqlMapper))]
+public class StudentRepository { }
+```
 
+The source generator generates a wrapper for statics methods of `SqlMapper` class inside `Dapper` assembly.
 
+(11) (12) The generated class and interface are stored in these variables.
 
+So we continue to work in two parts.
+
+```cs
+// 12
+// ...
+// 13
+if (isParameterlessCtor)
+{
+    // 14
+    var methods = cls.DescendantNodes().OfType<MethodDeclarationSyntax>().Where(x => x.IsPublic() && x.IsStatic()).ToList();
+    if (methods.Count == 0) continue;
+
+    // 15
+    var className = clsSymbol.Name;
+    // 16
+    var ns = string.IsNullOrEmpty(cls.GetNamespace()) ? "" : cls.GetNamespace() + ".";
+    // 17
+    var baseList = string.IsNullOrEmpty(cls.BaseList?.ToFullString()) ? ":" : cls.BaseList?.ToFullString().Trim() + ",";
+    // 18
+    assemblyName = clsSymbol.ContainingAssembly.Identity.Name;
+    // 19
+    var wrapperClassName = !className.Contains('<') ? className + "Wrapper" : className.Replace("<", "Wrapper<");
+    // 20
+    var classTypeParameters = cls.GetTypeParameters() ?? "";
+    // 21
+    var constraintClauses = cls.GetConstraintClauses() ?? "";
+    // 22
+    sbInterface.AppendLine($"\tpublic partial interface I{wrapperClassName}{classTypeParameters} {constraintClauses} {{");
+    // 23
+    sbClass.AppendLine($"\tpublic partial class {wrapperClassName}{classTypeParameters} {baseList} I{wrapperClassName}{classTypeParameters} {constraintClauses} {{");
+    // 24
+    foreach (MethodDeclarationSyntax method in methods)
+    {
+        // 25
+        var text = method.GetSignatureText();
+
+        // 26
+        if (!sbInterface.ToString().Contains(text))
+            sbInterface.AppendLine($"\t\t{text};");
+
+        // 27
+        if (!sbClass.ToString().Contains(text))
+        {
+            // 28
+            var returnKeyword = method.ReturnsVoid() ? "" : "return ";
+            
+            // 29
+            var obsoleteAttrText = "";
+            var isObsolete = method.TryGetObsoleteAttribute(out obsoleteAttrText);
+            if (isObsolete)
+                sbClass.AppendLine($"\t\t{obsoleteAttrText}");
+
+            // 30
+            sbClass.AppendLine($"\t\tpublic {method.GetSignatureText()} {{");
+            sbClass.AppendLine($"\t\t\t{returnKeyword}{ns}{className}{classTypeParameters}.{method.GetCallableSignatureText()};");
+            sbClass.AppendLine($"\t\t}}");
+        }
+    }
+
+    // 31
+    sbInterface.AppendLine($"\t}}");
+    sbClass.AppendLine($"\t}}");
+}
+```
+
+(13) Our class annotated with parameterless attribute.
+
+(14) Find all `public static` methods of the class. If there no one skip the process.
+
+To do this, Add two below extension methods to `SourceGeneratorExtensions` class.
+
+```cs
+// SourceGeneratorExtensions.cs
+internal static bool IsPublic(this MethodDeclarationSyntax methodDeclarationSyntax)
+{
+    return methodDeclarationSyntax.Modifiers.Select(x => x.ValueText).Contains("public");
+}
+internal static bool IsStatic(this MethodDeclarationSyntax methodDeclarationSyntax)
+{
+    return methodDeclarationSyntax.Modifiers.Select(x => x.ValueText).Contains("static");
+}
+```
+
+(15) Simple class name.
+
+(16) Class name with namespace.
+
+(17) If it has inherited from a class or implemented interfaces, its information is available here.
+
+(18) Assembly name.
+
+(19) We append `Wrapper` to end of the class name. so We will have something like these samples:
+
+`SqlMapper` => ISqlMapper**Wrapper** and SqlMapper**Wrapper**
+`SqlMapper<T>` => ISqlMapper**Wrapper**<T> and SqlMapper**Wrapper**<T>
+
+(20) Your class may have type parameters (generic).
+
+Add below method to `SourceGeneratorExtensions` class.
+
+```cs
+internal static string GetTypeParameters(this ClassDeclarationSyntax classDeclarationSyntax)
+{
+    var result = classDeclarationSyntax.TypeParameterList?.ToFullString().Trim();
+    return string.IsNullOrEmpty(result) ? null : result;
+}
+```
+
+Now we can check it there.
+
+(21) If your class in generic, Has it any constraint clauses? With the following extension method we can find out.
+
+```cs
+// SourceGeneratorExtensions.cs
+internal static string GetConstraintClauses(this ClassDeclarationSyntax classDeclarationSyntax)
+{
+    var result = classDeclarationSyntax.ConstraintClauses.ToFullString().Trim();
+    return string.IsNullOrEmpty(result) ? null : result;
+}
+```
+
+(22) (23) With current information we are able to create our interface and class for wrapping the main class static methods.
+
+(24) Let's start examining the methods.
+
+(25) We should add our methods to interface so we need to know about its signature.
+
+So add the following extension method to your `SourceGeneratorExtensions` class.
+
+```cs
+internal static string GetSignatureText(this MethodDeclarationSyntax methodDeclarationSyntax)
+{
+    var name = methodDeclarationSyntax.Identifier.ValueText;
+    var parameters = methodDeclarationSyntax.ParameterList?.ToFullString().Trim();
+    var typeParameters = methodDeclarationSyntax.TypeParameterList?.ToFullString().Trim();
+    var constraintClauses = methodDeclarationSyntax.ConstraintClauses.ToFullString().Replace(System.Environment.NewLine, "").Trim();
+    var returnType = methodDeclarationSyntax.ReturnType.ToFullString().Trim();
+
+    return $"{returnType} {name}{typeParameters}{parameters} {constraintClauses}".Trim();
+}
+```
+
+The information it returns includes: 
+* Return type.
+* Method name.
+* Type parameter(s), if it is generic.
+* Method parameter(s) (with type and name).
+* Constraint Clauses, if it is generic.
+
+(26) We check if there is no same method then we add it to our string builder.
+
+(27) Just previous step we check the same condition for adding to our class string builder.
+
+(28) The method need `return` keyword or it returns nothing (void).
+To find out we need another extension method.
+
+```cs
+// SourceGeneratorExtensions.cs
+
+internal static bool ReturnsVoid(this MethodDeclarationSyntax methodDeclarationSyntax)
+{
+    return methodDeclarationSyntax.ReturnType.ToFullString().Trim() == "void";
+}
+```
+
+(29) One of the most important things to consider is whether the method is marked with `Obsolete Attribute` or not.
+
+```cs
+// SourceGeneratorExtensions.cs
+
+internal static bool TryGetObsoleteAttribute(this MethodDeclarationSyntax methodDeclarationSyntax, out string text)
+{
+    var attr = methodDeclarationSyntax.AttributeLists.Where(x => x is not null && IsObsolete(x.GetText().ToString())).Select(x => x.GetText().ToString()).ToList();
+
+    text = attr.Count != 0 ? ReplaceFirst(attr[0].Trim(), "Obsolete", "System.Obsolete") : "";
+    return attr.Count != 0;
+
+    bool IsObsolete(string text)
+    {
+        Match match = Regex.Match(text, @"\[\s*Obsolete[Attribute]*\s*\(");
+        return match.Success;
+    }
+    string ReplaceFirst(string text, string search, string replace)
+    {
+        int pos = text.IndexOf(search);
+        if (pos < 0)
+        {
+            return text;
+        }
+        return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
+    }
+}
+```
+
+If yes, we need to add the same `ObsoleteAttribute` to top of our new method.
+
+(30) We need to know how call the main static method inside of a wrapper method so we should add another extension method.
+
+```cs
+internal static string GetCallableSignatureText(this MethodDeclarationSyntax methodDeclarationSyntax)
+{
+    var name = methodDeclarationSyntax.Identifier.ValueText;
+    var parameters = methodDeclarationSyntax.ParameterList.GetParametersText();
+    var typeParameters = methodDeclarationSyntax.TypeParameterList?.ToFullString().Trim();
+
+    return $"{name}{typeParameters}{parameters}".Trim();
+}
+
+internal static string GetParametersText(this ParameterListSyntax parameterListSyntax)
+{
+    if (parameterListSyntax == null || parameterListSyntax.Parameters.Count == 0) return "()";
+    var result = new List<string>();
+    foreach (var item in parameterListSyntax.Parameters)
+    {
+        var variableName = item.Identifier;
+        var modifiers = item.Modifiers.Select(x => x.ValueText).ToList();
+        var modifiersText = modifiers.Count == 0 ? "" : modifiers.Aggregate((a, b) => a + " " + b);
+        result.Add($"{modifiersText} {variableName}");
+    }
+    return result.Count == 0 ? "()" : $"({result.Aggregate((a, b) => a + ", " + b).Trim()})";
+}
+```
+
+The information it returns includes: 
+* Method name.
+* Type parameter(s), if it is generic.
+* Method parameter(s) (with name and without type).
+
+Now, We can add the whole wrapper method.
+
+(31) At the end, we should complete our interface and class with final `}`.
+
+Part one finished. What happens if we want to generate a wrapper for a type?
+
+```cs
+// 31
+// ...
+// 32
+else
+{
+    // 33
+    var ctor = ((INamedTypeSymbol)attr?.ConstructorArguments[0].Value);
+    // 34
+    var assemblySymbol = ctor.ContainingAssembly.GlobalNamespace;
+    // 35
+    assemblyName = ctor.ContainingAssembly.Identity.Name;
+    // 36
+    var visitor = new MethodSymbolVisitor(ctor.ToDisplayString());
+    visitor.Visit(assemblySymbol);
+    // ?
+    sbInterface.AppendLine(_interfaces.Aggregate((a, b) => a + Environment.NewLine + b) + Environment.NewLine + "\t}");
+    sbClass.AppendLine(_classes.Aggregate((a, b) => a + Environment.NewLine + b) + Environment.NewLine + "\t}");
+}
+```
+
+(32) This part is for constructor with a parameter.
+
+(33) Getting the value of the constructor argument.
+
+(34) Getting the assembly information of the type introduced.
+
+(35) Assembly name.
+
+(36) We need a visitor class to know about static methods of the type introduced in the external assembly. We sends the type's name to the constructor of our visitor because we want to generate wrapper for that type.
 
 
 
