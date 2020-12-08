@@ -1,6 +1,6 @@
 ---
 title: The .NET World - C# Source Generator
-date: November 29 2020
+date: December 8 2020
 category: dotnet
 tags:
     - dotnet
@@ -358,63 +358,10 @@ If you think it's a good idea, stay tuned.
 
 ## How to write a source generator?
 
-First of all, go to your `MockableStaticGenerator` project. Create a `Extensions` folder.
-Add the following classes:
+First of all, go to your `MockableStaticGenerator` project. Add `SourceGeneratorExtensions.cs` to the project.
 
 ```cs
-// Extensions/StringBuilderExtensions.cs
-namespace System.Text
-{
-    internal static class StringBuilderExtensions
-    {
-        internal static StringBuilder AppendIf(this StringBuilder @this, Func<string, bool> predicate, params string[] values)
-        {
-            foreach (var value in values)
-                if (predicate(value))
-                    @this.Append(value);
-            return @this;
-        }
-        internal static StringBuilder AppendLineIf(this StringBuilder @this, Func<string, bool> predicate, params string[] values)
-        {
-            foreach (var value in values)
-                if (predicate(value))
-                    @this.AppendLine(value);
-            return @this;
-        }
-
-        internal static StringBuilder AppendJoin(this StringBuilder @this, string separator, params string[] values)
-        {
-            @this.Append(string.Join(separator, values));
-            return @this;
-        }
-
-        internal static StringBuilder AppendLineJoin(this StringBuilder @this, string separator, params string[] values)
-        {
-            @this.AppendLine(string.Join(separator, values));
-            return @this;
-        }
-        internal static StringBuilder AppendFormat(this StringBuilder @this, string format, params object[] args)
-        {
-            @this.Append(string.Format(format, args));
-            return @this;
-        }
-        internal static StringBuilder AppendLineFormat(this StringBuilder @this, string format, params object[] args)
-        {
-            @this.AppendLine(string.Format(format, args));
-            return @this;
-        }
-        internal static string Substring(this StringBuilder @this, int startIndex)
-        {
-            return @this.ToString(startIndex, @this.Length - startIndex);
-        }
-        internal static string Substring(this StringBuilder @this, int startIndex, int length)
-        {
-            return @this.ToString(startIndex, length);
-        }
-    }
-}
-
-// Extensions/SourceGeneratorExtensions
+// SourceGeneratorExtensions.cs
 namespace Microsoft.CodeAnalysis
 {
     internal static class SourceGeneratorExtensions
@@ -424,10 +371,9 @@ namespace Microsoft.CodeAnalysis
 }
 ```
 
-We use `StringBuilder` a lot so not bad to have some useful extension methods. 
-For creating our ultimate goal we need some useful extension methods to make source code sp I will add them to `SourceGeneratorExtensions` class.
+For achieving our ultimate goal we need some useful extension methods to make source code so I will add them to `SourceGeneratorExtensions` class.
 
-Now, Create `SyntaxReceiver` class as following
+Now, Create `SyntaxReceiver` class as following:
 
 ```cs
 using Microsoft.CodeAnalysis;
@@ -494,7 +440,7 @@ For next step, add `Constants` class as following to your project.
 ```cs
 namespace MockableStaticGenerator
 {
-    internal class Constants
+    internal static class Constants
     {
         internal const string MockableStaticAttribute = @"
             namespace System
@@ -517,7 +463,7 @@ namespace MockableStaticGenerator
 As I explained before, We need an attribute (`MockableStaticAttribute`) to annotate our classes. So, we will use above source code text in our source generator.  
 
 * `[MockableStatic]` useful for internal usage and current class.
-* `[MockableStatic(typeof(Dapper.SqlMapper))]` useful for external usage and make a wrapper for an external type.
+* `[MockableStatic(typeof(Dapper.SqlMapper))]` useful for external usage and making a wrapper for an external type.
 
 ![](/images/the-dotnet-world-csharp-source-generator/solution4.png)
 
@@ -547,6 +493,8 @@ First we added our `MockableStaticAttribute` text source to the project.
 Next I checked if there is no `SyntaxReceiver` just return without any generated code.
 
 The most important part is finding our `MockableStaticAttribute` text source from syntax tree.
+
+In summary, First you need to add source text as a part of project then get it from compiler as a Symbol type to work with it in strongly typed way.
 
 Now, Add `MockableStaticGenerator` project to `DapperSample` as a reference project but you should update `DapperSample.csproj` file as following. 
 
