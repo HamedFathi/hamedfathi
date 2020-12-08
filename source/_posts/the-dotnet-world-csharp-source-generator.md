@@ -1812,6 +1812,14 @@ To do this you have two important xml blocks in your `csproj` as folowing.
 
 ![](/images/the-dotnet-world-csharp-source-generator/nuget.png)
 
+## Source Code
+
+You can check the source of this project and its nuget package from the following addresses:
+
+[GitHub](https://github.com/HamedFathi/MockableStaticGenerator)
+
+[Nuget](https://www.nuget.org/packages/MockableStaticGenerator)
+
 ## Reference(s)
 
 Some of the information in this article has gathered from various references.
