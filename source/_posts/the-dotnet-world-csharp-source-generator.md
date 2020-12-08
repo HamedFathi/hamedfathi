@@ -1110,6 +1110,7 @@ Run the debugger and you will see it stops at `System.Diagnostics.Debugger.Launc
 
 ![](/images/the-dotnet-world-csharp-source-generator/debugger3.png)
 
+If you have any problem for debugging, make sure [you are running Visual Studio as administrator](https://ppolyzos.com/2017/08/08/always-run-visual-studio-as-administrator/).
 
 ## How to work with files?
 
@@ -1122,9 +1123,19 @@ Run the debugger and you will see it stops at `System.Diagnostics.Debugger.Launc
 
 ## How to publish it through Nuget?
 
+To do this you have two important xml blocks in your `csproj` as folowing.
 
+```xml
+<PropertyGroup>
+  <IncludeBuildOutput>false</IncludeBuildOutput>
+</PropertyGroup>
 
+<ItemGroup>
+  <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+</ItemGroup>
+```
 
+![](/images/the-dotnet-world-csharp-source-generator/nuget.png)
 
 ## Reference(s)
 
