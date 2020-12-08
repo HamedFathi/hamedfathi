@@ -576,7 +576,7 @@ Now, It's time to add `MockableStaticGenerator` project to `DapperSample` as a r
 
 This is not a "normal" `ProjectReference`. It needs the additional 'OutputItemType' and 'ReferenceOutputAssmbly' attributes.
 
-So you should be able to access to generated namespace. Update your `StudentRepository` as following
+So you should be able to access to generated namespace. No need to use `DapperSqlMapper` and `IDapperSqlMapper` any more just update your `StudentRepository` as following
 
 ```cs
 // StudentRepository.cs
@@ -609,7 +609,7 @@ namespace DapperSample
 }
 ```
 
-Then `DapperSampleTest` project and `StudentRepositoryTest.cs` file.
+And also `DapperSampleTest` project and `StudentRepositoryTest.cs` file.
 
 ```cs
 using DapperSample;
@@ -627,7 +627,7 @@ namespace DapperSampleTest
         {            
             var mockConn = new Mock<IDbConnection>();
             var mockDapper = new Mock<ISqlMapperWrapper>(); // HERE
-            var sut = new StudentRepository(mockConn.Object, mockDapper.Object);
+            var sut = new StudentRepository(mockConn.Object, mockDapper.Object /*HERE*/);
             var stu = sut.GetStudents();
             Assert.NotNull(stu);
         }
