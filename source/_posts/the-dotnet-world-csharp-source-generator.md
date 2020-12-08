@@ -102,12 +102,27 @@ Open `MockableStaticGenerator` project and add the following configuration to `c
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.8.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.1">
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 </Project>
+```
+
+Make sure both below packages are installed.
+
+```bash
+Install-Package Microsoft.CodeAnalysis.Analyzers -Version 3.3.2
+dotnet add package Microsoft.CodeAnalysis.Analyzers --version 3.3.2
+<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.2">
+  <PrivateAssets>all</PrivateAssets>
+  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+</PackageReference>
+
+Install-Package Microsoft.CodeAnalysis.CSharp.Workspaces -Version 3.8.0
+dotnet add package Microsoft.CodeAnalysis.CSharp.Workspaces --version 3.8.0
+<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.8.0" />
 ```
 
 **DapperSample**
@@ -429,11 +444,11 @@ There are two methods:
 
 **Initialize(GeneratorInitializationContext context)**
 
-
-`context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());`
+The process of generating code starts with this method, so we get the target classes by registering our `SyntaxReceiver`.
 
 **Execute(GeneratorExecutionContext context)**
 
+You should write how to generate your code in this section and introduce the final output to the compiler.
 
 For next step, add `Constants` class as following to your project.
 
@@ -477,26 +492,79 @@ using System.Text;
 
 public void Execute(GeneratorExecutionContext context)
 {
+    // 1
     context.AddSource(nameof(Constants.MockableStaticAttribute), SourceText.From(Constants.MockableStaticAttribute, Encoding.UTF8));
 
+    // 2
     if (!(context.SyntaxReceiver is SyntaxReceiver receiver))
         return;
 
+    // 3
     CSharpParseOptions options = (context.Compilation as CSharpCompilation).SyntaxTrees[0].Options as CSharpParseOptions;
     Compilation compilation = context.Compilation.AddSyntaxTrees(CSharpSyntaxTree.ParseText(SourceText.From(Constants.MockableStaticAttribute, Encoding.UTF8), options));
     INamedTypeSymbol attributeSymbol = compilation.GetTypeByMetadataName($"System.{nameof(Constants.MockableStaticAttribute)}");
 }
 ```
 
-First we added our `MockableStaticAttribute` text source to the project.
+(1) we added our `MockableStaticAttribute` text source to the project.
 
-Next I checked if there is no `SyntaxReceiver` just return without any generated code.
+(2) I checked if there is no `SyntaxReceiver` just return without any generated code.
 
-The most important part is finding our `MockableStaticAttribute` text source from syntax tree.
+(3) The most important part is finding our `MockableStaticAttribute` text source from syntax tree and use its information.
 
-In summary, First you need to add source text as a part of project then get it from compiler as a Symbol type to work with it in strongly typed way.
+In summary, You need to add source code text as a part of project then get it from compiler as a Symbol type to work with it in strongly typed way.
 
-Now, Add `MockableStaticGenerator` project to `DapperSample` as a reference project but you should update `DapperSample.csproj` file as following. 
+```cs
+// 3
+// ...
+// 4
+var sources = new StringBuilder();
+// 5
+var assemblyName = "";
+// 6
+foreach (var cls in receiver.Classes)
+{
+    // 7
+    SemanticModel model = compilation.GetSemanticModel(cls.SyntaxTree);
+    var clsSymbol = model.GetDeclaredSymbol(cls);
+
+    // 8
+    var attr = clsSymbol.GetAttributes().FirstOrDefault(ad => ad.AttributeClass.Equals(attributeSymbol, SymbolEqualityComparer.Default));
+
+    // 9
+    if (attr == null) continue;
+    
+    // 10
+    var isParameterlessCtor = attr?.ConstructorArguments.Length == 0;
+
+    // 11
+    var sbInterface = new StringBuilder();
+    // 12
+    var sbClass = new StringBuilder();
+                
+```
+
+(4) We need aggregate our sources.
+(5) We store assembly name.
+(6) Our `SyntaxReceiver` classes were stored in `receiver` variable now we need to use them one-by-one.
+(7) Access to current class symbol.
+(8) Check it has the same attribute as we want or not.
+(9) If not, so go to next item.
+(10) As I talked before we have two kind of generating code 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Now, It's time to add `MockableStaticGenerator` project to `DapperSample` as a reference project but you should update `DapperSample.csproj` file as following. 
 
 ```xml
 <ItemGroup>
@@ -507,6 +575,509 @@ Now, Add `MockableStaticGenerator` project to `DapperSample` as a reference proj
 ```
 
 This is not a "normal" `ProjectReference`. It needs the additional 'OutputItemType' and 'ReferenceOutputAssmbly' attributes.
+
+So you should be able to access to generated namespace. Update your `StudentRepository` as following
+
+```cs
+// StudentRepository.cs
+
+using System.Collections.Generic;
+using System.Data;
+using System;
+using Dapper.MockableGenerated; // HERE
+
+namespace DapperSample
+{
+    // HERE
+    [MockableStatic(typeof(Dapper.SqlMapper))]
+    public class StudentRepository : IStudentRepository
+    {
+        private readonly IDbConnection _dbConnection;
+        private readonly ISqlMapperWrapper _dapperSqlMapper;
+
+        public StudentRepository(IDbConnection dbConnection, ISqlMapperWrapper dapperSqlMapper /*HERE*/)
+        {            
+            _dbConnection = dbConnection;
+            _dapperSqlMapper = dapperSqlMapper;
+        }
+
+        public IEnumerable<Student> GetStudents()
+        {
+            return _dapperSqlMapper.Query<Student>(_dbConnection, "SELECT * FROM STUDENT");
+        }
+    }
+}
+```
+
+Then `DapperSampleTest` project and `StudentRepositoryTest.cs` file.
+
+```cs
+using DapperSample;
+using Moq;
+using System.Data;
+using Xunit;
+using Dapper.MockableGenerated; // HERE
+
+namespace DapperSampleTest
+{
+    public class StudentRepositoryTest
+    {
+        [Fact]
+        public void STUDENT_REPOSITORY_TEST()
+        {            
+            var mockConn = new Mock<IDbConnection>();
+            var mockDapper = new Mock<ISqlMapperWrapper>(); // HERE
+            var sut = new StudentRepository(mockConn.Object, mockDapper.Object);
+            var stu = sut.GetStudents();
+            Assert.NotNull(stu);
+        }
+    }
+}
+```
+
+You can find the whole source code here:
+
+```cs
+// SourceGeneratorExtensions.cs
+
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace Microsoft.CodeAnalysis
+{
+    internal static class SourceGeneratorExtensions
+    {
+        internal static string ToStringValue(this RefKind refKind)
+        {
+            if (refKind == RefKind.RefReadOnly) return "ref readonly";
+            switch (refKind)
+            {
+                case RefKind.Ref:
+                    return "ref";
+                case RefKind.Out:
+                    return "out";
+                case RefKind.In:
+                    return "in";
+                default:
+                    return "";
+            }
+        }
+
+        internal static bool IsPublic(this ISymbol symbol)
+        {
+            return string.Equals(symbol.DeclaredAccessibility.ToString(), "public", StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        internal static string GetTypeParameters(this ClassDeclarationSyntax classDeclarationSyntax)
+        {
+            var result = classDeclarationSyntax.TypeParameterList?.ToFullString().Trim();
+            return string.IsNullOrEmpty(result) ? null : result;
+        }
+
+        internal static string GetConstraintClauses(this ClassDeclarationSyntax classDeclarationSyntax)
+        {
+            var result = classDeclarationSyntax.ConstraintClauses.ToFullString().Trim();
+            return string.IsNullOrEmpty(result) ? null : result;
+        }
+
+        internal static bool IsPublic(this MethodDeclarationSyntax methodDeclarationSyntax)
+        {
+            return methodDeclarationSyntax.Modifiers.Select(x => x.ValueText).Contains("public");
+        }
+        internal static bool IsStatic(this MethodDeclarationSyntax methodDeclarationSyntax)
+        {
+            return methodDeclarationSyntax.Modifiers.Select(x => x.ValueText).Contains("static");
+        }
+
+        internal static bool ReturnsVoid(this MethodDeclarationSyntax methodDeclarationSyntax)
+        {
+            return methodDeclarationSyntax.ReturnType.ToFullString().Trim() == "void";
+        }
+
+        internal static string GetSignatureText(this MethodDeclarationSyntax methodDeclarationSyntax)
+        {
+            var name = methodDeclarationSyntax.Identifier.ValueText;
+            var parameters = methodDeclarationSyntax.ParameterList?.ToFullString().Trim();
+            var typeParameters = methodDeclarationSyntax.TypeParameterList?.ToFullString().Trim();
+            var constraintClauses = methodDeclarationSyntax.ConstraintClauses.ToFullString().Replace(System.Environment.NewLine, "").Trim();
+            var returnType = methodDeclarationSyntax.ReturnType.ToFullString().Trim();
+
+            return $"{returnType} {name}{typeParameters}{parameters} {constraintClauses}".Trim();
+        }
+
+
+        internal static string GetParametersText(this ParameterListSyntax parameterListSyntax)
+        {
+            if (parameterListSyntax == null || parameterListSyntax.Parameters.Count == 0) return "()";
+            var result = new List<string>();
+            foreach (var item in parameterListSyntax.Parameters)
+            {
+                var variableName = item.Identifier;
+                var modifiers = item.Modifiers.Select(x => x.ValueText).ToList();
+                var modifiersText = modifiers.Count == 0 ? "" : modifiers.Aggregate((a, b) => a + " " + b);
+                result.Add($"{modifiersText} {variableName}");
+            }
+            return result.Count == 0 ? "()" : $"({result.Aggregate((a, b) => a + ", " + b).Trim()})";
+        }
+
+        internal static string GetCallableSignatureText(this MethodDeclarationSyntax methodDeclarationSyntax)
+        {
+            var name = methodDeclarationSyntax.Identifier.ValueText;
+            var parameters = methodDeclarationSyntax.ParameterList.GetParametersText();
+            var typeParameters = methodDeclarationSyntax.TypeParameterList?.ToFullString().Trim();
+
+            return $"{name}{typeParameters}{parameters}".Trim();
+        }
+
+        internal static bool TryGetObsoleteAttribute(this MethodDeclarationSyntax methodDeclarationSyntax, out string text)
+        {
+            var attr = methodDeclarationSyntax.AttributeLists.Where(x => x is not null && IsObsolete(x.GetText().ToString())).Select(x => x.GetText().ToString()).ToList();
+
+            text = attr.Count != 0 ? ReplaceFirst(attr[0].Trim(), "Obsolete", "System.Obsolete") : "";
+            return attr.Count != 0;
+
+            bool IsObsolete(string text)
+            {
+                Match match = Regex.Match(text, @"\[\s*Obsolete[Attribute]*\s*\(");
+                return match.Success;
+            }
+            string ReplaceFirst(string text, string search, string replace)
+            {
+                int pos = text.IndexOf(search);
+                if (pos < 0)
+                {
+                    return text;
+                }
+                return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
+            }
+        }
+
+        internal static string GetNamespace(this SyntaxNode syntaxNode)
+        {
+            return syntaxNode.Parent switch
+            {
+                NamespaceDeclarationSyntax namespaceDeclarationSyntax => namespaceDeclarationSyntax.Name.ToString(),
+                null => string.Empty,
+                _ => GetNamespace(syntaxNode.Parent)
+            };
+        }
+
+        internal static string GetTypeParameters(this INamedTypeSymbol namedTypeSymbol)
+        {
+            return namedTypeSymbol.TypeParameters.Length == 0 ? ""
+                : $"<{namedTypeSymbol.TypeParameters.Select(x => x.Name).Aggregate((a, b) => $"{a}, {b}")}>";
+        }
+
+        internal static string GetConstraintClauses(this INamedTypeSymbol namedTypeSymbol)
+        {
+            if (namedTypeSymbol.TypeParameters.Length == 0) return "";
+            var result = new List<string>();
+            foreach (var item in namedTypeSymbol.TypeParameters)
+            {
+                var constraintType = item.ToDisplayString();
+                var constraintItems = item.ConstraintTypes.Select(x => x.ToDisplayString()).Aggregate((a, b) => $"{a}, {b}").Trim();
+                result.Add($"where {constraintType} : {constraintItems}".Trim());
+            }
+
+            return result.Aggregate((a, b) => $"{a} {b}").Trim();
+        }
+
+        internal static string GetBaseList(this INamedTypeSymbol namedTypeSymbol, params string[] others)
+        {
+            var result = new List<string>();
+            if (namedTypeSymbol.BaseType != null && !string.Equals(namedTypeSymbol.BaseType.Name, "object", StringComparison.InvariantCultureIgnoreCase))
+                result.Add(namedTypeSymbol.BaseType.Name);
+            if (namedTypeSymbol.AllInterfaces.Length != 0)
+            {
+                foreach (var item in namedTypeSymbol.AllInterfaces)
+                {
+                    result.Add(item.Name);
+                }
+            }
+            if (others != null && others.Length != 0)
+            {
+                foreach (var item in others)
+                {
+                    if (!string.IsNullOrEmpty(item))
+                        result.Add(item);
+                }
+            }
+            return result.Count == 0 ? "" : $": {result.Aggregate((a, b) => $"{a}, {b}")}".Trim();
+        }
+
+        private static string getKind(IParameterSymbol parameterSymbol)
+        {
+            return parameterSymbol.IsParams ? "params" : parameterSymbol.RefKind.ToStringValue();
+        }
+
+        private static string getDefaultValue(IParameterSymbol parameterSymbol)
+        {
+            if (parameterSymbol.HasExplicitDefaultValue)
+            {
+                if (parameterSymbol.ExplicitDefaultValue == null)
+                    return $" = null";
+                if (parameterSymbol.ExplicitDefaultValue is bool)
+                    return $" = {parameterSymbol.ExplicitDefaultValue.ToString().ToLowerInvariant()}";
+                if (parameterSymbol.ExplicitDefaultValue is string)
+                    return $" = \"{parameterSymbol.ExplicitDefaultValue}\"";
+                else
+                    return $" = {parameterSymbol.ExplicitDefaultValue}";
+            }
+            return "";
+        }
+
+        private static string getConstraintClauses(ITypeParameterSymbol typeParameterSymbol)
+        {
+            if (typeParameterSymbol.ConstraintTypes.Length > 0)
+            {
+                var constraintType = typeParameterSymbol.ToDisplayString();
+                var constraintItems = typeParameterSymbol.ConstraintTypes.Select(x => x.ToDisplayString()).Aggregate((a, b) => $"{a}, {b}").Trim();
+                return $"where {constraintType} : {constraintItems}".Trim();
+            }
+            return "";
+        }
+        internal static string GetSignatureText(this IMethodSymbol methodSymbol)
+        {
+
+            var name = methodSymbol.Name;
+
+            var parametersText = methodSymbol.Parameters.Length == 0 ? "()"
+                : "(" + methodSymbol.Parameters.Select(x => getKind(x) + $" {x.Type} " + x.Name + getDefaultValue(x))
+                                  .Aggregate((a, b) => a + ", " + b).Trim() + ")";
+
+            var returnType = methodSymbol.ReturnsVoid ? "void" : methodSymbol.ReturnType.ToDisplayString();
+            var typeParameters = methodSymbol.TypeParameters.Length == 0
+                ? ""
+                : "<" + methodSymbol.TypeParameters.Select(x => x.Name).Aggregate((a, b) => $"{a}, {b}").Trim() + ">";
+            var constraintClauses = methodSymbol.TypeParameters.Length == 0
+                ? ""
+                : methodSymbol.TypeParameters.Select(x => getConstraintClauses(x)).Aggregate((a, b) => $"{a} {b}")
+            ;
+
+            return $"{returnType} {name}{typeParameters}{parametersText} {constraintClauses}".Trim();
+        }
+
+        internal static string GetCallableSignatureText(this IMethodSymbol methodSymbol)
+        {
+            var name = methodSymbol.Name;
+
+            var parametersText = methodSymbol.Parameters.Length == 0 ? "()"
+                : "(" + methodSymbol.Parameters.Select(x => $"{getKind(x)} {x.Name}")
+                                  .Aggregate((a, b) => $"{a}, {b}").Trim() + ")";
+            var typeParameters = methodSymbol.TypeParameters.Length == 0
+                ? ""
+                : "<" + methodSymbol.TypeParameters.Select(x => x.Name).Aggregate((a, b) => $"{a}, {b}").Trim() + ">";
+
+            return $"{name}{typeParameters}{parametersText}".Trim();
+        }
+    }
+}
+
+// MockableGenerator.cs
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace MockableStaticGenerator
+{
+    [Generator]
+    public class MockableGenerator : ISourceGenerator
+    {
+        private static readonly List<string> _interfaces = new List<string>();
+        private static readonly List<string> _classes = new List<string>();
+        public class MethodSymbolVisitor : SymbolVisitor
+        {
+            private readonly string _typeName;
+
+            public MethodSymbolVisitor(string typeName)
+            {
+                _typeName = typeName;
+            }
+            public override void VisitNamespace(INamespaceSymbol symbol)
+            {
+                foreach (var child in symbol.GetMembers())
+                {
+                    child.Accept(this);
+                }
+            }
+
+            public override void VisitNamedType(INamedTypeSymbol symbol)
+            {
+                foreach (var child in symbol.GetMembers())
+                {
+                    child.Accept(this);
+                }
+            }
+
+            public override void VisitMethod(IMethodSymbol symbol)
+            {
+                var cls = symbol.ReceiverType;
+                var isClass = symbol.ReceiverType.TypeKind == TypeKind.Class;
+                var isPublic = string.Equals(symbol.ReceiverType.DeclaredAccessibility.ToString().ToLowerInvariant(), "public", StringComparison.InvariantCultureIgnoreCase);
+                if (isClass && isPublic && symbol.IsStatic && symbol.MethodKind == MethodKind.Ordinary)
+                {
+                    var className = cls.Name;
+                    var classNameWithNs = cls.ToDisplayString();
+                    if (classNameWithNs != _typeName) return;
+
+                    var wrapperClassName = !className.Contains('<') ? className + "Wrapper" : className.Replace("<", "Wrapper<");
+                    var classTypeParameters = ((INamedTypeSymbol)cls).GetTypeParameters();
+                    var wrapperInterfaceName = $"I{wrapperClassName}{classTypeParameters}";
+                    var constraintClauses = ((INamedTypeSymbol)cls).GetConstraintClauses();
+                    var baseList = ((INamedTypeSymbol)cls).GetBaseList(wrapperInterfaceName);
+                    var returnKeyword = symbol.ReturnsVoid ? "" : "return ";
+                    var methodSignature = symbol.GetSignatureText();
+                    var callableMethodSignature = symbol.GetCallableSignatureText();
+                    var obsoleteAttribute = symbol.GetAttributes().FirstOrDefault(x => x.ToString().StartsWith("System.ObsoleteAttribute("))?.ToString();
+
+                    var interfaceSource = $"\tpublic partial interface I{wrapperClassName}{classTypeParameters} {constraintClauses} {{";
+                    var classSource = $"\tpublic partial class {wrapperClassName}{classTypeParameters} {baseList} {constraintClauses} {{";
+
+
+                    if (!_interfaces.Contains(interfaceSource))
+                        _interfaces.Add(interfaceSource);
+
+                    if (!_classes.Contains(classSource))
+                        _classes.Add(classSource);
+
+                    if (!_interfaces.Contains(methodSignature))
+                    {
+                        _interfaces.Add($"\t\t{methodSignature};");
+                    }
+
+                    if (!_classes.Contains(methodSignature))
+                    {
+                        if (!string.IsNullOrEmpty(obsoleteAttribute))
+                        {
+                            _classes.Add($"\t\t[{obsoleteAttribute}]");
+                        }
+                        _classes.Add($"\t\tpublic {methodSignature} {{");
+                        _classes.Add($"\t\t\t{returnKeyword}{classNameWithNs}.{callableMethodSignature};");
+                        _classes.Add("\t\t}");
+                    }
+                }
+            }
+        }
+
+        public void Execute(GeneratorExecutionContext context)
+        {
+            context.AddSource(nameof(Constants.MockableStaticAttribute), SourceText.From(Constants.MockableStaticAttribute, Encoding.UTF8));
+
+            if (context.SyntaxReceiver is not SyntaxReceiver receiver)
+                return;
+
+            CSharpParseOptions options = (context.Compilation as CSharpCompilation).SyntaxTrees[0].Options as CSharpParseOptions;
+            Compilation compilation = context.Compilation.AddSyntaxTrees(CSharpSyntaxTree.ParseText(SourceText.From(Constants.MockableStaticAttribute, Encoding.UTF8), options));
+            INamedTypeSymbol attributeSymbol = compilation.GetTypeByMetadataName($"System.{nameof(Constants.MockableStaticAttribute)}");
+
+            var sources = new StringBuilder();
+            var assemblyName = "";
+            foreach (var cls in receiver.Classes)
+            {
+                SemanticModel model = compilation.GetSemanticModel(cls.SyntaxTree);
+                var clsSymbol = model.GetDeclaredSymbol(cls);
+
+                var attr = clsSymbol.GetAttributes().FirstOrDefault(ad => ad.AttributeClass.Equals(attributeSymbol, SymbolEqualityComparer.Default));
+
+                if (attr == null) continue;
+                var isParameterlessCtor = attr?.ConstructorArguments.Length == 0;
+
+                var sbInterface = new StringBuilder();
+                var sbClass = new StringBuilder();
+
+                if (isParameterlessCtor)
+                {
+                    var methods = cls.DescendantNodes().OfType<MethodDeclarationSyntax>().Where(x => x.IsPublic() && x.IsStatic()).ToList();
+                    if (methods.Count == 0) continue;
+
+                    var className = clsSymbol.Name;
+                    var ns = string.IsNullOrEmpty(cls.GetNamespace()) ? "" : cls.GetNamespace() + ".";
+                    var baseList = string.IsNullOrEmpty(cls.BaseList?.ToFullString()) ? ":" : cls.BaseList?.ToFullString().Trim() + ",";
+                    assemblyName = clsSymbol.ContainingAssembly.Identity.Name;
+                    var wrapperClassName = !className.Contains('<') ? className + "Wrapper" : className.Replace("<", "Wrapper<");
+                    var classTypeParameters = cls.GetTypeParameters() ?? "";
+                    var constraintClauses = cls.GetConstraintClauses() ?? "";
+                    sbInterface.AppendLine($"\tpublic partial interface I{wrapperClassName}{classTypeParameters} {constraintClauses} {{");
+                    sbClass.AppendLine($"\tpublic partial class {wrapperClassName}{classTypeParameters} {baseList} I{wrapperClassName}{classTypeParameters} {constraintClauses} {{");
+
+                    foreach (MethodDeclarationSyntax method in methods)
+                    {
+                        var text = method.GetSignatureText();
+
+                        if (!sbInterface.ToString().Contains(text))
+                            sbInterface.AppendLine($"\t\t{text};");
+
+                        if (!sbClass.ToString().Contains(text))
+                        {
+                            var returnKeyword = method.ReturnsVoid() ? "" : "return ";
+                            var obsoleteAttrText = "";
+                            var isObsolete = method.TryGetObsoleteAttribute(out obsoleteAttrText);
+                            if (isObsolete)
+                                sbClass.AppendLine($"\t\t{obsoleteAttrText}");
+
+                            sbClass.AppendLine($"\t\tpublic {method.GetSignatureText()} {{");
+                            sbClass.AppendLine($"\t\t\t{returnKeyword}{ns}{className}{classTypeParameters}.{method.GetCallableSignatureText()};");
+                            sbClass.AppendLine($"\t\t}}");
+                        }
+                    }
+
+                    sbInterface.AppendLine($"\t}}");
+                    sbClass.AppendLine($"\t}}");
+                }
+                else
+                {
+                    var ctor = ((INamedTypeSymbol)attr?.ConstructorArguments[0].Value);
+                    var assemblySymbol = ctor.ContainingAssembly.GlobalNamespace;
+                    assemblyName = ctor.ContainingAssembly.Identity.Name;
+                    var visitor = new MethodSymbolVisitor(ctor.ToDisplayString());
+                    visitor.Visit(assemblySymbol);
+                    sbInterface.AppendLine(_interfaces.Aggregate((a, b) => a + Environment.NewLine + b) + Environment.NewLine + "\t}");
+                    sbClass.AppendLine(_classes.Aggregate((a, b) => a + Environment.NewLine + b) + Environment.NewLine + "\t}");
+                }
+
+                var interfaceWrapper = sbInterface.ToString();
+                var classWrapper = sbClass.ToString();
+
+                sources.AppendLine(interfaceWrapper);
+                sources.AppendLine(classWrapper);
+            }
+
+            var defaultUsings = new StringBuilder();
+            defaultUsings.AppendLine("using System;");
+            defaultUsings.AppendLine("using System.Collections.Generic;");
+            defaultUsings.AppendLine("using System.Linq;");
+            defaultUsings.AppendLine("using System.Text;");
+            defaultUsings.AppendLine("using System.Threading.Tasks;");
+            var usings = defaultUsings.ToString();
+
+            var src = sources.ToString();
+            var @namespace = new StringBuilder();
+            @namespace.AppendLine(usings);
+            @namespace.AppendLine($"namespace {assemblyName}.MockableGenerated {{");
+            @namespace.AppendLine(src);
+            @namespace.Append("}");
+            var result = @namespace.ToString();
+
+            context.AddSource($"{assemblyName}MockableGenerated", SourceText.From(result, Encoding.UTF8));
+        }
+
+        public void Initialize(GeneratorInitializationContext context)
+        {
+            // System.Diagnostics.Debugger.Launch();
+            context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
+        }
+    }
+}
+```
 
 ![](/images/the-dotnet-world-csharp-source-generator/final.gif)
 
