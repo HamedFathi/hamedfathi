@@ -1761,7 +1761,36 @@ Run the debugger and you will see it stops at `System.Diagnostics.Debugger.Launc
 
 ![](/images/the-dotnet-world-csharp-source-generator/debugger3.png)
 
-If you have any problem for debugging, make sure [you are running Visual Studio as administrator](https://ppolyzos.com/2017/08/08/always-run-visual-studio-as-administrator/).
+If you have any problem for debugging, make sure you are running Visual Studio as administrator.
+
+**Open Visual Studio as Administrator**
+
+If you want to start Visual Studio as Administrator you can do the following:
+
+* right-click on your VS task bar shortcut
+* right-click on your VS product and select Properties
+* from Properties window select Advanced…
+* from Advanced Properties check on Run as Administrator option
+* select Ok in Advanced Properties window, Apply and then Ok on VS 2019 Properties.
+
+![](/images/the-dotnet-world-csharp-source-generator/vs1.png)
+
+**Open every Visual Studio Solution (.sln) as Administrator**
+
+Although not the best idea if you open third-party VS solutions, it may come in handy if you need to open the same solutions as Administrator again and again. To do so, right-click on `devenv.exe` and select `Troubleshoot Compatibility`.
+
+![](/images/the-dotnet-world-csharp-source-generator/vs2.png)
+
+You may then proceed to the following steps:
+
+* on the Program Compatibility Troubleshooter window, click on Troubleshoot Program
+* check The program requires additional permissions and click Next
+* on the next window, click on Test the program… and VS will open as administrator
+* click next and then click on Yes, save these settings for this program
+
+![](/images/the-dotnet-world-csharp-source-generator/vs3.png)
+
+Following the above, whenever you open a solution (.sln) it will always open as Adminsitrator. If you want to disable this function, you will need to follow again the steps above without checking though The Program requires additional permissions.
 
 ## How to work with files?
 
@@ -1830,3 +1859,4 @@ Some of the information in this article has gathered from various references.
 * https://devblogs.microsoft.com/dotnet/introducing-c-source-generators/
 * https://devblogs.microsoft.com/dotnet/new-c-source-generator-samples/
 * https://github.com/dotnet/roslyn/blob/master/docs/features/source-generators.cookbook.md
+* https://ppolyzos.com/2017/08/08/always-run-visual-studio-as-administrator/
