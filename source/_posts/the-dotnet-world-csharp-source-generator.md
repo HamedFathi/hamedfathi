@@ -842,6 +842,89 @@ else
 
 (36) We need a visitor class to know about static methods of the type introduced in the external assembly. We sends the type's name to the constructor of our visitor because we want to generate wrapper for that type.
 
+To write `MethodSymbolVisitor` add below code to `MockableGenerator` class as a **nested class**.
+
+```cs
+// 37
+private static readonly List<string> _interfaces = new List<string>();
+private static readonly List<string> _classes = new List<string>();
+
+// 38
+public class MethodSymbolVisitor : SymbolVisitor
+{
+    private readonly string _typeName;
+
+    public MethodSymbolVisitor(string typeName)
+    {
+        _typeName = typeName;
+    }
+    // 39
+    public override void VisitNamespace(INamespaceSymbol symbol)
+    {
+        foreach (var child in symbol.GetMembers())
+        {
+            child.Accept(this);
+        }
+    }
+    // 40
+    public override void VisitNamedType(INamedTypeSymbol symbol)
+    {
+        foreach (var child in symbol.GetMembers())
+        {
+            child.Accept(this);
+        }
+    }
+    // 41
+    public override void VisitMethod(IMethodSymbol symbol)
+    {
+        var cls = symbol.ReceiverType;
+        var isClass = symbol.ReceiverType.TypeKind == TypeKind.Class;
+        var isPublic = string.Equals(symbol.ReceiverType.DeclaredAccessibility.ToString().ToLowerInvariant(), "public", StringComparison.InvariantCultureIgnoreCase);
+        if (isClass && isPublic && symbol.IsStatic && symbol.MethodKind == MethodKind.Ordinary)
+        {
+            var className = cls.Name;
+            var classNameWithNs = cls.ToDisplayString();
+            if (classNameWithNs != _typeName) return;
+
+            var wrapperClassName = !className.Contains('<') ? className + "Wrapper" : className.Replace("<", "Wrapper<");
+            var classTypeParameters = ((INamedTypeSymbol)cls).GetTypeParameters();
+            var wrapperInterfaceName = $"I{wrapperClassName}{classTypeParameters}";
+            var constraintClauses = ((INamedTypeSymbol)cls).GetConstraintClauses();
+            var baseList = ((INamedTypeSymbol)cls).GetBaseList(wrapperInterfaceName);
+            var returnKeyword = symbol.ReturnsVoid ? "" : "return ";
+            var methodSignature = symbol.GetSignatureText();
+            var callableMethodSignature = symbol.GetCallableSignatureText();
+            var obsoleteAttribute = symbol.GetAttributes().FirstOrDefault(x => x.ToString().StartsWith("System.ObsoleteAttribute("))?.ToString();
+
+            var interfaceSource = $"\tpublic partial interface I{wrapperClassName}{classTypeParameters} {constraintClauses} {{";
+            var classSource = $"\tpublic partial class {wrapperClassName}{classTypeParameters} {baseList} {constraintClauses} {{";
+
+
+            if (!_interfaces.Contains(interfaceSource))
+                _interfaces.Add(interfaceSource);
+
+            if (!_classes.Contains(classSource))
+                _classes.Add(classSource);
+
+            if (!_interfaces.Contains(methodSignature))
+            {
+                _interfaces.Add($"\t\t{methodSignature};");
+            }
+
+            if (!_classes.Contains(methodSignature))
+            {
+                if (!string.IsNullOrEmpty(obsoleteAttribute))
+                {
+                    _classes.Add($"\t\t[{obsoleteAttribute}]");
+                }
+                _classes.Add($"\t\tpublic {methodSignature} {{");
+                _classes.Add($"\t\t\t{returnKeyword}{classNameWithNs}.{callableMethodSignature};");
+                _classes.Add("\t\t}");
+            }
+        }
+    }
+}
+```
 
 
 
@@ -855,7 +938,7 @@ Now, It's time to add `MockableStaticGenerator` project to `DapperSample` as a r
 </ItemGroup>
 ```
 
-This is not a "normal" `ProjectReference`. It needs the additional 'OutputItemType' and 'ReferenceOutputAssmbly' attributes.
+This is not a "normal" `ProjectReference`. It needs the additional 'OutputItemType' and 'ReferenceOutputAssmbly' attributes to act as an analyzor.
 
 So you should be able to access to generated namespace. No need to use `DapperSqlMapper` and `IDapperSqlMapper` any more just update your `StudentRepository` as following
 
