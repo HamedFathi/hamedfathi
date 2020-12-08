@@ -1767,10 +1767,10 @@ If you have any problem for debugging, make sure you are running Visual Studio a
 
 If you want to start Visual Studio as Administrator you can do the following:
 
-* right-click on your VS task bar shortcut
-* right-click on your VS product and select Properties
-* from Properties window select Advanced…
-* from Advanced Properties check on Run as Administrator option
+* Right-click on your VS task bar shortcut
+* Right-click on your VS product and select Properties
+* From Properties window select Advanced…
+* From Advanced Properties check on Run as Administrator option
 * select Ok in Advanced Properties window, Apply and then Ok on VS 2019 Properties.
 
 ![](/images/the-dotnet-world-csharp-source-generator/vs1.png)
@@ -1783,10 +1783,10 @@ Although not the best idea if you open third-party VS solutions, it may come in 
 
 You may then proceed to the following steps:
 
-* on the Program Compatibility Troubleshooter window, click on Troubleshoot Program
-* check The program requires additional permissions and click Next
-* on the next window, click on Test the program… and VS will open as administrator
-* click next and then click on Yes, save these settings for this program
+* On the Program Compatibility Troubleshooter window, click on Troubleshoot Program
+* Check The program requires additional permissions and click Next
+* On the next window, click on Test the program… and VS will open as administrator
+* Click next and then click on Yes, save these settings for this program
 
 ![](/images/the-dotnet-world-csharp-source-generator/vs3.png)
 
