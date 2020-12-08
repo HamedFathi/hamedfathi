@@ -1360,8 +1360,6 @@ namespace MockableStaticGenerator
 }
 ```
 
-![](/images/the-dotnet-world-csharp-source-generator/final.gif)
-
 ## Visual Studio does not detect my source generators, What should I do?
 
 Unfortunately, the current version of Visual Studio (16.8.2) has a lot of problems while you are using code generators, but you can try the following steps.
