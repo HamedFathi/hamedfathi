@@ -979,7 +979,7 @@ public class MethodSymbolVisitor : SymbolVisitor
 
 (46) Just like part one we add `Wrapper` at the end of our interface and class name.
 
-(47) (20) Your class may have type parameters (generic).
+(47) Your class may have type parameters (generic).
 
 Add below method to `SourceGeneratorExtensions` class.
 
@@ -1762,7 +1762,11 @@ Run the debugger and you will see it stops at `System.Diagnostics.Debugger.Launc
 
 ![](/images/the-dotnet-world-csharp-source-generator/debugger3.png)
 
-If you have any problem for debugging, make sure you are running Visual Studio as administrator.
+If you have any problem for debugging, like what I had before
+
+![](/images/the-dotnet-world-csharp-source-generator/managed.png)
+
+Make sure you are running Visual Studio as administrator.
 
 **Open Visual Studio as Administrator**
 
