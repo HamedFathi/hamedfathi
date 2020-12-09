@@ -45,7 +45,7 @@ The need to mock static methods in order to add a unit test is a very common pro
 
 The way to mock a static method is by creating **a class that wraps the call**, **extracting an interface**, and **passing in the interface**. Then from your unit tests you can create a mock of the interface and pass it in.
 
-In the following, we describe this method and use Dapper as a real-world example to show you how wrapper class and interface help us to test its static methods/extensions.
+In the following, we describe this method and choose `Dapper` as a real-world example to show you how a wrapper class and interface helps us to test its static (extension) methods.
 
 **What is Dapper?**
 
@@ -63,7 +63,7 @@ public class Student
 var student = connection.Query<Student>("SELECT * FROM STUDENT);
 ```
 
-`Dapper` contains a lot of extension (static) methods so I'm going to look at how to mock its methods with the instruction above.
+[Dapper](https://github.com/StackExchange/Dapper) contains a lot of extension (static) methods so I'm going to look at how to mock its methods with the instruction above.
 
 **Solution structure**
 
