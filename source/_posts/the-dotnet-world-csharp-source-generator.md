@@ -45,25 +45,22 @@ The need to mock static methods in order to add a unit test is a very common pro
 
 The way to mock a static method is by creating **a class that wraps the call**, **extracting an interface**, and **passing in the interface**. Then from your unit tests you can create a mock of the interface and pass it in.
 
-In the following, we describe this method.
+In the following, we describe this method and use Dapper as a real-world example to show you how wrapper class and interface help us to test its static methods/extensions.
 
 **What is Dapper?**
 
 > A simple object mapper for .Net.
 
 ```cs
-public class Dog
+public class Student
 {
-    public int? Age { get; set; }
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; }
-    public float? Weight { get; set; }
-
-    public int IgnoredProperty { get { return 1; } }
+    public string Family { get; set; }
+    public DateTime BirthDate { get; set; }
 }
 
-var guid = Guid.NewGuid();
-var dog = connection.Query<Dog>("select Age = @Age, Id = @Id", new { Age = (int?)null, Id = guid });
+var student = connection.Query<Student>("SELECT * FROM STUDENT);
 ```
 
 `Dapper` contains a lot of extension (static) methods so I'm going to look at how to mock its methods with the instruction above.
@@ -342,12 +339,13 @@ What if this repetitive method was already prepared for all methods?
 
 So far, we have learned about the problem and how to deal with it. But now we want to use a source generator to reduce the set of these repetitive tasks to zero.
 
-What if I have both of the following possibilities?
+What if I have **both** of the following possibilities?
 
 * Generate a wrapper class like above sample for `Math` class in background.
 
 ```cs
 // Internal usage
+// My class with a lot of static (extension) methods.
 
 [MockableStatic]
 public class Math
@@ -361,6 +359,7 @@ public class Math
 
 ```cs
 // External usage
+// A referenced assembly with a type that contains a lot of static (extension) methods.
 
 [MockableStatic(typeof(Dapper.SqlMapper))]
 public class StudentRepositoryTest
