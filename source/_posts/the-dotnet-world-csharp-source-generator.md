@@ -240,6 +240,8 @@ You may have guessed why. Because  mock object of `IDbConnection` has no `Query`
 
 **How to fix it?**
 
+> The way to mock a static method is by creating **a class that wraps the call**, **extracting an interface**, and **passing in the interface**. Then from your unit tests you can create a mock of the interface and pass it in.
+
 Do this step-by-step changes just like above instruction and add them to `DapperSample` project.
 
 1. Extracting an interface.
