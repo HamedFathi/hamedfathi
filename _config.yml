@@ -1,7 +1,7 @@
 # Hexo Configuration
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
-
+   
 # Site
 title: Hamed Fathi's Personal Blog
 subtitle: ''
@@ -12,7 +12,7 @@ language: en
 timezone: UTC
 
 # URL
-## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
+## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://hamedfathi.me/
 root: /
 permalink: :title/
@@ -50,7 +50,12 @@ highlight:
   auto_detect: false
   tab_replace: ''
   wrap: true
-  hljs: false
+  hljs: true
+prismjs:
+  enable: false
+  preprocess: true
+  line_number: true
+  tab_replace: ''
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -76,8 +81,8 @@ meta_generator: true
 ## http://momentjs.com/docs/#/displaying/format/
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
-## Use post's date for updated date unless set in front-matter
-use_date_for_updated: true
+## updated_option supports 'mtime', 'date', 'empty'
+updated_option: 'mtime'
 
 # Pagination
 ## Set per_page to 0 to disable pagination
@@ -91,37 +96,29 @@ exclude:
 ignore:
   # development only: ignore sub node_modules when `npm link hexo-theme-doc`
   - '**/node_modules/**/*node_modules'
-  
+
 # Extensions
 ## Plugins: https://hexo.io/plugins/
+plugins:
+   hexo-generator-feed: true
+
 ## Themes: https://hexo.io/themes/
-theme: icarus
+theme: hueman
 
 # Deployment
-## Docs: https://hexo.io/docs/deployment.html
+## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
-  
-plugins:
-  hexo-generator-robotstxt
 
+feed:
+  enable: true
+  type: atom
+  path: atom.xml
+  limit: 20
+  
 sitemap:
-    path: sitemap.xml
-    tag: false
-    category: false
-    
-robotstxt:
-  useragent: "*"
-  disallow:
-    - /js/
-    - /css/
-    - /fonts/
-    - /vendors/
-    - /fancybox/
-  allow:
-    - /
-    - /about/ 
-    - /archives/
-    - /categories/
-    - /tags/
-  sitemap: /sitemap.xml
+  path: sitemap.xml
+  template: ./sitemap_template.xml
+  rel: false
+  tags: true
+  categories: true  
