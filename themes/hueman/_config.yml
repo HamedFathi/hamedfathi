@@ -15,13 +15,14 @@ customize:
     highlight: androidstudio
     sidebar: right # sidebar position, options: left, right
     thumbnail: true # enable posts thumbnail, options: true, false
-    favicon: # path to favicon
+    favicon: /images/logo.png
     social_links: # for more icons, please see http://fontawesome.io/icons/#brand
         twitter: https://twitter.com/Hamed__Fathi
         facebook: https://www.facebook.com/hamedfathi88
         stack-overflow: https://stackoverflow.com/users/3166171/hamedfathi?tab=profile
-        github: https://github.com/ppoffice/hexo-theme-hueman
-        rss: /atom.xml
+        github: https://github.com/HamedFathi
+        linkedin: https://www.linkedin.com/in/hamedfathi/
+        # rss: /atom.xml
 
 # Widgets
 widgets:
