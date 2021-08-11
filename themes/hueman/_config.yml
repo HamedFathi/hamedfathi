@@ -12,7 +12,7 @@ customize:
         height: 120
         url: /images/logo.png
     theme_color: '#006bde'
-    highlight: vs
+    highlight: new-vs
     sidebar: right # sidebar position, options: left, right
     thumbnail: true # enable posts thumbnail, options: true, false
     favicon: /images/logo.png
