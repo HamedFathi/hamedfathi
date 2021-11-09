@@ -18,12 +18,12 @@
 
 |Project||
 |---|---|
-|[_Free Windows Tools_](https://github.com/HamedFathi/free-windows-tools)|List of free useful Windows tools.|
-|[_Microsoft Visual Studio Extensions_](https://github.com/HamedFathi/VisualStudioExtensions)|Free selected Microsoft Visual Studio extensions.|
-|[_JetBrains Rider Plugins_](https://github.com/HamedFathi/JetBrainsRiderPlugins)|Free selected JetBrains Rider plugins.|
-|[_Angular Libraries_](https://github.com/HamedFathi/AngularFrameworkLibs)|Free selected Angular libraries.|
-|[_React Libraries_](https://github.com/HamedFathi/ReactFrameworkLibs)|Free selected React libraries.|
-|[_Vue 3 Libraries_](https://github.com/HamedFathi/VueFrameworkLibs)|Free selected Vue 3 libraries.|
+|[_Free Windows Tools_](https://github.com/HamedFathi/free-windows-tools)|List of free and useful Windows tools.|
+|[_Microsoft Visual Studio Extensions_](https://github.com/HamedFathi/VisualStudioExtensions)|Selected set of free Microsoft Visual Studio extensions.|
+|[_JetBrains Rider Plugins_](https://github.com/HamedFathi/JetBrainsRiderPlugins)|Selected set of free JetBrains Rider plugins.|
+|[_Angular Libraries_](https://github.com/HamedFathi/AngularFrameworkLibs)|Selected set of free Angular libraries.|
+|[_React Libraries_](https://github.com/HamedFathi/ReactFrameworkLibs)|Selected set of free React libraries.|
+|[_Vue 3 Libraries_](https://github.com/HamedFathi/VueFrameworkLibs)|Selected set of free Vue 3 libraries.|
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
