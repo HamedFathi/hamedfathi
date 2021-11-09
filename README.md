@@ -25,6 +25,14 @@ Yet another guard library with fluent API and customization.
 * [TrxFileParser](https://github.com/HamedFathi/TrxFileParser)<br/>
 A Trx file parser.
 
+#### Informational Repositories
+
+* [Free Windows Tools](https://github.com/HamedFathi/free-windows-tools)
+* [JetBrains Rider Plugins](https://github.com/HamedFathi/JetBrainsRiderPlugins)
+* [Angular Libraries](https://github.com/HamedFathi/AngularFrameworkLibs)
+* [React Libraries](https://github.com/HamedFathi/ReactFrameworkLibs)
+* [Vue 3 Libraries](https://github.com/HamedFathi/VueFrameworkLibs)
+
 <hr/>
 
 [![Hamed Fathi's github stats](https://github-readme-stats.vercel.app/api?username=hamedfathi&show_icons=true)](https://hamedfathi.me)
