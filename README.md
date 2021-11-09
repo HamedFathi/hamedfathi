@@ -2,7 +2,7 @@
 
 * 📝 I regularly write articles on [http://hamedfathi.me/](http://hamedfathi.me/)
 
-* 🔭 I’m currently working on the following projects: 
+* 💡 I’m currently working on the following projects: 
 
 |Project||
 |---|---|
