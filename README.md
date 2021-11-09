@@ -4,33 +4,26 @@
 
 * 🔭 I’m currently working on the following projects: 
 
-    * [MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator)<br/>
-    A C# source generator to make an interface and a class wrapper to test static/extension methods.
+|Project||
+|---|---|
+|[MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator)|A C# source generator to make an interface and a class wrapper to test static/extension methods.|
+|[MoreDynamicQuery](https://github.com/HamedFathi/MoreDynamicQuery)|A library to make dynamic queries via LINQ and Expressions.|
+|[ParserToolkit](https://github.com/HamedFathi/ParserToolkit)|A toolkit that helps you to write your own parser.|
+|[SimMetricsCore](https://github.com/HamedFathi/SimMetricsCore)|SimMetrics is a similarity metric library.|
+|[SimpleCacheManager](https://github.com/HamedFathi/SimpleCacheManager)|A very simple but useful cache manager based on concurrent dictionary.|
+|[Shield](https://github.com/HamedFathi/Shield)|Yet another guard library with fluent API and customization.|
+|[TrxFileParser](https://github.com/HamedFathi/TrxFileParser)|A Trx file parser.|
 
-    * [MoreDynamicQuery](https://github.com/HamedFathi/MoreDynamicQuery)<br/>
-    A library to make dynamic queries via LINQ and Expressions.
+<br/>
 
-    * [ParserToolkit](https://github.com/HamedFathi/ParserToolkit)<br/>
-    A toolkit that helps you to write your own parser.
-    
-    * [SimMetricsCore](https://github.com/HamedFathi/SimMetricsCore)<br/>
-    SimMetrics is a similarity metric library.
-    
-    * [SimpleCacheManager](https://github.com/HamedFathi/SimpleCacheManager)<br/>
-    A very simple but useful cache manager based on concurrent dictionary.
-    
-    * [Shield](https://github.com/HamedFathi/Shield)<br/>
-    Yet another guard library with fluent API and customization.
-    
-    * [TrxFileParser](https://github.com/HamedFathi/TrxFileParser)<br/>
-    A Trx file parser.
-
-    * [_Free Windows Tools_](https://github.com/HamedFathi/free-windows-tools)
-    * [_Microsoft Visual Studio Extensions_](https://github.com/HamedFathi/VisualStudioExtensions)
-    * [_JetBrains Rider Plugins_](https://github.com/HamedFathi/JetBrainsRiderPlugins)
-    * [_Angular Libraries_](https://github.com/HamedFathi/AngularFrameworkLibs)
-    * [_React Libraries_](https://github.com/HamedFathi/ReactFrameworkLibs)
-    * [_Vue 3 Libraries_](https://github.com/HamedFathi/VueFrameworkLibs)
+|Project||
+|---|---|
+|[_Free Windows Tools_](https://github.com/HamedFathi/free-windows-tools)|List of free Windows tools.|
+|[_Microsoft Visual Studio Extensions_](https://github.com/HamedFathi/VisualStudioExtensions)|Free and selected Microsoft Visual Studio extensions|
+|[_JetBrains Rider Plugins_](https://github.com/HamedFathi/JetBrainsRiderPlugins)|Free and selected JetBrains Rider plugins|
+|[_Angular Libraries_](https://github.com/HamedFathi/AngularFrameworkLibs)|Free and selected Angular libraries|
+|[_React Libraries_](https://github.com/HamedFathi/ReactFrameworkLibs)|Free and selected React libraries|
+|[_Vue 3 Libraries_](https://github.com/HamedFathi/VueFrameworkLibs)|Free and selected Vue 3 libraries|
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
