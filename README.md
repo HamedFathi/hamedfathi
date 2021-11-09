@@ -6,12 +6,17 @@
 
 |Project||
 |---|---|
+|[Cult](https://github.com/dotnet-toolbelt/Cult)|A huge collection of useful extensions, utilities, and libraries for the .NET ecosystem.|
+|[dotnet-extract](https://github.com/HamedFathi/dotnet-extract)|A .NET global tool to extract embedded resource files from a .NET assembly.|
 |[MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator)|A C# source generator to make an interface and a class wrapper to test static/extension methods.|
 |[MoreDynamicQuery](https://github.com/HamedFathi/MoreDynamicQuery)|A library to make dynamic queries via LINQ and Expressions.|
+|[NSubstituteExtended](https://github.com/HamedFathi/NSubstituteExtended)|A library to extend NSubstitute functionalities.|
 |[ParserToolkit](https://github.com/HamedFathi/ParserToolkit)|A toolkit that helps you to write your own parser.|
+|[PasswordMeter](https://github.com/HamedFathi/PasswordMeter)|This Password Meter is based on a point system. Its main goal is to help the end-user with a stronger password.|
 |[SimMetricsCore](https://github.com/HamedFathi/SimMetricsCore)|SimMetricsCore is a text similarity metric library.|
 |[SimpleCacheManager](https://github.com/HamedFathi/SimpleCacheManager)|A very simple but useful cache manager based on concurrent dictionary.|
 |[Shield](https://github.com/HamedFathi/Shield)|Yet another guard library with fluent API and customization.|
+|[Styl-Injector](https://github.com/HamedFathi/Styl-Injector)|Simple functionality to inject a text or object-based style sheet into your HTML document.|
 |[TrxFileParser](https://github.com/HamedFathi/TrxFileParser)|A Trx file parser.|
 
 &nbsp;&nbsp;&nbsp;&nbsp;Some repositories contain useful information:
