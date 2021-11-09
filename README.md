@@ -36,7 +36,6 @@
 <p align="left">
 <a href="https://twitter.com/hamed__fathi" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="hamed__fathi" height="30" width="40" /></a>
 <a href="https://linkedin.com/in/hamedfathi" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="hamedfathi" height="30" width="40" /></a>
-<a href="https://stackoverflow.com/users/3166171" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/stack-overflow.svg" alt="3166171" height="30" width="40" /></a>
 </p>
 
 <h3 align="left">Languages and Tools:</h3>
