@@ -14,7 +14,7 @@
 |[Shield](https://github.com/HamedFathi/Shield)|Yet another guard library with fluent API and customization.|
 |[TrxFileParser](https://github.com/HamedFathi/TrxFileParser)|A Trx file parser.|
 
-<br/>
+Some repositories contain useful information and are not used for library development:
 
 |Project||
 |---|---|
