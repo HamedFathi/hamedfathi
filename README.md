@@ -28,6 +28,7 @@ A Trx file parser.
 #### Informational Repositories
 
 * [Free Windows Tools](https://github.com/HamedFathi/free-windows-tools)
+* [Microsoft Visual Studio Extensions](https://github.com/HamedFathi/VisualStudioExtensions)
 * [JetBrains Rider Plugins](https://github.com/HamedFathi/JetBrainsRiderPlugins)
 * [Angular Libraries](https://github.com/HamedFathi/AngularFrameworkLibs)
 * [React Libraries](https://github.com/HamedFathi/ReactFrameworkLibs)
