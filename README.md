@@ -14,16 +14,16 @@
 |[Shield](https://github.com/HamedFathi/Shield)|Yet another guard library with fluent API and customization.|
 |[TrxFileParser](https://github.com/HamedFathi/TrxFileParser)|A Trx file parser.|
 
-Some repositories contain useful information and are not used for library development:
+&nbsp;&nbsp;&nbsp;&nbsp;Some repositories contain useful information and are not used for library development:
 
 |Project||
 |---|---|
 |[_Free Windows Tools_](https://github.com/HamedFathi/free-windows-tools)|List of free Windows tools.|
-|[_Microsoft Visual Studio Extensions_](https://github.com/HamedFathi/VisualStudioExtensions)|Free and selected Microsoft Visual Studio extensions|
-|[_JetBrains Rider Plugins_](https://github.com/HamedFathi/JetBrainsRiderPlugins)|Free and selected JetBrains Rider plugins|
-|[_Angular Libraries_](https://github.com/HamedFathi/AngularFrameworkLibs)|Free and selected Angular libraries|
-|[_React Libraries_](https://github.com/HamedFathi/ReactFrameworkLibs)|Free and selected React libraries|
-|[_Vue 3 Libraries_](https://github.com/HamedFathi/VueFrameworkLibs)|Free and selected Vue 3 libraries|
+|[_Microsoft Visual Studio Extensions_](https://github.com/HamedFathi/VisualStudioExtensions)|Free and selected Microsoft Visual Studio extensions.|
+|[_JetBrains Rider Plugins_](https://github.com/HamedFathi/JetBrainsRiderPlugins)|Free and selected JetBrains Rider plugins.|
+|[_Angular Libraries_](https://github.com/HamedFathi/AngularFrameworkLibs)|Free and selected Angular libraries.|
+|[_React Libraries_](https://github.com/HamedFathi/ReactFrameworkLibs)|Free and selected React libraries.|
+|[_Vue 3 Libraries_](https://github.com/HamedFathi/VueFrameworkLibs)|Free and selected Vue 3 libraries.|
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
