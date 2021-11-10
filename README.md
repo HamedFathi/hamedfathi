@@ -27,7 +27,7 @@
 |[PasswordMeter](https://github.com/HamedFathi/PasswordMeter)|This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.|
 |[QuartzFire](https://github.com/HamedFathi/QuartzFire)|An attempt to get closer to the `HangFire` on top of the `Quartz.NET` library.|
 |[React-Solutions](https://github.com/HamedFathi/React-Solutions)|A bunch of useful React components, hooks, and helpers. I have tried to bring other JS frameworks template syntax to React ecosystem.|
-|[Roselyn](https://github.com/HamedFathi/Roselyn)|A bunch of useful helpers for The `Roslyn .NET compiler`.|
+|[Roselyn](https://github.com/HamedFathi/Roselyn)|A bunch of useful helpers for The `Roslyn` .NET compiler.|
 |[SimMetricsCore](https://github.com/HamedFathi/SimMetricsCore)|A text similarity metric library.|
 |[SimpleCacheManager](https://github.com/HamedFathi/SimpleCacheManager)|A very simple but useful cache manager based on concurrent dictionary.|
 |[Shield](https://github.com/HamedFathi/Shield)|Yet another guard library with fluent API and customization.|
