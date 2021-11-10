@@ -1,6 +1,6 @@
 <h1 align="center">Hi 👋, I'm Hamed Fathi</h1>
 
-<h4>I've worked in software engineering for my entire 10-year career, and my commitment to learning and attention to cutting-edge achievements has gotten me to where I am today: a senior software developer for the Microsoft .NET ecosystem. I have a passion for the JavaScript world too with focusing on TypeScript, Aurelia, and Angular.</h4>
+<h3>I've worked in software engineering for my entire 10-year career, and my commitment to learning and attention to cutting-edge achievements has gotten me to where I am today: a senior software developer for the Microsoft .NET ecosystem. I have a passion for the JavaScript world too with focusing on TypeScript, Aurelia, and Angular.</h3>
 
 
 * 📝 I regularly write articles on [http://hamedfathi.me/](http://hamedfathi.me/)
