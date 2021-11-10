@@ -23,6 +23,7 @@
 |[Paged](https://github.com/HamedFathi/Paged)|Yet another pagination library with async support.|
 |[ParserToolkit](https://github.com/HamedFathi/ParserToolkit)|A toolkit that helps you to write your own parser.|
 |[PasswordMeter](https://github.com/HamedFathi/PasswordMeter)|This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.|
+|[QuartzFire](https://github.com/HamedFathi/QuartzFire)|An attempt to get closer to the `HangFire` on top of the `Quartz.NET` library.|
 |[React-Solutions](https://github.com/HamedFathi/React-Solutions)|A bunch of useful React components, hooks, and helpers. I have tried to bring other JS frameworks template syntax to React ecosystem.|
 |[Rosaleen](https://github.com/HamedFathi/Rosaleen)|A bunch of useful helpers for The Roslyn .NET compiler.|
 |[SimMetricsCore](https://github.com/HamedFathi/SimMetricsCore)|A text similarity metric library.|
