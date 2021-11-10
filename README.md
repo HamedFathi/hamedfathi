@@ -42,9 +42,9 @@
 |[_Free Windows Tools_](https://github.com/HamedFathi/free-windows-tools)|A selected list of free and useful Windows tools.|
 |[_Microsoft Visual Studio Extensions_](https://github.com/HamedFathi/VisualStudioExtensions)|A selected list of free Microsoft Visual Studio extensions.|
 |[_JetBrains Rider Plugins_](https://github.com/HamedFathi/JetBrainsRiderPlugins)|A selected list of free JetBrains Rider plugins.|
-|[_Angular Libraries_](https://github.com/HamedFathi/AngularFrameworkLibs)|A selected list of free Angular libraries.|
-|[_React Libraries_](https://github.com/HamedFathi/ReactFrameworkLibs)|A selected list of free React libraries.|
-|[_Vue 3 Libraries_](https://github.com/HamedFathi/VueFrameworkLibs)|A selected list of free Vue 3 libraries.|
+|[_Angular Libraries_](https://github.com/HamedFathi/AngulaLibraries)|A selected list of free Angular libraries.|
+|[_React Libraries_](https://github.com/HamedFathi/ReactLibraries)|A selected list of free React libraries.|
+|[_Vue 3 Libraries_](https://github.com/HamedFathi/VueLibraries)|A selected list of free Vue 3 libraries.|
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
