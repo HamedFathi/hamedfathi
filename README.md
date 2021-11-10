@@ -14,6 +14,7 @@
 |[DryIocExtended](https://github.com/HamedFathi/DryIocExtended)|Make using `DryIoc` easier.|
 |[DotLiquidExtended](https://github.com/HamedFathi/DotLiquidExtended)|A library to extend the `DotLiquid` functionalities.|
 |[dotnet-extract](https://github.com/HamedFathi/dotnet-extract)|A .NET global tool to extract embedded resource files from a .NET assembly.|
+|[DynamicPermission](https://github.com/HamedFathi/DynamicPermission)|A library for creating dynamic roles and permissions based on policies.|
 |[Embedded](https://github.com/HamedFathi/Embedded)|A bunch of useful helpers for extracting embedded resources.|
 |[Intercepted](https://github.com/HamedFathi/Intercepted)|An easy way to write interceptors on top of the `Castle.Core` library.|
 |[JsonExtended](https://github.com/HamedFathi/JsonExtended)|A bunch of useful extension methods for `System.Text.Json`.|
