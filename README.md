@@ -40,7 +40,7 @@
 
 |Project||
 |---|---|
-|[_Free Windows Tools_](https://github.com/HamedFathi/free-windows-tools)|A selected list of free and useful Windows tools.|
+|[_Free Windows Applications_](https://github.com/HamedFathi/FreeWindowsApplications)|A selected list of free and useful Windows applications.|
 |[_Microsoft Visual Studio Extensions_](https://github.com/HamedFathi/VisualStudioExtensions)|A selected list of free Microsoft Visual Studio extensions.|
 |[_JetBrains Rider Plugins_](https://github.com/HamedFathi/JetBrainsRiderPlugins)|A selected list of free JetBrains Rider plugins.|
 |[_Angular Libraries_](https://github.com/HamedFathi/AngularLibraries)|A selected list of free Angular libraries.|
