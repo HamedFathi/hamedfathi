@@ -12,6 +12,7 @@
 |[DotLiquidExtended](https://github.com/HamedFathi/DotLiquidExtended)|A library to extend the `DotLiquid` functionalities.|
 |[dotnet-extract](https://github.com/HamedFathi/dotnet-extract)|A .NET global tool to extract embedded resource files from a .NET assembly.|
 |[Intercepted](https://github.com/HamedFathi/Intercepted)|An easy way to write interceptors on top of the `Castle.Core` library.|
+|[JsonExtended](https://github.com/HamedFathi/JsonExtended)|A bunch of useful extension methods for `System.Text.Json`.|
 |[MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator)|A C# source generator to make an interface and a class wrapper to test static/extension methods.|
 |[MoreDynamicQuery](https://github.com/HamedFathi/MoreDynamicQuery)|A library to make dynamic queries via LINQ and Expressions.|
 |[MustacheSharpen](https://github.com/HamedFathi/MustacheSharpen)|An extension of the mustache text template engine for the .NET.|
