@@ -16,6 +16,7 @@
 |[Intercepted](https://github.com/HamedFathi/Intercepted)|An easy way to write interceptors on top of the `Castle.Core` library.|
 |[JsonExtended](https://github.com/HamedFathi/JsonExtended)|A bunch of useful extension methods for `System.Text.Json`.|
 |[MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator)|A C# source generator to make an interface and a class wrapper to test static/extension methods.|
+|[MoreCache](https://github.com/HamedFathi/MoreCache)|Thread-safe `MemoryCache` and lots of useful extension methods for easy caching.|
 |[MoreDynamicQuery](https://github.com/HamedFathi/MoreDynamicQuery)|A library to make dynamic queries via LINQ and Expressions.|
 |[MustacheSharpen](https://github.com/HamedFathi/MustacheSharpen)|An extension of the mustache text template engine for the .NET.|
 |[NSubstituteExtended](https://github.com/HamedFathi/NSubstituteExtended)|A library to extend the `NSubstitute` functionalities.|
