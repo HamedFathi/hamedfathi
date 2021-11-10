@@ -12,6 +12,7 @@
 |[Intercepted](https://github.com/HamedFathi/Intercepted)|An easy way to write interceptors on top of the `Castle.Core` library.|
 |[MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator)|A C# source generator to make an interface and a class wrapper to test static/extension methods.|
 |[MoreDynamicQuery](https://github.com/HamedFathi/MoreDynamicQuery)|A library to make dynamic queries via LINQ and Expressions.|
+|[MustacheSharpen](https://github.com/HamedFathi/MustacheSharpen)|An extension of the mustache text template engine for the .NET.|
 |[NSubstituteExtended](https://github.com/HamedFathi/NSubstituteExtended)|A library to extend `NSubstitute` functionalities.|
 |[Paged](https://github.com/HamedFathi/Paged)|Yet another pagination library with async support.|
 |[ParserToolkit](https://github.com/HamedFathi/ParserToolkit)|A toolkit that helps you to write your own parser.|
