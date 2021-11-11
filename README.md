@@ -36,7 +36,7 @@
 |[Styl-Injector](https://github.com/HamedFathi/Styl-Injector)|Simple functionality to inject a text or object-based style sheet into your HTML document.|
 |[TrxFileParser](https://github.com/HamedFathi/TrxFileParser)|A Trx file parser.|
 
-* ℹ️ Some repositories contain useful information:
+* ⭐ Some repositories contain useful information:
 
 |Project||
 |---|---|
