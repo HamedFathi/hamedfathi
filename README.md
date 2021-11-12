@@ -40,7 +40,7 @@
 |[Structured](https://github.com/HamedFathi/Structured)|A useful set of data structures.|
 |[Styl-Injector](https://github.com/HamedFathi/Styl-Injector)|Simple functionality to inject a text or object-based style sheet into your HTML document.|
 |[TrxFileParser](https://github.com/HamedFathi/TrxFileParser)|A Trx file parser.|
-|[WindowsRawPrint](https://github.com/HamedFathi/WindowsRawPrint)|A library to sent file or byte array to a Windows printer.|
+|[WindowsRawPrint](https://github.com/HamedFathi/WindowsRawPrint)|A library to send a file or byte array to a Windows printer..|
 
 * ⭐ Some repositories contain useful information:
 
