@@ -18,7 +18,7 @@
 |[DynamicPermission](https://github.com/HamedFathi/DynamicPermission)|A library for creating dynamic roles and permissions based on policies.|
 |[Embedded](https://github.com/HamedFathi/Embedded)|A bunch of useful helpers for extracting embedded resources.|
 |[Enriched](https://github.com/HamedFathi/Enriched)|A huge collection of useful extension methods for the .NET ecosystem.|
-|[Enriched.Utilities](https://github.com/HamedFathi/Enriched.Utilities)|A huge collection of utilities for the .NET ecosystem.|
+|[Enriched.Utilities](https://github.com/HamedFathi/Enriched.Utilities)|A huge collection of useful utilities for the .NET ecosystem.|
 |[EnumeratorExtended](https://github.com/HamedFathi/EnumeratorExtended)|This library enables new capabilities on .NET `Enumerator`s to have a more powerful `foreach`.|
 |[GitIgnoreMaker](https://github.com/HamedFathi/GitIgnoreMaker)|An API to create useful `.gitignore` files for your project.|
 |[Intercepted](https://github.com/HamedFathi/Intercepted)|An easy way to write interceptors on top of the `Castle.Core` library.|
