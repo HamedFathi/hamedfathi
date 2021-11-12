@@ -24,6 +24,7 @@
 |[MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator)|A C# source generator to make an interface and a class wrapper to test static/extension methods.|
 |[MoreCache](https://github.com/HamedFathi/MoreCache)|Thread-safe `MemoryCache` and lots of useful extension methods for easy caching.|
 |[MoreDynamicQuery](https://github.com/HamedFathi/MoreDynamicQuery)|A library to make dynamic queries via LINQ and Expressions.|
+|[MoreWrappers](https://github.com/HamedFathi/MoreWrappers)|A bunch of wrappers for non-testable types that make them testable.|
 |[MustacheSharpen](https://github.com/HamedFathi/MustacheSharpen)|An extension of the mustache text template engine for the .NET.|
 |[NSubstituteExtended](https://github.com/HamedFathi/NSubstituteExtended)|A library to extend the `NSubstitute` functionalities.|
 |[Paged](https://github.com/HamedFathi/Paged)|Yet another pagination library with async support.|
