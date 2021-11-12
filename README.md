@@ -17,6 +17,7 @@
 |[dotnet-extract](https://github.com/HamedFathi/dotnet-extract)|A .NET global tool to extract embedded resource files from a .NET assembly.|
 |[DynamicPermission](https://github.com/HamedFathi/DynamicPermission)|A library for creating dynamic roles and permissions based on policies.|
 |[Embedded](https://github.com/HamedFathi/Embedded)|A bunch of useful helpers for extracting embedded resources.|
+|[EnumeratorExtended](https://github.com/HamedFathi/EnumeratorExtended)|This library enables new capabilities on .NET `Enumerators` to have a more powerful `foreach`.|
 |[GitIgnoreMaker](https://github.com/HamedFathi/GitIgnoreMaker)|An API to create useful `.gitignore` files for your project.|
 |[Intercepted](https://github.com/HamedFathi/Intercepted)|An easy way to write interceptors on top of the `Castle.Core` library.|
 |[JsonExtended](https://github.com/HamedFathi/JsonExtended)|A bunch of useful extension methods for `System.Text.Json`.|
