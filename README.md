@@ -2,6 +2,8 @@
 
 <p align="left">I've worked in software engineering for my entire 10-year career, and my commitment to learning and attention to cutting-edge achievements has gotten me to where I am today: a senior software developer for the Microsoft .NET ecosystem. I have a passion for the JavaScript world too with focusing on TypeScript, Angular, React, and Aurelia.</p>
 
+> "I think it's rarely about what you actually learn in class . . . it's mostly about things that you stay motivated to go and continue to do on your own." - Prof. Maryam Mirzakhani (1977-2017) press conference after winning Field's Medal | August 2014
+
 * 📝 I regularly write articles on [http://hamedfathi.me/](http://hamedfathi.me/)
 
 * 💡 I’m currently working on the following projects: 
