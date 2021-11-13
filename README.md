@@ -45,6 +45,7 @@
 |[Styl-Injector](https://github.com/HamedFathi/Styl-Injector)|Simple functionality to inject a text or object-based style sheet into your HTML document.|
 |[TrxFileParser](https://github.com/HamedFathi/TrxFileParser)|A Trx file parser.|
 |[ts-parcel2-template](https://github.com/HamedFathi/ts-parcel2-template)|A template repository to make `TypeScript` node packages with `Parcel 2`.|
+|[ts-rollup-template](https://github.com/HamedFathi/ts-rollup-template)|A template repository to make `TypeScript` node packages with `Rollup.js`.|
 |[WindowsRawPrint](https://github.com/HamedFathi/WindowsRawPrint)|A library to send a file or byte array to a Windows printer..|
 
 * ⭐ Some repositories contain useful information:
