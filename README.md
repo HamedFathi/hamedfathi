@@ -15,38 +15,38 @@
 |[DrawingExtended](https://github.com/HamedFathi/DrawingExtended)|A bunch of useful extension methods for `System.Drawing.Common`.|
 |[DryIocExtended](https://github.com/HamedFathi/DryIocExtended)|Make using `DryIoc` easier.|
 |[DotLiquidExtended](https://github.com/HamedFathi/DotLiquidExtended)|A library to extend the `DotLiquid` functionalities.|
-|[dotnet-extract](https://github.com/HamedFathi/dotnet-extract)|A .NET global tool to extract embedded resource files from a .NET assembly.|
+|[dotnet-extract](https://github.com/HamedFathi/dotnet-extract)|A .NET global tool to extract embedded resource files from a `.NET` assembly.|
 |[DynamicPermission](https://github.com/HamedFathi/DynamicPermission)|A library for creating dynamic roles and permissions based on policies.|
 |[Embedded](https://github.com/HamedFathi/Embedded)|A bunch of useful helpers for extracting embedded resources.|
-|[Enriched](https://github.com/HamedFathi/Enriched)|A huge collection of useful extension methods for the .NET ecosystem.|
-|[Enriched.Mvc](https://github.com/HamedFathi/Enriched.Mvc)|A huge collection of useful extension methods and utilities for the ASP.NET Core ecosystem.|
+|[Enriched](https://github.com/HamedFathi/Enriched)|A huge collection of useful extension methods for the `.NET` ecosystem.|
+|[Enriched.Mvc](https://github.com/HamedFathi/Enriched.Mvc)|A huge collection of useful extension methods and utilities for the `ASP.NET Core` ecosystem.|
 |[Enriched.Utilities](https://github.com/HamedFathi/Enriched.Utilities)|A huge collection of useful utilities for the .NET ecosystem.|
 |[EnumeratorExtended](https://github.com/HamedFathi/EnumeratorExtended)|This library enables new capabilities on .NET `Enumerator`s to have a more powerful `foreach`.|
 |[GitIgnoreMaker](https://github.com/HamedFathi/GitIgnoreMaker)|An API to create useful `.gitignore` files for your project.|
 |[Intercepted](https://github.com/HamedFathi/Intercepted)|An easy way to write interceptors on top of the `Castle.Core` library.|
 |[JsonExtended](https://github.com/HamedFathi/JsonExtended)|A bunch of useful extension methods for `System.Text.Json`.|
-|[MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator)|A C# source generator to make an interface and a class wrapper to test static and extension methods.|
+|[MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator)|A `C# source generator` to make an interface and a class wrapper to test static and extension methods.|
 |[MoreCache](https://github.com/HamedFathi/MoreCache)|Thread-safe `MemoryCache` and lots of useful extension methods for easy caching.|
 |[MoreDynamicQuery](https://github.com/HamedFathi/MoreDynamicQuery)|A library to make dynamic queries via LINQ and Expressions.|
 |[MoreWrappers](https://github.com/HamedFathi/MoreWrappers)|A bunch of wrappers for non-testable types that make them testable.|
-|[MustacheSharpen](https://github.com/HamedFathi/MustacheSharpen)|An extension of the mustache text template engine for the .NET.|
+|[MustacheSharpen](https://github.com/HamedFathi/MustacheSharpen)|An extension of the mustache text template engine for the `.NET`.|
 |[NSubstituteExtended](https://github.com/HamedFathi/NSubstituteExtended)|A library to extend the `NSubstitute` functionalities.|
 |[Paged](https://github.com/HamedFathi/Paged)|Yet another pagination library with async support.|
 |[ParserToolkit](https://github.com/HamedFathi/ParserToolkit)|A toolkit that helps you to write your own parser.|
 |[PasswordMeter](https://github.com/HamedFathi/PasswordMeter)|This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.|
 |[QuartzFire](https://github.com/HamedFathi/QuartzFire)|An attempt to get closer to the `HangFire` on top of the `Quartz.NET` library.|
-|[React-Solutions](https://github.com/HamedFathi/React-Solutions)|A bunch of useful React components, hooks, and helpers. I have tried to bring other JS frameworks template syntax to React ecosystem.|
+|[React-Solutions](https://github.com/HamedFathi/React-Solutions)|A bunch of useful `React` components, hooks, and helpers. I have tried to bring other JavaScript frameworks template syntax to `React` ecosystem.|
 |[Roselyn](https://github.com/HamedFathi/Roselyn)|A bunch of useful helpers for the `Roslyn` .NET compiler.|
 |[RoslynSolutionAnalyzor](https://github.com/HamedFathi/RoslynSolutionAnalyzor)|A sample to show how to analyze a .NET solution by the `Roslyn` .NET compiler.|
 |[SimMetricsCore](https://github.com/HamedFathi/SimMetricsCore)|A text similarity metric library.|
 |[SimpleCacheManager](https://github.com/HamedFathi/SimpleCacheManager)|A very simple but useful cache manager based on concurrent dictionary.|
 |[Shield](https://github.com/HamedFathi/Shield)|Yet another guard library with fluent API and customization.|
 |[Structured](https://github.com/HamedFathi/Structured)|A useful set of data structures.|
-|[Styl-Injector](https://github.com/HamedFathi/Styl-Injector)|Simple functionality to inject a text or object-based style sheet into your HTML document.|
-|[TrxFileParser](https://github.com/HamedFathi/TrxFileParser)|A Trx file parser.|
+|[Styl-Injector](https://github.com/HamedFathi/Styl-Injector)|Simple functionality to inject a text or object-based style sheet into your `HTML` document.|
+|[TrxFileParser](https://github.com/HamedFathi/TrxFileParser)|A `Trx` file parser.|
 |[ts-parcel2-template](https://github.com/HamedFathi/ts-parcel2-template)|A template repository to make `TypeScript` node packages with `Parcel 2`.|
 |[ts-rollup-template](https://github.com/HamedFathi/ts-rollup-template)|A template repository to make `TypeScript` node packages with `Rollup.js`.|
-|[WindowsRawPrint](https://github.com/HamedFathi/WindowsRawPrint)|A library to send a file or byte array to a Windows printer..|
+|[WindowsRawPrint](https://github.com/HamedFathi/WindowsRawPrint)|A library to send a file or byte array to a `Windows` printer..|
 
 * ⭐ Some repositories contain useful information:
 
