@@ -4,7 +4,7 @@
 
 > "I think it's rarely about what you actually learn in class . . . it's mostly about things that you stay motivated to go and continue to do on your own."<br/>Professor Maryam Mirzakhani (1977-2017) - Press conference after winning Field's Medal | August 2014
 
-* 📝 I regularly write articles on [http://hamedfathi.me/](http://hamedfathi.me)
+* 📝 I regularly write articles on [http://hamedfathi.me](http://hamedfathi.me)
 
 * 💡 I’m currently working on the following projects: 
 
