@@ -1,4 +1,6 @@
-<h1 align="center">Hi 👋, I'm Hamed Fathi</h1>
+<h1 align="center">Hi 👋, I'm Hamed Fathi <img src="https://user-images.githubusercontent.com/8418700/141674920-4f48d27a-c2c0-483e-9179-6e73d9354944.png">
+<img src="https://user-images.githubusercontent.com/8418700/141675010-23b0fa2b-82eb-4b16-b51d-f8cf77efd278.png"></h1>
+
 
 <p align="left">I've worked in software engineering for my entire 10-year career, and my commitment to learning and attention to cutting-edge achievements has gotten me to where I am today: a senior software developer for the Microsoft .NET ecosystem. I have a passion for the JavaScript world too with focusing on TypeScript, Angular, React, and Aurelia.</p>
 
