@@ -1,5 +1,5 @@
-<h1 align="center">Hi 👋, I'm Hamed Fathi <img src="https://user-images.githubusercontent.com/8418700/141674920-4f48d27a-c2c0-483e-9179-6e73d9354944.png">
-<img src="https://user-images.githubusercontent.com/8418700/141675010-23b0fa2b-82eb-4b16-b51d-f8cf77efd278.png"></h1>
+<h1 align="center">Hi 👋, I'm Hamed Fathi <img src="https://user-images.githubusercontent.com/8418700/141686676-8860d341-96c7-4992-939e-022be388bdd5.png">
+<img src="https://user-images.githubusercontent.com/8418700/141686723-1fd5d72d-689a-487a-bc9c-7fde76999fc9.png"></h1>
 
 
 <p align="left">I've worked in software engineering for my entire 10-year career, and my commitment to learning and attention to cutting-edge achievements has gotten me to where I am today: a senior software developer for the Microsoft .NET ecosystem. I have a passion for the JavaScript world too with focusing on TypeScript, Angular, React, and Aurelia.</p>
