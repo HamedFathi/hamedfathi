@@ -47,7 +47,6 @@
 |[Structured](https://github.com/HamedFathi/Structured)|A useful set of data structures.|
 |[Styl-Injector](https://github.com/HamedFathi/Styl-Injector)|Simple functionality to inject a text or object-based style sheet into your `HTML` document.|
 |[TrxFileParser](https://github.com/HamedFathi/TrxFileParser)|A `Trx` file parser.|
-|[ts-parcel2-template](https://github.com/HamedFathi/ts-parcel2-template)|A template repository to make `TypeScript` node packages with `Parcel 2`.|
 |[ts-rollup-template](https://github.com/HamedFathi/ts-rollup-template)|A template repository to make `TypeScript` node packages with `Rollup.js`.|
 |[WindowsRawPrint](https://github.com/HamedFathi/WindowsRawPrint)|A library to send a file or byte array to a `Windows` printer..|
 
@@ -56,11 +55,12 @@
 |Project||
 |---|---|
 |[_Free Windows Applications_](https://github.com/HamedFathi/FreeWindowsApplications)|A selected list of free and useful Windows applications.|
-|[_Microsoft Visual Studio Extensions_](https://github.com/HamedFathi/VisualStudioExtensions)|A selected list of free Microsoft Visual Studio extensions.|
-|[_JetBrains Rider Plugins_](https://github.com/HamedFathi/JetBrainsRiderPlugins)|A selected list of free JetBrains Rider plugins.|
-|[_Angular Libraries_](https://github.com/HamedFathi/AngularLibraries)|A selected list of free Angular libraries.|
-|[_React Libraries_](https://github.com/HamedFathi/ReactLibraries)|A selected list of free React libraries.|
-|[_Vue 3 Libraries_](https://github.com/HamedFathi/VueLibraries)|A selected list of free Vue 3 libraries.|
+|[_Microsoft Visual Studio Extensions_](https://github.com/HamedFathi/VisualStudioExtensions)|A selected list of free `Microsoft Visual Studio` extensions.|
+|[_Microsoft Visual Studio Code Extensions_](https://github.com/HamedFathi/VisualStudioCodeExtensions)|A selected list of free `Microsoft Visual Studio Code` extensions.|
+|[_JetBrains Rider Plugins_](https://github.com/HamedFathi/JetBrainsRiderPlugins)|A selected list of free `JetBrains Rider` plugins.|
+|[_Angular Libraries_](https://github.com/HamedFathi/AngularLibraries)|A selected list of free `Angular` libraries.|
+|[_React Libraries_](https://github.com/HamedFathi/ReactLibraries)|A selected list of free `React` libraries.|
+|[_Vue 3 Libraries_](https://github.com/HamedFathi/VueLibraries)|A selected list of free `Vue 3` libraries.|
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
