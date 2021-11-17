@@ -54,6 +54,7 @@
 
 |Project||
 |---|---|
+|[dotnet-libraries](https://github.com/HamedFathi/dotnet-libraries)|A selected list of free and useful `.NET` libraries, frameworks and tools.|
 |[_Free Windows Applications_](https://github.com/HamedFathi/FreeWindowsApplications)|A selected list of free and useful `Windows` applications.|
 |[_Microsoft Visual Studio Extensions_](https://github.com/HamedFathi/VisualStudioExtensions)|A selected list of free `Microsoft Visual Studio` extensions.|
 |[_Microsoft Visual Studio Code Extensions_](https://github.com/HamedFathi/VisualStudioCodeExtensions)|A selected list of free `Microsoft Visual Studio Code` extensions.|
