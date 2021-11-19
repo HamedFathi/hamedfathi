@@ -48,8 +48,9 @@
 |[Structured](https://github.com/HamedFathi/Structured)|A useful set of data structures.|
 |[Styl-Injector](https://github.com/HamedFathi/Styl-Injector)|Simple functionality to inject a text or object-based style sheet into your `HTML` document.|
 |[TrxFileParser](https://github.com/HamedFathi/TrxFileParser)|A `Trx` file parser.|
-|[ts-rollup-template](https://github.com/HamedFathi/ts-rollup-template)|A template repository to make `TypeScript` node packages with `Rollup.js`.|
-|[WindowsRawPrint](https://github.com/HamedFathi/WindowsRawPrint)|A library to send a file or byte array to a `Windows` printer..|
+|[ts-rollup-jest-template](https://github.com/HamedFathi/ts-rollup-jest-template)|A template repository to make `TypeScript` node packages with `Rollup.js` and `Jest` for testing.|
+|[ts-rollup-mocha-template](https://github.com/HamedFathi/ts-rollup-mocha-template)|A template repository to make `TypeScript` node packages with `Rollup.js` and `Mocha` for testing.|
+|[WindowsRawPrint](https://github.com/HamedFathi/WindowsRawPrint)|A library to send a file or byte array to a `Windows` printer.|
 
 * ⭐ Some repositories contain useful information:
 
