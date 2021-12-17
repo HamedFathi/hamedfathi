@@ -15,7 +15,7 @@
 |---|---|
 |[angular-fragment-snippet](https://github.com/HamedFathi/angular-fragment-vscode-snippet)|A fragment (no-host) component [snippet code](https://marketplace.visualstudio.com/items?itemName=hamedfathi.angular-fragment) for `Angular 2+` and `Microsoft Visual Studio Code`.|
 |[ConfigurationExtended](https://github.com/HamedFathi/ConfigurationExtended)|A bunch of useful helpers for `Microsoft.Extensions.Configuration`.|
-|[Connexion](https://github.com/HamedFathi/Connexion)|A console-based and plugin-based infrastructure to write applications.|
+|[Connexion](https://github.com/HamedFathi/Connexion)|A console-based and plugin-based infrastructure to write applications/generators.|
 |[DrawingExtended](https://github.com/HamedFathi/DrawingExtended)|A bunch of useful extension methods for `System.Drawing.Common`.|
 |[DryIocExtended](https://github.com/HamedFathi/DryIocExtended)|Make using `DryIoc` easier.|
 |[DotLiquidExtended](https://github.com/HamedFathi/DotLiquidExtended)|A library to extend the `DotLiquid` functionalities.|
