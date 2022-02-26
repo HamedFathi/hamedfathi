@@ -36,6 +36,7 @@
 |[MoreFluentAssertions](https://github.com/HamedFathi/MoreFluentAssertions)|More extensions for `FluentAssertions`.|
 |[MoreWrappers](https://github.com/HamedFathi/MoreWrappers)|A bunch of wrappers for non-testable types that make them testable.|
 |[MustacheSharpen](https://github.com/HamedFathi/MustacheSharpen)|An extension of the mustache text template engine for the `.NET`.|
+|[NewtonsoftJsonExtended](https://github.com/HamedFathi/NewtonsoftJsonExtended)|A library to extend the `Newtonsoft Json.NET` functionalities.|
 |[NSubstituteExtended](https://github.com/HamedFathi/NSubstituteExtended)|A library to extend the `NSubstitute` functionalities.|
 |[Paged](https://github.com/HamedFathi/Paged)|Yet another pagination library with async support.|
 |[ParserToolkit](https://github.com/HamedFathi/ParserToolkit)|A toolkit that helps you to write your own parser.|
