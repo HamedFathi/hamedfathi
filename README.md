@@ -38,6 +38,7 @@
 |[MustacheSharpen](https://github.com/HamedFathi/MustacheSharpen)|An extension of the mustache text template engine for the `.NET`.|
 |[NewtonsoftJsonExtended](https://github.com/HamedFathi/NewtonsoftJsonExtended)|A library to extend the `Newtonsoft Json.NET` functionalities.|
 |[NSubstituteExtended](https://github.com/HamedFathi/NSubstituteExtended)|A library to extend the `NSubstitute` functionalities.|
+|[OpenApiExtended](https://github.com/HamedFathi/OpenApiExtended)|A bunch of useful extension methods for `Microsoft.OpenApi.Readers`.|
 |[Paged](https://github.com/HamedFathi/Paged)|Yet another pagination library with async support.|
 |[ParserToolkit](https://github.com/HamedFathi/ParserToolkit)|A toolkit that helps you to write your own parser.|
 |[PasswordMeter](https://github.com/HamedFathi/PasswordMeter)|This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.|
