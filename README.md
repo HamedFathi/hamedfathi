@@ -42,6 +42,7 @@
 |[Paged](https://github.com/HamedFathi/Paged)|Yet another pagination library with async support.|
 |[ParserToolkit](https://github.com/HamedFathi/ParserToolkit)|A toolkit that helps you to write your own parser.|
 |[PasswordMeter](https://github.com/HamedFathi/PasswordMeter)|This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.|
+|[PostmanCollectionReader](https://github.com/HamedFathi/PostmanCollectionReader)|A library to read `Postman Collection v2.1` Json files.|
 |[QuartzFire](https://github.com/HamedFathi/QuartzFire)|An attempt to get closer to the `HangFire` on top of the `Quartz.NET` library.|
 |[React-Solutions](https://github.com/HamedFathi/React-Solutions)|A bunch of useful `React` components, hooks, and helpers. I have tried to bring other JavaScript frameworks template syntax to `React` ecosystem.|
 |[Roselyn](https://github.com/HamedFathi/Roselyn)|A bunch of useful helpers for the `Roslyn` .NET compiler.|
