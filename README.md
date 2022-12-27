@@ -17,7 +17,6 @@
 |[AzureCosmosDBExtended](https://github.com/HamedFathi/AzureCosmosDBExtended)|A library to extend the `Microsoft Azure Cosmos DB SDK`.|
 |[ConfigurationExtended](https://github.com/HamedFathi/ConfigurationExtended)|A bunch of useful helpers for `Microsoft.Extensions.Configuration`.|
 |[Connexion](https://github.com/HamedFathi/Connexion)|A console-based and plugin-based infrastructure to write applications/generators.|
-|[DrawingExtended](https://github.com/HamedFathi/DrawingExtended)|A bunch of useful extension methods for `System.Drawing.Common`.|
 |[DryIocExtended](https://github.com/HamedFathi/DryIocExtended)|Make using `DryIoc` easier.|
 |[DotLiquidExtended](https://github.com/HamedFathi/DotLiquidExtended)|A library to extend the `DotLiquid` functionalities.|
 |[dotnet-extract](https://github.com/HamedFathi/dotnet-extract)|A .NET global tool to extract embedded resource files from a `.NET` assembly.|
@@ -33,14 +32,11 @@
 |[JsonExtended](https://github.com/HamedFathi/JsonExtended)|A bunch of useful extension methods for `System.Text.Json`.|
 |[MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator)|A `C# source generator` to make an interface and a class wrapper to test static and extension methods.|
 |[MoreCache](https://github.com/HamedFathi/MoreCache)|Thread-safe `MemoryCache` and lots of useful extension methods for easy caching.|
-|[MoreDynamicQuery](https://github.com/HamedFathi/MoreDynamicQuery)|A library to make dynamic queries via LINQ and Expressions.|
 |[MoreFluentAssertions](https://github.com/HamedFathi/MoreFluentAssertions)|More extensions for `FluentAssertions`.|
-|[MoreWrappers](https://github.com/HamedFathi/MoreWrappers)|A bunch of wrappers for non-testable types that make them testable.|
 |[MustacheSharpen](https://github.com/HamedFathi/MustacheSharpen)|An extension of the mustache text template engine for the `.NET`.|
 |[NewtonsoftJsonExtended](https://github.com/HamedFathi/NewtonsoftJsonExtended)|A library to extend the `Newtonsoft Json.NET` functionalities.|
 |[NSubstituteExtended](https://github.com/HamedFathi/NSubstituteExtended)|A library to extend the `NSubstitute` functionalities.|
 |[OpenApiExtended](https://github.com/HamedFathi/OpenApiExtended)|A bunch of useful extension methods for `Microsoft.OpenApi.Readers`.|
-|[Paged](https://github.com/HamedFathi/Paged)|Yet another pagination library with async support.|
 |[ParserToolkit](https://github.com/HamedFathi/ParserToolkit)|A toolkit that helps you to write your own parser.|
 |[PasswordMeter](https://github.com/HamedFathi/PasswordMeter)|This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.|
 |[PostmanCollectionReader](https://github.com/HamedFathi/PostmanCollectionReader)|A library to read `Postman Collection v2.1` Json files.|
@@ -50,10 +46,7 @@
 |[Roselyn](https://github.com/HamedFathi/Roselyn)|A bunch of useful helpers for the `Roslyn` .NET compiler.|
 |[RoslynSolutionAnalyzor](https://github.com/HamedFathi/RoslynSolutionAnalyzor)|A sample to show how to analyze a .NET solution by the `Roslyn` .NET compiler.|
 |[SimMetricsCore](https://github.com/HamedFathi/SimMetricsCore)|A text similarity metric library.|
-|[SimpleCacheManager](https://github.com/HamedFathi/SimpleCacheManager)|A very simple but useful cache manager based on concurrent dictionary.|
 |[Shield](https://github.com/HamedFathi/Shield)|Yet another guard library with fluent API and customization.|
-|[SmarterFormat](https://github.com/HamedFathi/SmarterFormat)|A bunch of useful extension methods for `SmartFormat`.|
-|[Structured](https://github.com/HamedFathi/Structured)|A useful set of data structures.|
 |[Styl-Injector](https://github.com/HamedFathi/Styl-Injector)|Simple functionality to inject a text or object-based style sheet into your `HTML` document.|
 |[TrxFileParser](https://github.com/HamedFathi/TrxFileParser)|A `Trx` file parser.|
 |[ts-rollup-jest-template](https://github.com/HamedFathi/ts-rollup-jest-template)|A template repository to make `TypeScript` node packages with `Rollup.js` and `Jest` for testing.|
@@ -64,14 +57,7 @@
 
 |Project||
 |---|---|
-|[_Microsoft .NET Libraries_](https://github.com/HamedFathi/dotnet-libraries)|A selected list of free and useful `.NET` libraries, frameworks, and tools.|
 |[_Free Windows Applications_](https://github.com/HamedFathi/FreeWindowsApplications)|A selected list of free and useful `Windows` applications.|
-|[_Microsoft Visual Studio Extensions_](https://github.com/HamedFathi/VisualStudioExtensions)|A selected list of free `Microsoft Visual Studio` extensions.|
-|[_Microsoft Visual Studio Code Extensions_](https://github.com/HamedFathi/VisualStudioCodeExtensions)|A selected list of free `Microsoft Visual Studio Code` extensions.|
-|[_JetBrains Rider Plugins_](https://github.com/HamedFathi/JetBrainsRiderPlugins)|A selected list of free `JetBrains Rider` plugins.|
-|[_Angular Libraries_](https://github.com/HamedFathi/AngularLibraries)|A selected list of free `Angular` libraries.|
-|[_React Libraries_](https://github.com/HamedFathi/ReactLibraries)|A selected list of free `React` libraries.|
-|[_Vue 3 Libraries_](https://github.com/HamedFathi/VueLibraries)|A selected list of free `Vue 3` libraries.|
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
