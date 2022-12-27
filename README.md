@@ -36,7 +36,7 @@
 |[MustacheSharpen](https://github.com/HamedFathi/MustacheSharpen)|An extension of the mustache text template engine for the `.NET`.|
 |[NewtonsoftJsonExtended](https://github.com/HamedFathi/NewtonsoftJsonExtended)|A library to extend the `Newtonsoft Json.NET` functionalities.|
 |[NSubstituteExtended](https://github.com/HamedFathi/NSubstituteExtended)|A library to extend the `NSubstitute` functionalities.|
-|[OpenApiExtended](https://github.com/HamedFathi/OpenApiExtended)|A bunch of useful extension methods for `Microsoft.OpenApi.Readers`.|
+|[OpenApiExtended](https://github.com/HamedFathi/OpenApiExtended)|A bunch of useful extension methods for `Microsoft.OpenApi`.|
 |[ParserToolkit](https://github.com/HamedFathi/ParserToolkit)|A toolkit that helps you to write your own parser.|
 |[PasswordMeter](https://github.com/HamedFathi/PasswordMeter)|This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.|
 |[PostmanCollectionReader](https://github.com/HamedFathi/PostmanCollectionReader)|A library to read `Postman Collection v2.1` Json files.|
