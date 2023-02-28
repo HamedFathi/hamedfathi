@@ -45,6 +45,7 @@
 |[Replay](https://github.com/HamedFathi/Replay)|A Visual Studio Code extension for auto typing.|
 |[Roselyn](https://github.com/HamedFathi/Roselyn)|A bunch of useful helpers for the `Roslyn` .NET compiler.|
 |[RoslynSolutionAnalyzor](https://github.com/HamedFathi/RoslynSolutionAnalyzor)|A sample to show how to analyze a .NET solution by the `Roslyn` .NET compiler.|
+|[screen.play.write](https://github.com/HamedFathi/screen.play.write)|Screenplay pattern for `Playwright`.|
 |[SimMetricsCore](https://github.com/HamedFathi/SimMetricsCore)|A text similarity metric library.|
 |[Shield](https://github.com/HamedFathi/Shield)|Yet another guard library with fluent API and customization.|
 |[Styl-Injector](https://github.com/HamedFathi/Styl-Injector)|Simple functionality to inject a text or object-based style sheet into your `HTML` document.|
