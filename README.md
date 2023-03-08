@@ -7,7 +7,7 @@
 
 > "Yesterday I was clever, so I wanted to change the world. Today I am wise, so I am changing myself."<br/>Rumi (Iranian poet 1207 – 1273)
 
-* 📝 I regularly write articles on [http://hamedfathi.me](http://hamedfathi.me)
+* 📝 I regularly write articles on [http://hamedfathi.github.io/](http://hamedfathi.github.io/)
 
 * 💡 I’m currently working on the following projects: 
 
