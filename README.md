@@ -115,7 +115,7 @@
 
 |Project||
 |---|---|
-|[_Free Windows Applications_](https://github.com/HamedFathi/FreeWindowsApplications)|A selected list of free and useful `Windows` applications.|
+|[Free Windows Applications](https://github.com/HamedFathi/FreeWindowsApplications)|A selected list of free and useful `Windows` applications.|
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
