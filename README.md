@@ -47,6 +47,7 @@
 * [OpenApiExtended](https://github.com/HamedFathi/OpenApiExtended) - A bunch of useful extension methods for `Microsoft.OpenApi`.
 * [ParserToolkit](https://github.com/HamedFathi/ParserToolkit) - A toolkit that helps you to write your own parser.
 * [PostmanCollectionReader](https://github.com/HamedFathi/PostmanCollectionReader) - A library to read `Postman Collection v2.1` Json files.
+* [PostmanCollectionToOpenApi](https://github.com/HamedFathi/PostmanCollectionToOpenApi) - A library for converting Postman collection v2.1 to OpenAPI spec.
 * [QuartzFire](https://github.com/HamedFathi/QuartzFire) - An attempt to get closer to the `HangFire` on top of the `Quartz.NET` library.
 * [SimMetricsCore](https://github.com/HamedFathi/SimMetricsCore) - A text similarity metric library.
 * [Shield](https://github.com/HamedFathi/Shield) - Yet another guard library with fluent API and customization.
