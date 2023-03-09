@@ -20,11 +20,11 @@
 
 #### ✦ C#
 
-##### &nbsp;&nbsp; ✧ Global Tools
+##### &nbsp;&nbsp; ➤ Global Tools
 
 * [dotnet-extract](https://github.com/HamedFathi/dotnet-extract) - A .NET global tool to extract embedded resource files from a `.NET` assembly.
 
-##### &nbsp;&nbsp; ✧ Libraries
+##### &nbsp;&nbsp; ➤ Libraries
 
 * [AzureCosmosDBExtended](https://github.com/HamedFathi/AzureCosmosDBExtended) - A library to extend the `Microsoft Azure Cosmos DB SDK`.
 * [ConfigurationExtended](https://github.com/HamedFathi/ConfigurationExtended) - A bunch of useful helpers for `Microsoft.Extensions.Configuration`.
@@ -52,12 +52,12 @@
 * [TrxFileParser](https://github.com/HamedFathi/TrxFileParser) - A `Trx` file parser.
 * [WindowsRawPrint](https://github.com/HamedFathi/WindowsRawPrint) - A library to send a file or byte array to a `Windows` printer.
 
-##### &nbsp;&nbsp; ✧ Roslyn
+##### &nbsp;&nbsp; ➤ Roslyn
 
 * [Roselyn](https://github.com/HamedFathi/Roselyn) - A bunch of useful helpers for the `Roslyn` .NET compiler.
 * [RoslynSolutionAnalyzor](https://github.com/HamedFathi/RoslynSolutionAnalyzor) - A sample to show how to analyze a .NET solution by the `Roslyn` .NET compiler.
 
-##### &nbsp;&nbsp; ✧ Source Code Generators
+##### &nbsp;&nbsp; ➤ Source Code Generators
 
 * [EnumerationClassGenerator](https://github.com/HamedFathi/EnumerationClassGenerator) - A C# source generator to create an enumeration class from an `enum` type.
 * [MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator) - A `C# source generator` to make an interface and a class wrapper to test static and extension methods.
