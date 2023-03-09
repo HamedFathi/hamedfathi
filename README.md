@@ -27,6 +27,9 @@
 ##### &nbsp;&nbsp; ➤ Libraries
 
 * [AzureCosmosDBExtended](https://github.com/HamedFathi/AzureCosmosDBExtended) - A library to extend the `Microsoft Azure Cosmos DB SDK`.
+* [Beyond.Extensions](https://github.com/HamedFathi/Beyond.Extensions) - A huge collection of useful extension methods for the .NET ecosystem.
+* [Beyond.QueryBuilder](https://github.com/HamedFathi/Beyond.QueryBuilder) - A `JSON` based .NET query builder.
+* [Beyond.Utilities](https://github.com/HamedFathi/Beyond.Utilities) - A huge collection of useful utilities and helper methods for the .NET ecosystem.
 * [ConfigurationExtended](https://github.com/HamedFathi/ConfigurationExtended) - A bunch of useful helpers for `Microsoft.Extensions.Configuration`.
 * [Connexion](https://github.com/HamedFathi/Connexion) - A console-based and plugin-based infrastructure to write applications/generators.
 * [DryIocExtended](https://github.com/HamedFathi/DryIocExtended) - Make using `DryIoc` easier.
