@@ -3,7 +3,7 @@
 <img src="https://user-images.githubusercontent.com/8418700/141686822-5ba4a272-3f88-43ed-98f5-cfeb8068f09e.png"></h1>
 
 
-<p align="left">I've worked in software engineering for my entire 10-year career, and my commitment to learning and attention to cutting-edge achievements has gotten me to where I am today: a senior software developer for the Microsoft .NET ecosystem. I have a passion for the JavaScript world too with focusing on TypeScript, Angular, React, and Aurelia.</p>
+<p align="left">I've worked in software engineering for my entire 10-year career, and my commitment to learning and attention to cutting-edge achievements has gotten me to where I am today: a senior software developer for the Microsoft .NET ecosystem. I have a passion for the JavaScript world too with focusing on TypeScript, and Angular.</p>
 
 > "Yesterday I was clever, so I wanted to change the world. Today I am wise, so I am changing myself."<br/>Rumi (Iranian poet 1207 – 1273)
 
