@@ -75,6 +75,7 @@
 
 * [PasswordMeter](https://github.com/HamedFathi/PasswordMeter) - This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.
 * [Styl-Injector](https://github.com/HamedFathi/Styl-Injector) - Simple functionality to inject a text or object-based style sheet into your `HTML` document.
+* [ts-more](https://github.com/HamedFathi/ts-more) - A collection of helpful utilities, types, and decorators for TypeScript/JavaScript projects.
 * [ts-rollup-jest-template](https://github.com/HamedFathi/ts-rollup-jest-template) - A template repository to make `TypeScript` node packages with `Rollup.js` and `Jest` for testing.
 * [ts-rollup-mocha-template](https://github.com/HamedFathi/ts-rollup-mocha-template) - A template repository to make `TypeScript` node packages with `Rollup.js` and `Mocha` for testing.
 
