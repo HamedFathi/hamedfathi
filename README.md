@@ -11,26 +11,39 @@
 
 * 💡 I’m currently working on the following projects: 
 
-|Project||
+### _Backend (BE)_
+
+#### ✦ ASP.NET Core
+
+|Project|Description|
 |---|---|
-|[angular-nohost-snippet](https://github.com/HamedFathi/angular-nohost-vscode-snippet)|A no-host component [snippet code](https://marketplace.visualstudio.com/items?itemName=hamedfathi.angular-nohost) for `Angular 2+` and `Microsoft Visual Studio Code`.|
+|[DynamicPermission](https://github.com/HamedFathi/DynamicPermission)|A library for creating dynamic roles and permissions based on policies.|
+|[Enriched.Mvc](https://github.com/HamedFathi/Enriched.Mvc)|A huge collection of useful extension methods and utilities for the `ASP.NET Core` ecosystem.|
+
+#### ✦ C#
+
+##### &nbsp;&nbsp; 🗹 Global Tools
+
+|Project|Description|
+|---|---|
+|[dotnet-extract](https://github.com/HamedFathi/dotnet-extract)|A .NET global tool to extract embedded resource files from a `.NET` assembly.|
+
+##### &nbsp;&nbsp; 🗹 Libraries
+
+|Project|Description|
+|---|---|
 |[AzureCosmosDBExtended](https://github.com/HamedFathi/AzureCosmosDBExtended)|A library to extend the `Microsoft Azure Cosmos DB SDK`.|
 |[ConfigurationExtended](https://github.com/HamedFathi/ConfigurationExtended)|A bunch of useful helpers for `Microsoft.Extensions.Configuration`.|
 |[Connexion](https://github.com/HamedFathi/Connexion)|A console-based and plugin-based infrastructure to write applications/generators.|
 |[DryIocExtended](https://github.com/HamedFathi/DryIocExtended)|Make using `DryIoc` easier.|
 |[DotLiquidExtended](https://github.com/HamedFathi/DotLiquidExtended)|A library to extend the `DotLiquid` functionalities.|
-|[dotnet-extract](https://github.com/HamedFathi/dotnet-extract)|A .NET global tool to extract embedded resource files from a `.NET` assembly.|
-|[DynamicPermission](https://github.com/HamedFathi/DynamicPermission)|A library for creating dynamic roles and permissions based on policies.|
 |[Embedded](https://github.com/HamedFathi/Embedded)|A bunch of useful helpers for extracting embedded resources.|
 |[Enriched](https://github.com/HamedFathi/Enriched)|A huge collection of useful extension methods for the `.NET` ecosystem.|
-|[Enriched.Mvc](https://github.com/HamedFathi/Enriched.Mvc)|A huge collection of useful extension methods and utilities for the `ASP.NET Core` ecosystem.|
 |[Enriched.Utilities](https://github.com/HamedFathi/Enriched.Utilities)|A huge collection of useful utilities for the .NET ecosystem.|
-|[EnumerationClassGenerator](https://github.com/HamedFathi/EnumerationClassGenerator)|A C# source generator to create an enumeration class from an `enum` type.|
 |[EnumeratorExtended](https://github.com/HamedFathi/EnumeratorExtended)|This library enables new capabilities on .NET `Enumerator`s to have a more powerful `foreach`.|
 |[GitIgnoreMaker](https://github.com/HamedFathi/GitIgnoreMaker)|An API to create useful `.gitignore` files for your project.|
 |[Intercepted](https://github.com/HamedFathi/Intercepted)|An easy way to write interceptors on top of the `Castle.Core` library.|
 |[JsonExtended](https://github.com/HamedFathi/JsonExtended)|A bunch of useful extension methods for `System.Text.Json`.|
-|[MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator)|A `C# source generator` to make an interface and a class wrapper to test static and extension methods.|
 |[MoreCache](https://github.com/HamedFathi/MoreCache)|Thread-safe `MemoryCache` and lots of useful extension methods for easy caching.|
 |[MoreFluentAssertions](https://github.com/HamedFathi/MoreFluentAssertions)|More extensions for `FluentAssertions`.|
 |[MustacheSharpen](https://github.com/HamedFathi/MustacheSharpen)|An extension of the mustache text template engine for the `.NET`.|
@@ -38,23 +51,67 @@
 |[NSubstituteExtended](https://github.com/HamedFathi/NSubstituteExtended)|A library to extend the `NSubstitute` functionalities.|
 |[OpenApiExtended](https://github.com/HamedFathi/OpenApiExtended)|A bunch of useful extension methods for `Microsoft.OpenApi`.|
 |[ParserToolkit](https://github.com/HamedFathi/ParserToolkit)|A toolkit that helps you to write your own parser.|
-|[PasswordMeter](https://github.com/HamedFathi/PasswordMeter)|This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.|
 |[PostmanCollectionReader](https://github.com/HamedFathi/PostmanCollectionReader)|A library to read `Postman Collection v2.1` Json files.|
 |[QuartzFire](https://github.com/HamedFathi/QuartzFire)|An attempt to get closer to the `HangFire` on top of the `Quartz.NET` library.|
-|[React-Solutions](https://github.com/HamedFathi/React-Solutions)|A bunch of useful `React` components, hooks, and helpers. I have tried to bring other JavaScript frameworks template syntax to `React` ecosystem.|
-|[Replay](https://github.com/HamedFathi/Replay)|A Visual Studio Code extension for auto typing.|
-|[Roselyn](https://github.com/HamedFathi/Roselyn)|A bunch of useful helpers for the `Roslyn` .NET compiler.|
-|[RoslynSolutionAnalyzor](https://github.com/HamedFathi/RoslynSolutionAnalyzor)|A sample to show how to analyze a .NET solution by the `Roslyn` .NET compiler.|
-|[screen.play.write](https://github.com/HamedFathi/screen.play.write)|Screenplay pattern for `Playwright`.|
 |[SimMetricsCore](https://github.com/HamedFathi/SimMetricsCore)|A text similarity metric library.|
 |[Shield](https://github.com/HamedFathi/Shield)|Yet another guard library with fluent API and customization.|
-|[Styl-Injector](https://github.com/HamedFathi/Styl-Injector)|Simple functionality to inject a text or object-based style sheet into your `HTML` document.|
 |[TrxFileParser](https://github.com/HamedFathi/TrxFileParser)|A `Trx` file parser.|
-|[ts-rollup-jest-template](https://github.com/HamedFathi/ts-rollup-jest-template)|A template repository to make `TypeScript` node packages with `Rollup.js` and `Jest` for testing.|
-|[ts-rollup-mocha-template](https://github.com/HamedFathi/ts-rollup-mocha-template)|A template repository to make `TypeScript` node packages with `Rollup.js` and `Mocha` for testing.|
 |[WindowsRawPrint](https://github.com/HamedFathi/WindowsRawPrint)|A library to send a file or byte array to a `Windows` printer.|
 
-* ⭐ Some repositories contain useful information:
+##### &nbsp;&nbsp; 🗹 Roslyn
+
+|Project|Description|
+|---|---|
+|[Roselyn](https://github.com/HamedFathi/Roselyn)|A bunch of useful helpers for the `Roslyn` .NET compiler.|
+|[RoslynSolutionAnalyzor](https://github.com/HamedFathi/RoslynSolutionAnalyzor)|A sample to show how to analyze a .NET solution by the `Roslyn` .NET compiler.|
+
+##### &nbsp;&nbsp; 🗹 Source Code Generators
+
+|Project|Description|
+|---|---|
+|[EnumerationClassGenerator](https://github.com/HamedFathi/EnumerationClassGenerator)|A C# source generator to create an enumeration class from an `enum` type.|
+|[MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator)|A `C# source generator` to make an interface and a class wrapper to test static and extension methods.|
+
+### _Frontend (FE)_
+
+#### ✦ Angular
+
+|Project|Description|
+|---|---|
+|[angular-nohost-snippet](https://github.com/HamedFathi/angular-nohost-vscode-snippet)|A no-host component [snippet code](https://marketplace.visualstudio.com/items?itemName=hamedfathi.angular-nohost) for `Angular 2+` and `Microsoft Visual Studio Code`.|
+
+#### ✦ TypeScript
+
+|Project|Description|
+|---|---|
+|[PasswordMeter](https://github.com/HamedFathi/PasswordMeter)|This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.|
+|[Styl-Injector](https://github.com/HamedFathi/Styl-Injector)|Simple functionality to inject a text or object-based style sheet into your `HTML` document.|
+|[ts-rollup-jest-template](https://github.com/HamedFathi/ts-rollup-jest-template)|A template repository to make `TypeScript` node packages with `Rollup.js` and `Jest` for testing.|
+|[ts-rollup-mocha-template](https://github.com/HamedFathi/ts-rollup-mocha-template)|A template repository to make `TypeScript` node packages with `Rollup.js` and `Mocha` for testing.|
+
+### _Quality Assurance (QA)_
+
+##### ✦ Cypress
+
+|Project|Description|
+|---|---|
+|[cypress-plus](https://github.com/HamedFathi/cypress-plus)|A bunch of useful `Cypress` commands with full `TypeScript` support which contains `Screenplay` pattern implementation too.|
+
+
+##### ✦ Playwright
+
+|Project|Description|
+|---|---|
+|[screen.play.write](https://github.com/HamedFathi/screen.play.write)|Screenplay pattern for `Playwright`.|
+
+
+### _Productivity_
+
+|Project|Description|
+|---|---|
+|[Replay](https://github.com/HamedFathi/Replay)|A Visual Studio Code extension for auto typing.|
+
+### _Miscellaneous_
 
 |Project||
 |---|---|
