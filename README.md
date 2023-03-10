@@ -11,6 +11,7 @@
 
 * 💡 I’m currently working on the following projects: 
 
+---
 ### _Backend (BE)_
 
 #### ✦ ASP.NET Core
@@ -64,6 +65,7 @@
 * [EnumerationClassGenerator](https://github.com/HamedFathi/EnumerationClassGenerator) - A C# source generator to create an enumeration class from an `enum` type.
 * [MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator) - A `C# source generator` to make an interface and a class wrapper to test static and extension methods.
 
+---
 ### _Frontend (FE)_
 
 #### ✦ Angular
@@ -78,6 +80,7 @@
 * [ts-rollup-jest-template](https://github.com/HamedFathi/ts-rollup-jest-template) - A template repository to make `TypeScript` node packages with `Rollup.js` and `Jest` for testing.
 * [ts-rollup-mocha-template](https://github.com/HamedFathi/ts-rollup-mocha-template) - A template repository to make `TypeScript` node packages with `Rollup.js` and `Mocha` for testing.
 
+---
 ### _Quality Assurance (QA)_
 
 #### ✦ Cypress
@@ -89,14 +92,17 @@
 
 * [screen.play.write](https://github.com/HamedFathi/screen.play.write) - Screenplay pattern for `Playwright`.
 
+---
 ### _Productivity_
 
 * [Replay](https://github.com/HamedFathi/Replay) - A Visual Studio Code extension for auto typing.
 
+---
 ### _Miscellaneous_
 
 * [Free Windows Applications](https://github.com/HamedFathi/FreeWindowsApplications) - A selected list of free and useful `Windows` applications.
 
+---
 <h3 align="left">Connect with me:</h3>
 <p align="left">
 <a href="https://twitter.com/hamed__fathi" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="hamed__fathi" height="30" width="40" /></a>
