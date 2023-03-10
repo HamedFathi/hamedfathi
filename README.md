@@ -80,12 +80,12 @@
 
 ### _Quality Assurance (QA)_
 
-##### ✦ Cypress
+#### ✦ Cypress
 
 * [cypress-plus](https://github.com/HamedFathi/cypress-plus) - A bunch of useful `Cypress` commands with full `TypeScript` support which contains `Screenplay` pattern implementation too.
 
 
-##### ✦ Playwright
+#### ✦ Playwright
 
 * [screen.play.write](https://github.com/HamedFathi/screen.play.write) - Screenplay pattern for `Playwright`.
 
