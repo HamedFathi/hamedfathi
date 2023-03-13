@@ -18,6 +18,7 @@
 
 * [DynamicPermission](https://github.com/HamedFathi/DynamicPermission) - A library for creating dynamic roles and permissions based on policies.
 * [Enriched.Mvc](https://github.com/HamedFathi/Enriched.Mvc) - A huge collection of useful extension methods and utilities for the `ASP.NET Core` ecosystem.
+* [TypeScriptClientGeneratorMiddleware](https://github.com/HamedFathi/TypeScriptClientGeneratorMiddleware) - An `ASP.NET Core middleware` to generate `TypeScript` client code for sharing between back-end and front-end teams.
 
 #### ✦ C#
 
