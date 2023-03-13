@@ -90,6 +90,7 @@
 
 #### ✦ Playwright
 
+* [playwright-plus](https://github.com/HamedFathi/playwright-plus) - A bunch of useful `Playwright` helpers with full TypeScript support.
 * [screen.play.write](https://github.com/HamedFathi/screen.play.write) - Screenplay pattern for `Playwright`.
 
 ---
