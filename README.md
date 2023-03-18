@@ -75,6 +75,7 @@
 
 #### ✦ TypeScript
 
+* [AzureLogicAppFacilitator](https://github.com/HamedFathi/AzureLogicAppFacilitator) - A library for `Azure Logic Apps` to access all details of a workflow run with executing `JSONPath` query on the details.
 * [msal-more](https://github.com/HamedFathi/msal-more) - A bunch of utilities to work with `MSAL.js` more easier. It supports `Browser`, `Node`, `Cypress` and `Playwright` with similar functionalities.
 * [PasswordMeter](https://github.com/HamedFathi/PasswordMeter) - This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.
 * [Styl-Injector](https://github.com/HamedFathi/Styl-Injector) - Simple functionality to inject a text or object-based style sheet into your `HTML` document.
