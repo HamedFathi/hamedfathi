@@ -75,6 +75,7 @@
 
 #### ✦ TypeScript
 
+* [msal-more](https://github.com/HamedFathi/msal-more) - A bunch of utilities to work with `MSAL.js` more easier. It supports `Browser`, `Node`, `Cypress` and `Playwright` with similar functionalities.
 * [PasswordMeter](https://github.com/HamedFathi/PasswordMeter) - This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.
 * [Styl-Injector](https://github.com/HamedFathi/Styl-Injector) - Simple functionality to inject a text or object-based style sheet into your `HTML` document.
 * [ts-more](https://github.com/HamedFathi/ts-more) - A collection of helpful utilities, types, and decorators for TypeScript/JavaScript projects.
