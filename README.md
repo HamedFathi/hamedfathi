@@ -73,7 +73,8 @@
 
 #### ✦ React
 
-* [StartToReact](https://github.com/HamedFathi/StartToReact) A react starter kit to start your journey.
+* [AllYouNeedToReact](https://github.com/HamedFathi/AllYouNeedToReact) - A collection of great things regarding `React` ecosystem.
+* [StartToReact](https://github.com/HamedFathi/StartToReact) - A `React` starter kit to start your journey.
 
 #### ✦ TypeScript
 
