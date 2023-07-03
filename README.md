@@ -74,11 +74,13 @@
 #### ✦ React
 
 * [AllYouNeedToReact](https://github.com/HamedFathi/AllYouNeedToReact) - A collection of great things regarding `React` ecosystem.
+* [Beyond-React](https://github.com/HamedFathi/Beyond-React) - A huge collection of React hooks and template components to make your life easier.
 * [StartToReact](https://github.com/HamedFathi/StartToReact) - A `React` starter kit to start your journey.
 
 #### ✦ TypeScript
 
 * [AzureLogicAppFacilitator](https://github.com/HamedFathi/AzureLogicAppFacilitator) - A library for `Azure Logic Apps` to access all details of a workflow run with executing `JSONPath` query on the details.
+* [Beyond-TypeScript](https://github.com/HamedFathi/Beyond-TypeScript) - A huge collection of helpful utilities, types, and decorators for TypeScript/JavaScript projects.
 * [msal-more](https://github.com/HamedFathi/msal-more) - A bunch of utilities to work with `MSAL.js` more easier. It supports `Browser`, `Node`, `Cypress` and `Playwright` with similar functionalities.
 * [PasswordMeter](https://github.com/HamedFathi/PasswordMeter) - This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.
 * [Styl-Injector](https://github.com/HamedFathi/Styl-Injector) - Simple functionality to inject a text or object-based style sheet into your `HTML` document.
