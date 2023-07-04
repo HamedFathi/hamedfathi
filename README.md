@@ -1,9 +1,9 @@
 
 <h1 align="center">Hi 👋, I'm Hamed Fathi</h1>
 
-<p align="left">I've worked in software engineering for my entire 10-year career, and my commitment to learning and attention to cutting-edge achievements has gotten me to where I am today: a senior software developer for the Microsoft .NET ecosystem. I have a passion for the JavaScript world too with focusing on TypeScript.</p>
+<p align="left">I've been programming for over ten years and have gained many software-making skills. I mainly use Microsoft's .NET ecosystem to build the software's behind-the-scenes parts and ensure I know its latest features. I also use JavaScript, TypeScript, and React to assemble the pieces of software that people interact with, helping to make them user-friendly. Another part of my job is ensuring the software uses automatic tests appropriately. I have done well in my career contributing to open-source software, where I work with others and share my work.</p>
 
-> "Yesterday I was clever, so I wanted to change the world. Today I am wise, so I am changing myself."<br/>Rumi (Iranian poet 1207 – 1273)
+> "Yesterday, I was clever and wanted to change the world. Today I am wise, so I am changing myself."<br/>Rumi (Iranian poet 1207 – 1273)
 
 * 📝 I regularly write articles on [http://hamedfathi.github.io/](http://hamedfathi.github.io/)
 
