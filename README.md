@@ -1,7 +1,7 @@
 
 <h1 align="center">Hi 👋, I'm Hamed Fathi</h1>
 
-<p align="left">I've been programming for over ten years and have gained many software-making skills. I mainly use Microsoft's .NET ecosystem to build the software's behind-the-scenes parts and ensure I know its latest features. I also use JavaScript, TypeScript, and React to assemble the pieces of software that people interact with, helping to make them user-friendly. Another part of my job is ensuring the software uses automatic tests appropriately. I have done well in my career contributing to open-source software, where I work with others and share my work.</p>
+<p align="left">I've been programming for over ten years and have gained many software-making skills. I mainly use Microsoft's .NET ecosystem to build the software's behind-the-scenes parts and ensure I know its latest features. I also use JavaScript, TypeScript, and React to assemble the pieces of software that people interact with, helping to make them user-friendly. Apart from my development responsibilities, I also place significant importance on Quality Assurance (QA) and testing, which are integral to the software-making process. I sincerely hope you find value in using my open-source software regularly. Your engagement and feedback are immensely appreciated, as they are crucial in aiding continuous improvement and ensuring the software meets our needs optimally.</p>
 
 > "Yesterday, I was clever and wanted to change the world. Today I am wise, so I am changing myself."<br/>Rumi (Iranian poet 1207 – 1273)
 
