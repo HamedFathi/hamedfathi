@@ -27,6 +27,7 @@
 ##### &nbsp;&nbsp; ➤ Libraries
 
 * [AzureCosmosDBExtended](https://github.com/HamedFathi/AzureCosmosDBExtended) - A library to extend the `Microsoft Azure Cosmos DB SDK`.
+* [Beyond.Cache](https://github.com/HamedFathi/Beyond.Cache) - A bunch of useful classes, utilities, and extension methods for easy caching.
 * [Beyond.Extensions](https://github.com/HamedFathi/Beyond.Extensions) - A huge collection of useful extension methods for the .NET ecosystem.
 * [Beyond.QueryBuilder](https://github.com/HamedFathi/Beyond.QueryBuilder) - A `JSON` based .NET query builder.
 * [Beyond.Utilities](https://github.com/HamedFathi/Beyond.Utilities) - A huge collection of useful utilities and helper methods for the .NET ecosystem.
@@ -39,7 +40,6 @@
 * [GitIgnoreMaker](https://github.com/HamedFathi/GitIgnoreMaker) - An API to create useful `.gitignore` files for your project.
 * [Intercepted](https://github.com/HamedFathi/Intercepted) - An easy way to write interceptors on top of the `Castle.Core` library.
 * [JsonExtended](https://github.com/HamedFathi/JsonExtended) - A bunch of useful extension methods for `System.Text.Json`.
-* [MoreCache](https://github.com/HamedFathi/MoreCache) - Thread-safe `MemoryCache` and lots of useful extension methods for easy caching.
 * [MoreFluentAssertions](https://github.com/HamedFathi/MoreFluentAssertions) - More extensions for `FluentAssertions`.
 * [MustacheSharpen](https://github.com/HamedFathi/MustacheSharpen) - An extension of the mustache text template engine for the `.NET`.
 * [NewtonsoftJsonExtended](https://github.com/HamedFathi/NewtonsoftJsonExtended) - A library to extend the `Newtonsoft Json.NET` functionalities.
