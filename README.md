@@ -52,7 +52,7 @@
 * [SimMetricsCore](https://github.com/HamedFathi/SimMetricsCore) - A text similarity metric library.
 * [Shield](https://github.com/HamedFathi/Shield) - Yet another guard library with fluent API and customization.
 * [TrxFileParser](https://github.com/HamedFathi/TrxFileParser) - A `Trx` file parser.
-* [VSTest](https://github.com/HamedFathi/VSTest) - `vstst.xsd` deserializer. Useful for parsing `TRX` files and more.
+* [VSTest](https://github.com/HamedFathi/VSTest) - `vstst.xsd` reader. Helpful in parsing `TRX` files and more.
 * [WindowsRawPrint](https://github.com/HamedFathi/WindowsRawPrint) - A library to send a file or byte array to a `Windows` printer.
 
 ##### &nbsp;&nbsp; ➤ Roslyn
