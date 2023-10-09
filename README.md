@@ -13,7 +13,9 @@
 
 ![HamedStack](https://github.com/HamedFathi/hamedfathi/assets/8418700/4ade28f4-6441-4d4e-adea-0a3f640cbef1)
 
-[HamedStack](https://github.com/HamedStack), owned by me, is a cutting-edge GitHub organization specializing in the development and open-source sharing of over 70 projects coded predominantly in C# and JavaScript/TypeScript. My expansive portfolio of software solutions showcases a versatile skill set, stretching from back-end data management to dynamic front-end web technologies. Whether you're a software developer, a project manager, or a technology enthusiast, HamedStack offers reliable, top-notch code that addresses real-world problems.
+[HamedStack](https://github.com/HamedStack) is a GitHub organization specializing in projects built with C# and JavaScript/TypeScript. I established HamedStack as a platform to share code repositories, each designed to address various programming needs. The organization houses over 70 projects spanning multiple applications, from client-side to server-side solutions.
+
+HamedStack is committed to being a valuable resource for the coding community. The projects are continuously updated to keep pace with the ever-changing software development landscape. I invite you to explore the repositories, contribute to the projects, and collaborate with others to create better software solutions for tomorrow.
 
 ---
 ### _Backend (BE)_
