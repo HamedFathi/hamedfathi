@@ -16,6 +16,7 @@
 [HamedStack](https://github.com/HamedStack) is a GitHub organization specializing in projects built with C# and JavaScript/TypeScript. I established HamedStack as a platform to share code repositories, each designed to address various programming needs. The organization houses over 70 projects spanning multiple applications, from client-side to server-side solutions.
 
 HamedStack is committed to being a valuable resource for the coding community. The projects are continuously updated to keep pace with the ever-changing software development landscape. I invite you to explore the repositories, contribute to the projects, and collaborate with others to create better software solutions for tomorrow.
+
 ---
 
 <h3 align="left">Connect with me:</h3>
