@@ -1,9 +1,9 @@
 
 <h1 align="center">Hi there 👋, I'm Hamed Fathi</h1>
 
-<p align="left">I've been programming for over ten years and have gained many software-making skills. I mainly use Microsoft's .NET ecosystem to build the software's behind-the-scenes parts and ensure I know its latest features. I also use JavaScript, TypeScript, and React to assemble the pieces of software that people interact with, helping to make them user-friendly. Apart from my development responsibilities, I also place significant importance on Quality Assurance (QA) and testing, which are integral to the software-making process. I sincerely hope you find value in using my open-source software regularly. Your engagement and feedback are immensely appreciated, as they are crucial in aiding continuous improvement and ensuring the software meets our needs optimally.</p>
+<p align="left">I've been programming for over ten years and have gained many software-making skills. I mainly use Microsoft's .NET ecosystem to build the software's behind-the-scenes parts and ensure I know its latest features. I also use JavaScript, TypeScript, and React to assemble the pieces of software that people interact with, helping to make them user-friendly. Apart from my development responsibilities, I also place significant importance on Quality Assurance (QA) and testing, which are integral to the software-making process. I sincerely hope you find value in using my open-source software regularly. Your engagement and feedback are very much appreciated, as they are crucial in helping continuous improvement and making sure the software meets our needs optimally.</p>
 
-> "Yesterday, I was clever and wanted to change the world. Today I am wise, so I am changing myself."<br/>Rumi (Iranian poet 1207 – 1273)
+> "Yesterday, I was clever and wanted to change the world. Today, I am wise, so I am changing myself."<br/>Rumi (Iranian poet 1207 – 1273)
 
 * 📝 I regularly write articles on [http://hamedfathi.github.io/](http://hamedfathi.github.io/)
 
@@ -16,109 +16,8 @@
 [HamedStack](https://github.com/HamedStack) is a GitHub organization specializing in projects built with C# and JavaScript/TypeScript. I established HamedStack as a platform to share code repositories, each designed to address various programming needs. The organization houses over 70 projects spanning multiple applications, from client-side to server-side solutions.
 
 HamedStack is committed to being a valuable resource for the coding community. The projects are continuously updated to keep pace with the ever-changing software development landscape. I invite you to explore the repositories, contribute to the projects, and collaborate with others to create better software solutions for tomorrow.
-
 ---
-### _Backend (BE)_
 
-#### ✦ ASP.NET Core
-
-* [DynamicPermission](https://github.com/HamedFathi/DynamicPermission) - A library for creating dynamic roles and permissions based on policies.
-* [TypeScriptClientGeneratorMiddleware](https://github.com/HamedFathi/TypeScriptClientGeneratorMiddleware) - An `ASP.NET Core middleware` to generate `TypeScript` client code for sharing between back-end and front-end teams.
-
-#### ✦ C#
-
-##### &nbsp;&nbsp; ➤ Global Tools
-
-* [dotnet-extract](https://github.com/HamedFathi/dotnet-extract) - A .NET global tool to extract embedded resource files from a `.NET` assembly.
-
-##### &nbsp;&nbsp; ➤ Libraries
-
-* [AzureCosmosDBExtended](https://github.com/HamedFathi/AzureCosmosDBExtended) - A library to extend the `Microsoft Azure Cosmos DB SDK`.
-* [Beyond.Cache](https://github.com/HamedFathi/Beyond.Cache) - A bunch of useful classes, utilities, and extension methods for easy caching.
-* [Beyond.Extensions](https://github.com/HamedFathi/Beyond.Extensions) - A huge collection of useful extension methods for the .NET ecosystem.
-* [Beyond.QueryBuilder](https://github.com/HamedFathi/Beyond.QueryBuilder) - A `JSON` based .NET query builder.
-* [Beyond.Utilities](https://github.com/HamedFathi/Beyond.Utilities) - A huge collection of useful utilities and helper methods for the .NET ecosystem.
-* [ConfigurationExtended](https://github.com/HamedFathi/ConfigurationExtended) - A bunch of useful helpers for `Microsoft.Extensions.Configuration`.
-* [Connexion](https://github.com/HamedFathi/Connexion) - A console-based and plugin-based infrastructure to write applications/generators.
-* [DryIocExtended](https://github.com/HamedFathi/DryIocExtended) - Make using `DryIoc` easier.
-* [DotLiquidExtended](https://github.com/HamedFathi/DotLiquidExtended) - A library to extend the `DotLiquid` functionalities.
-* [Embedded](https://github.com/HamedFathi/Embedded) - A bunch of useful helpers for extracting embedded resources.
-* [EnumeratorExtended](https://github.com/HamedFathi/EnumeratorExtended) - This library enables new capabilities on .NET `Enumerator`s to have a more powerful `foreach`.
-* [GitIgnoreMaker](https://github.com/HamedFathi/GitIgnoreMaker) - An API to create useful `.gitignore` files for your project.
-* [Intercepted](https://github.com/HamedFathi/Intercepted) - An easy way to write interceptors on top of the `Castle.Core` library.
-* [JsonExtended](https://github.com/HamedFathi/JsonExtended) - A bunch of useful extension methods for `System.Text.Json`.
-* [MoreFluentAssertions](https://github.com/HamedFathi/MoreFluentAssertions) - More extensions for `FluentAssertions`.
-* [MustacheSharpen](https://github.com/HamedFathi/MustacheSharpen) - An extension of the mustache text template engine for the `.NET`.
-* [NewtonsoftJsonExtended](https://github.com/HamedFathi/NewtonsoftJsonExtended) - A library to extend the `Newtonsoft Json.NET` functionalities.
-* [NSubstituteExtended](https://github.com/HamedFathi/NSubstituteExtended) - A library to extend the `NSubstitute` functionalities.
-* [OpenApiExtended](https://github.com/HamedFathi/OpenApiExtended) - A bunch of useful extension methods for `Microsoft.OpenApi`.
-* [ParserToolkit](https://github.com/HamedFathi/ParserToolkit) - A toolkit that helps you to write your own parser.
-* [PostmanCollectionReader](https://github.com/HamedFathi/PostmanCollectionReader) - A library to read `Postman Collection v2.1` Json files.
-* [PostmanCollectionToOpenApi](https://github.com/HamedFathi/PostmanCollectionToOpenApi) - A library for converting Postman collection v2.1 to OpenAPI spec.
-* [QuartzFire](https://github.com/HamedFathi/QuartzFire) - An attempt to get closer to the `HangFire` on top of the `Quartz.NET` library.
-* [SimMetricsCore](https://github.com/HamedFathi/SimMetricsCore) - A text similarity metric library.
-* [Shield](https://github.com/HamedFathi/Shield) - Yet another guard library with fluent API and customization.
-* [TrxFileParser](https://github.com/HamedFathi/TrxFileParser) - A `Trx` file parser.
-* [VSTest](https://github.com/HamedFathi/VSTest) - `vstst.xsd` reader. Helpful in parsing `TRX` files and more.
-* [WindowsRawPrint](https://github.com/HamedFathi/WindowsRawPrint) - A library to send a file or byte array to a `Windows` printer.
-
-##### &nbsp;&nbsp; ➤ Roslyn
-
-* [Roselyn](https://github.com/HamedFathi/Roselyn) - A bunch of useful helpers for the `Roslyn` .NET compiler.
-* [RoslynSolutionAnalyzor](https://github.com/HamedFathi/RoslynSolutionAnalyzor) - A sample to show how to analyze a .NET solution by the `Roslyn` .NET compiler.
-
-##### &nbsp;&nbsp; ➤ Source Code Generators
-
-* [EnumerationClassGenerator](https://github.com/HamedFathi/EnumerationClassGenerator) - A C# source generator to create an enumeration class from an `enum` type.
-* [MockableStaticGenerator](https://github.com/HamedFathi/MockableStaticGenerator) - A `C# source generator` to make an interface and a class wrapper to test static and extension methods.
-
----
-### _Frontend (FE)_
-
-#### ✦ Angular
-
-* [angular-nohost-snippet](https://github.com/HamedFathi/angular-nohost-vscode-snippet) - A no-host component [snippet code](https://marketplace.visualstudio.com/items?itemName=hamedfathi.angular-nohost) for `Angular 2+` and `Microsoft Visual Studio Code`.
-
-#### ✦ React
-
-* [AllYouNeedToReact](https://github.com/HamedFathi/AllYouNeedToReact) - A collection of great things regarding `React` ecosystem.
-* [Beyond-React](https://github.com/HamedFathi/Beyond-React) - A huge collection of React hooks and template components to make your life easier.
-* [StartToReact](https://github.com/HamedFathi/StartToReact) - A `React` starter kit to start your journey.
-
-#### ✦ TypeScript
-
-* [AzureLogicAppFacilitator](https://github.com/HamedFathi/AzureLogicAppFacilitator) - A library for `Azure Logic Apps` to access all details of a workflow run with executing `JSONPath` query on the details.
-* [Beyond-TypeScript](https://github.com/HamedFathi/Beyond-TypeScript) - A huge collection of helpful utilities, types, and decorators for TypeScript/JavaScript projects.
-* [msal-more](https://github.com/HamedFathi/msal-more) - A bunch of utilities to work with `MSAL.js` more easier. It supports `Browser`, `Node`, `Cypress` and `Playwright` with similar functionalities.
-* [PasswordMeter](https://github.com/HamedFathi/PasswordMeter) - This password meter is based on a point system. Its main goal is to help the end-user with a stronger password.
-* [Styl-Injector](https://github.com/HamedFathi/Styl-Injector) - Simple functionality to inject a text or object-based style sheet into your `HTML` document.
-* [ts-rollup-jest-template](https://github.com/HamedFathi/ts-rollup-jest-template) - A template repository to make `TypeScript` node packages with `Rollup.js` and `Jest` for testing.
-* [ts-rollup-mocha-template](https://github.com/HamedFathi/ts-rollup-mocha-template) - A template repository to make `TypeScript` node packages with `Rollup.js` and `Mocha` for testing.
-
----
-### _Quality Assurance (QA)_
-
-#### ✦ Cypress
-
-* [cypress-plus](https://github.com/HamedFathi/cypress-plus) - A bunch of useful `Cypress` commands with full `TypeScript` support which contains `Screenplay` pattern implementation too.
-
-
-#### ✦ Playwright
-
-* [playwright-plus](https://github.com/HamedFathi/playwright-plus) - A bunch of useful `Playwright` helpers with full TypeScript support.
-* [screen.play.write](https://github.com/HamedFathi/screen.play.write) - Screenplay pattern for `Playwright`.
-
----
-### _Productivity_
-
-* [Replay](https://github.com/HamedFathi/Replay) - A Visual Studio Code extension for auto typing.
-
----
-### _Miscellaneous_
-
-* [Free Windows Applications](https://github.com/HamedFathi/FreeWindowsApplications) - A selected list of free and useful `Windows` applications.
-
----
 <h3 align="left">Connect with me:</h3>
 <p align="left">
 <a href="https://twitter.com/hamed__fathi" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="hamed__fathi" height="30" width="40" /></a>
