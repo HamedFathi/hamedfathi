@@ -10,11 +10,16 @@
 * 💡 I’m currently working on the following projects: 
 
 ---
+
+![HamedStack](https://github.com/HamedFathi/hamedfathi/assets/8418700/4ade28f4-6441-4d4e-adea-0a3f640cbef1)
+
+[HamedStack](https://github.com/HamedStack), owned by me, is a cutting-edge GitHub organization specializing in the development and open-source sharing of over 70 projects coded predominantly in C# and JavaScript/TypeScript. My expansive portfolio of software solutions showcases a versatile skill set, stretching from back-end data management to dynamic front-end web technologies. Whether you're a software developer, a project manager, or a technology enthusiast, HamedStack offers reliable, top-notch code that addresses real-world problems.
+
+---
 ### _Backend (BE)_
 
 #### ✦ ASP.NET Core
 
-* [Beyond.AspNetCore](https://github.com/HamedFathi/Beyond.AspNetCore) - A huge collection of useful extension methods and utilities for the `ASP.NET Core`.
 * [DynamicPermission](https://github.com/HamedFathi/DynamicPermission) - A library for creating dynamic roles and permissions based on policies.
 * [TypeScriptClientGeneratorMiddleware](https://github.com/HamedFathi/TypeScriptClientGeneratorMiddleware) - An `ASP.NET Core middleware` to generate `TypeScript` client code for sharing between back-end and front-end teams.
 
