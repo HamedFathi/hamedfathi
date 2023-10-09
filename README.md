@@ -7,7 +7,7 @@
 
 * 📝 I regularly write articles on [http://hamedfathi.github.io/](http://hamedfathi.github.io/)
 
-* 💡 I’m currently working on the following projects: 
+* 💡 I’m currently working on the [HamedStack](https://github.com/HamedStack) projects.
 
 ---
 
