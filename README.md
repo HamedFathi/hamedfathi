@@ -23,10 +23,10 @@ HamedStack is committed to being a valuable resource for the coding community. T
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
-	<a href="https://twitter.com/hamed__fathi" target="blank">
+	<a href="https://twitter.com/hamed__fathi" target="_blank">
 		<img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="hamed__fathi" height="30" width="40"/>
 	</a>
-	<a href="https://linkedin.com/in/hamedfathi" target="blank">
+	<a href="https://linkedin.com/in/hamedfathi" target="_blank">
 		<img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="hamedfathi" height="30" width="40"/>
 	</a>
 </p>
