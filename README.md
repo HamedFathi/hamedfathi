@@ -11,8 +11,10 @@
 
 ---
 
-![HamedStack](https://github.com/HamedFathi/hamedfathi/assets/8418700/4ade28f4-6441-4d4e-adea-0a3f640cbef1)
-
+<a href="https://github.com/HamedStack" target="_blank">
+    <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/8418700/273718329-4ade28f4-6441-4d4e-adea-0a3f640cbef1.png" alt="HamedStack"/>
+</a>
+ 
 [HamedStack](https://github.com/HamedStack) is a GitHub organization specializing in projects built with C# and JavaScript/TypeScript. I established HamedStack as a platform to share code repositories, each designed to address various programming needs. The organization houses over 70 projects spanning multiple applications, from client-side to server-side solutions.
 
 HamedStack is committed to being a valuable resource for the coding community. The projects are continuously updated to keep pace with the ever-changing software development landscape. I invite you to explore the repositories, contribute to the projects, and collaborate with others to create better software solutions for tomorrow.
