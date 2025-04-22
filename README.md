@@ -1,35 +1,72 @@
-
 <h1 align="center">Hi there 👋, I'm Hamed Fathi</h1>
 
-<p align="left">I've been programming for over ten years and have gained many software-making skills. I mainly use Microsoft's .NET ecosystem to build the software's behind-the-scenes parts and ensure I know its latest features. I also use JavaScript, TypeScript, and Angular to assemble the pieces of software that people interact with, helping to make them user-friendly. Apart from my development responsibilities, I also place significant importance on Quality Assurance (QA) and testing, which are integral to the software-making process. I sincerely hope you find value in using my open-source software regularly. Your engagement and feedback are very much appreciated, as they are crucial in helping continuous improvement and making sure the software meets our needs optimally.</p>
-
-> "Yesterday, I was clever and wanted to change the world. Today, I am wise, so I am changing myself."<br/>Rumi (Iranian poet 1207 – 1273)
-
-* 📝 I regularly write articles on [http://hamedfathi.github.io/](http://hamedfathi.github.io/)
-
-* 💡 I’m currently working on the [HamedStack](https://github.com/HamedStack) projects.
-
----
-
-<a href="https://github.com/HamedStack" target="_blank">
-    <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/8418700/273718329-4ade28f4-6441-4d4e-adea-0a3f640cbef1.png" alt="HamedStack"/>
-</a>
- 
-[HamedStack](https://github.com/HamedStack) is a GitHub organization specializing in projects built with C# and JavaScript/TypeScript. I established HamedStack as a platform to share code repositories, each designed to address various programming needs. The organization houses over 70 projects spanning multiple applications, from client-side to server-side solutions.
-
-HamedStack is committed to being a valuable resource for the coding community. The projects are continuously updated to keep pace with the ever-changing software development landscape. I invite you to explore the repositories, contribute to the projects, and collaborate with others to create better software solutions for tomorrow.
-
----
-
-<h3 align="left">Connect with me:</h3>
-<p align="left">
-	<a href="https://twitter.com/hamed__fathi" target="_blank">
-		<img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="hamed__fathi" height="30" width="40"/>
-	</a>
-	<a href="https://linkedin.com/in/hamedfathi" target="_blank">
-		<img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="hamedfathi" height="30" width="40"/>
-	</a>
+<p align="center">
+🚀 Full-Stack Developer • 🌐 Open Source Advocate • 🇦🇹 Based in Vienna, Austria
 </p>
+
+---
+
+### 👨‍💻 About Me
+
+I'm a highly motivated and versatile **Senior Full-Stack Developer** and **Software Architect** with over 12 years of experience delivering end-to-end software solutions. My expertise lies in building robust, maintainable systems using **.NET**, **Azure**, **C#**, **TypeScript**, and **Angular**, with a strong foundation in **Domain-Driven Design (DDD)** and **Clean Architecture**.
+
+Throughout my career, I’ve successfully taken on roles such as:
+
+- **Backend & Full-Stack Developer**
+- **Library & Framework Designer** (particularly in architectural and testing libraries)
+- **QA and Testing Strategist**  
+- **AI Integrator** (LLM + Azure OpenAI)
+
+I'm known for introducing architectural standards, designing reusable libraries and frameworks, and leading modernization efforts—such as migrating legacy systems to scalable cloud-native solutions. I also specialize in bridging front-end and back-end systems via technologies like **OpenAPI**, **GraphQL**, and **gRPC**.
+
+🧠 **Strengths & Focus Areas:**
+- Deep knowledge of **(modular) monoliths**, **microservices**, and system decomposition
+- Infrastructure-as-Code (IaC) using **Pulumi** and **Bicep**
+- Designing test strategies using **TDD**, **BDD**, and the **Screenplay Pattern**
+- CI/CD automation and DevOps practices with **Azure DevOps** and **Docker**
+- AI/ML integration using **Azure OpenAI**, **LangChain**, and **Semantic Kernel**
+
+🌍 Based in **Vienna, Austria**, and I’m **open to relocation** for compelling opportunities. If you're looking for someone who can design and build modern systems, drive innovation, and lead by example — let’s talk.
+
+---
+
+### 🧪 HamedStack: Building for Builders
+
+[HamedStack](https://github.com/HamedStack) is my open-source initiative, focused on delivering practical tools and libraries for modern .NET and TypeScript development.
+
+🔹 50+ projects  
+🔹 5M+ NuGet downloads  
+🔹 12K+ monthly NPM downloads  
+
+From architectural patterns like DDD and CQRS to advanced testing frameworks and OpenAPI integrations that bridge C# and TypeScript—HamedStack is about building smarter, faster, and cleaner.
+
+Feel free to explore, contribute, or just grab what you need to build better software. 💡
+
+---
+
+### 📰 I Write, Therefore I Learn
+
+I regularly share my insights, lessons learned, and practical how-tos on my personal website:  
+📘 [hamedfathi.github.io](https://hamedfathi.github.io)
+
+If you're into clean architecture, testing, DevOps automation, or making .NET dance with AI—there's something for you.
+
+---
+
+### 🌍 Connect with Me
+
+I'm always open to great conversations, ideas, and collaborations.
+
+<p align="left">
+  <a href="https://twitter.com/hamed__fathi" target="_blank">
+    <img src="https://img.shields.io/badge/Twitter-%231DA1F2.svg?style=for-the-badge&logo=Twitter&logoColor=white"/>
+  </a>
+  <a href="https://linkedin.com/in/hamedfathi" target="_blank">
+    <img src="https://img.shields.io/badge/LinkedIn-%230077B5.svg?style=for-the-badge&logo=LinkedIn&logoColor=white"/>
+  </a>
+</p>
+
+---
 
 <h3 align="left">Languages and Tools:</h3>
 <p align="left">
@@ -88,3 +125,5 @@ HamedStack is committed to being a valuable resource for the coding community. T
 		<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="40" height="40"/>
 	</a>
 </p>
+
+---
