@@ -8,7 +8,7 @@
 
 ### 👨‍💻 About Me
 
-I'm a highly motivated and versatile **Senior Full-Stack Developer** and **Software Architect** with over 12 years of experience delivering end-to-end software solutions. My expertise lies in building robust, maintainable systems using **.NET**, **Azure**, **C#**, **TypeScript**, and **Angular**, with a strong foundation in **Domain-Driven Design (DDD)** and **Clean Architecture**.
+I'm a highly motivated and versatile **Senior Full-Stack Developer** with over 12 years of experience delivering end-to-end software solutions. My expertise lies in building robust, maintainable systems using **.NET**, **Azure**, **C#**, **TypeScript**, and **Angular**, with a strong foundation in **Domain-Driven Design (DDD)** and **Clean Architecture**.
 
 Throughout my career, I’ve successfully taken on roles such as:
 
