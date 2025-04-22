@@ -26,7 +26,7 @@ I'm known for introducing architectural standards, designing reusable libraries 
 - CI/CD automation and DevOps practices with **Azure DevOps** and **Docker**
 - AI/ML integration using **Azure OpenAI**, **LangChain**, and **Semantic Kernel**
 
-🌍 Based in **Vienna, Austria**, and I’m **open to relocation** for compelling opportunities. If you're looking for someone who can design and build modern systems, drive innovation, and lead by example — let’s talk.
+🌍 Based in **Vienna, Austria**, but **open to exciting opportunities anywhere**. If you're looking for someone who can design and build modern systems, drive innovation, and lead by example — let’s talk.
 
 ---
 
