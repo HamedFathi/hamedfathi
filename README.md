@@ -1,59 +1,15 @@
-<h1 align="center">Hi there 👋, I'm Hamed Fathi</h1>
+👋 Hi, I’m Hamed, I...  
+* 💻 am a Senior Full-Stack Developer  
+* 💡 specialize in .NET, Azure, and modern web technologies  
+* 🧱 design clean, scalable systems using Domain-Driven Design and cloud-native patterns  
+* 🚀 modernize legacy systems, build intuitive APIs & UIs, and lead DevOps automation  
+* 🤖 explore AI integration to enhance user and developer experiences  
 
-<p align="center">
-🚀 Full-Stack Developer • 🌐 Open Source Advocate • 🇦🇹 Based in Vienna, Austria
-</p>
-
----
-
-### 👨‍💻 About Me
-
-I'm a highly motivated and versatile **Senior Full-Stack Developer** with over 12 years of experience delivering end-to-end software solutions. My expertise lies in building robust, maintainable systems using **.NET**, **Azure**, **C#**, **TypeScript**, and **Angular**, with a strong foundation in **Domain-Driven Design (DDD)** and **Clean Architecture**.
-
-Throughout my career, I’ve successfully taken on roles such as:
-
-- **Backend & Full-Stack Developer**
-- **Library & Framework Designer** (particularly in architectural and testing libraries)
-- **QA and Testing Strategist**  
-- **AI Integrator** (LLM + Azure OpenAI)
-
-I'm known for introducing architectural standards, designing reusable libraries and frameworks, and leading modernization efforts—such as migrating legacy systems to scalable cloud-native solutions. I also specialize in bridging front-end and back-end systems via technologies like **OpenAPI**, **GraphQL**, and **gRPC**.
-
-🧠 **Strengths & Focus Areas:**
-- Deep knowledge of **(modular) monoliths**, **microservices**, and system decomposition
-- Infrastructure-as-Code (IaC) using **Pulumi** and **Bicep**
-- Designing test strategies using **TDD**, **BDD**, and the **Screenplay Pattern**
-- CI/CD automation and DevOps practices with **Azure DevOps** and **Docker**
-- AI/ML integration using **Azure OpenAI**, **LangChain**, and **Semantic Kernel**
-
-🌍 Based in **Vienna, Austria**, but **open to exciting opportunities anywhere**. If you're looking for someone who can design and build modern systems, drive innovation, and lead by example — let’s talk.
+📍 Based in Vienna | 🌍 Open to relocation  
 
 ---
 
-### 🧪 HamedStack: Building for Builders
-
-[HamedStack](https://github.com/HamedStack) is my open-source initiative, focused on delivering practical tools and libraries for modern .NET and TypeScript development.
-
-🔹 50+ projects  
-🔹 5M+ NuGet downloads  
-🔹 12K+ monthly NPM downloads  
-
-From architectural patterns like DDD and CQRS to advanced testing frameworks and OpenAPI integrations that bridge C# and TypeScript—HamedStack is about building smarter, faster, and cleaner.
-
-Feel free to explore, contribute, or just grab what you need to build better software. 💡
-
----
-
-### 📰 I Write, Therefore I Learn
-
-I regularly share my insights, lessons learned, and practical how-tos on my personal website:  
-📘 [hamedfathi.github.io](https://hamedfathi.github.io)
-
-If you're into clean architecture, testing, DevOps automation, or making .NET dance with AI—there's something for you.
-
----
-
-### 🌍 Connect with Me
+### Connect with Me
 
 I'm always open to great conversations, ideas, and collaborations.
 
