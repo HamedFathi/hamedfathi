@@ -5,8 +5,6 @@
 * 🚀 modernize legacy systems, build intuitive APIs & UIs, and lead DevOps automation  
 * 🤖 explore AI integration to enhance user and developer experiences  
 
-📍 Based in Vienna | 🌍 Open to relocation  
-
 ---
 
 ### Connect with Me
