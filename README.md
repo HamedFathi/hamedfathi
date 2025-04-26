@@ -2,7 +2,7 @@
 * 💻 am a Senior Full-Stack Developer  
 * 💡 specialize in .NET, Azure, and modern web technologies  
 * 🧱 design clean, scalable systems using Domain-Driven Design and cloud-native patterns  
-* 🚀 modernize legacy systems, build intuitive APIs & UIs, and lead DevOps automation  
+* 🚀 modernize legacy systems, build intuitive APIs & UIs, and contribute to DevOps automation  
 * 🤖 explore AI integration to enhance user and developer experiences  
 
 ---
