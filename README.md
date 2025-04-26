@@ -14,9 +14,11 @@
 I'm always open to great conversations, ideas, and collaborations.
 
 <p align="left">
-  <a href="https://twitter.com/hamed__fathi" target="_blank">
-    <img src="https://img.shields.io/badge/Twitter-%231DA1F2.svg?style=for-the-badge&logo=Twitter&logoColor=white"/>
-  </a>
+<a href="https://x.com/hamed__fathi" target="_blank">
+  <img src="https://img.shields.io/badge/(formerly%20Twitter)-000000.svg?style=for-the-badge&logo=x&logoColor=white"/>
+</a>
+
+
   <a href="https://linkedin.com/in/hamedfathi" target="_blank">
     <img src="https://img.shields.io/badge/LinkedIn-%230077B5.svg?style=for-the-badge&logo=LinkedIn&logoColor=white"/>
   </a>
