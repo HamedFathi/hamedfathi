@@ -15,12 +15,20 @@ I'm always open to great conversations, ideas, and collaborations.
 <a href="https://x.com/hamed__fathi" target="_blank">
   <img src="https://img.shields.io/badge/(formerly%20Twitter)-000000.svg?style=for-the-badge&logo=x&logoColor=white"/>
 </a>
-
-
-  <a href="https://linkedin.com/in/hamedfathi" target="_blank">
-    <img src="https://img.shields.io/badge/LinkedIn-%230077B5.svg?style=for-the-badge&logo=LinkedIn&logoColor=white"/>
-  </a>
+<a href="https://linkedin.com/in/hamedfathi" target="_blank">
+  <img src="https://img.shields.io/badge/LinkedIn-%230077B5.svg?style=for-the-badge&logo=LinkedIn&logoColor=white"/>
+</a>
+<a href="https://www.youtube.com/@HamedFathiTech" target="_blank">
+  <img src="https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white" alt="YouTube"/>
+</a>
 </p>
+
+---
+
+### 📺 My YouTube Channel
+
+I run a [YouTube channel](https://www.youtube.com/@HamedFathiTech) focused on programming — covering backend, frontend, and AI, all within the .NET ecosystem.  
+Join the channel to share knowledge, code together, and enjoy learning in a hands-on, community-driven environment.
 
 ---
 
