@@ -7,7 +7,14 @@
 
 ---
 
-### Connect with Me
+### 🌐 Portfolio
+
+Visit my [Portfolio Website](https://hamedfathi.github.io/) to explore my professional resume and a curated collection of my open-source projects.
+It’s a comprehensive hub showcasing my skills, experience, and contributions to the developer community.
+
+---
+
+### 🤝 Connect with Me
 
 I'm always open to great conversations, ideas, and collaborations.
 
