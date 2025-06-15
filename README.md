@@ -39,7 +39,7 @@ Join the channel to share knowledge, code together, and enjoy learning in a hand
 
 ---
 
-<h3 align="left">Languages and Tools:</h3>
+<h3 align="left">🛠️ Languages and Tools:</h3>
 <p align="left">
 	<a href="https://azure.microsoft.com/" target="_blank">
 		<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/8418700/251138647-7ac953f8-86c3-465b-b2d2-d8f8904d9a38.png" alt="azure" width="40" height="40"/>
