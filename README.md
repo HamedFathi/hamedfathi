@@ -34,7 +34,7 @@ I'm always open to great conversations, ideas, and collaborations.
 
 ### 📺 My YouTube Channel
 
-<img width="1376" height="435" alt="image" src="https://github.com/user-attachments/assets/21e3025f-7b6a-4ab2-9b5e-281dac569ec5" />
+<img width="1279" height="434" alt="image" src="https://github.com/user-attachments/assets/185b9b74-911e-4382-8fd8-fd2820162ee8" />
 
 I run a [YouTube channel](https://www.youtube.com/@HamedFathiTech) focused on programming — covering backend, frontend, and AI, all within the .NET ecosystem.  
 Join the channel to share knowledge, code together, and enjoy learning in a hands-on, community-driven environment.
