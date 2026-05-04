@@ -1,5 +1,5 @@
 👋 Hi, I’m Hamed, I...  
-* 💻 am a Senior Full-Stack Developer.
+* 💻 am a Senior .NET Backend Developer.
 * 💡 specialize in .NET, Azure, and modern web technologies.
 * 🧱 design clean, scalable systems using Domain-Driven Design and cloud-native patterns.
 * 🚀 modernize legacy systems, build intuitive APIs & UIs, and contribute to DevOps automation.
